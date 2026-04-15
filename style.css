@@ -33,7 +33,7 @@ img {
     object-fit: cover;
 }
 
-/* Navbar - ora ancora più integrata */
+/* Navbar */
 nav {
     position: fixed;
     top: 0;
@@ -44,6 +44,11 @@ nav {
     background: rgba(255, 248, 231, 0.85);
     backdrop-filter: blur(12px);
     border-bottom: 0.5px solid var(--border-light);
+    transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+}
+
+.nav-hidden {
+    transform: translateY(-100%);
 }
 
 .nav-container {
@@ -155,7 +160,7 @@ nav {
     50% { transform: translateY(6px); opacity: 1; }
 }
 
-/* Marquee - bordo più morbido */
+/* Marquee */
 .marquee-section {
     border-top: 0.5px solid var(--border-light);
     border-bottom: 0.5px solid var(--border-light);
@@ -185,7 +190,7 @@ nav {
     100% { transform: translateX(-50%); }
 }
 
-/* Work section - nessun bordo netto, solo sfondo leggermente diverso */
+/* Work section */
 .work {
     padding: 5rem 2.5rem;
     background: var(--bg);
@@ -366,7 +371,7 @@ nav {
     border-radius: 50%;
 }
 
-/* Contact - sfondo coerente con bg, sfumatura radiale più calda */
+/* Contact */
 .contact {
     position: relative;
     min-height: 70vh;
