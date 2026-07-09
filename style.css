@@ -626,22 +626,6 @@ nav.nav-scrolled {
     padding: 1rem;
 }
 
-/* Soft glow that fades in behind the artwork on hover */
-.project-image::before {
-    content: '';
-    position: absolute;
-    inset: 12%;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(180, 124, 72, 0.14), transparent 70%);
-    opacity: 0;
-    transition: opacity 0.6s var(--ease-out);
-    z-index: 0;
-}
-
-.project:hover .project-image::before {
-    opacity: 1;
-}
-
 .project-image img {
     position: relative;
     z-index: 1;
@@ -650,6 +634,7 @@ nav.nav-scrolled {
     height: auto;
     max-height: 100%;
     object-fit: contain;
+    mix-blend-mode: multiply;
     transition: transform 0.7s var(--ease-out);
 }
 
