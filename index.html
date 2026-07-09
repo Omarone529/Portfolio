@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Omar Bayadi 👋🏼</title>
+    <meta name="description" content="Omar Bayadi — Full-stack developer. Creo soluzioni digitali dalla logica all'interfaccia, con una forte sensibilità per il design." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600&family=Instrument+Serif:ital@0;1&display=swap"
@@ -13,8 +14,12 @@
 </head>
 <body>
 
+<div class="grain" aria-hidden="true"></div>
+<div class="scroll-progress" aria-hidden="true"><span></span></div>
+
 <nav>
     <div class="nav-container">
+        <a href="#hero" class="nav-brand">Omar<span>Bayadi</span></a>
         <div class="nav-links">
             <a href="#lavori">Lavori</a>
             <a href="#about">About me</a>
@@ -26,19 +31,24 @@
 <main>
     <!-- Hero section -->
     <section class="hero" id="hero">
+        <div class="hero-aura" aria-hidden="true">
+            <span class="orb orb-1"></span>
+            <span class="orb orb-2"></span>
+            <span class="orb orb-3"></span>
+        </div>
         <div class="hero-inner">
             <div class="hero-text">
-                <p class="hero-tag">IT - Full stack developer</p>
-                <h1>Omar Bayadi</h1>
-                <p class="hero-desc">Creo soluzioni digitali dalla logica,
-                    all'interfaccia con una forte sensibilità per il design
+                <p class="hero-tag">IT — Full stack developer</p>
+                <h1>Omar <em>Bayadi</em></h1>
+                <p class="hero-desc">Creo soluzioni digitali dalla logica
+                    all'interfaccia, con una forte sensibilità per il <em>design</em>
                     e particolare attenzione ai dettagli.</p>
             </div>
         </div>
-        <div class="hero-scroll">
+        <a href="#lavori" class="hero-scroll">
             <span>Scorri</span>
             <div class="scroll-arrow">↓</div>
-        </div>
+        </a>
     </section>
 
     <!-- Marquee -->
@@ -89,6 +99,7 @@
 
             <article class="project">
                 <div class="project-meta">
+                    <span class="proj-index">01</span>
                     <span class="proj-type">App Desktop e Mobile</span>
                 </div>
                 <div class="project-content">
@@ -107,11 +118,12 @@
 
             <article class="project">
                 <div class="project-meta">
+                    <span class="proj-index">02</span>
                     <span class="proj-type">Sito Vetrina</span>
                 </div>
                 <div class="project-content">
+                    <span class="proj-status">Presto online</span>
                     <h2>MBM Meccanica</h2>
-                    <p>-- PRESTO ONLINE --</p>
                     <p>Sito vetrina per azienda metalmeccanica. Design pulito, moderno e navigazione fluida.</p>
                     <div class="proj-tags">
                         <span>React</span>
@@ -129,6 +141,7 @@
 
             <article class="project">
                 <div class="project-meta">
+                    <span class="proj-index">03</span>
                     <span class="proj-type">Web App</span>
                 </div>
                 <div class="project-content">
@@ -154,11 +167,12 @@
 
             <article class="project">
                 <div class="project-meta">
+                    <span class="proj-index">04</span>
                     <span class="proj-type">Web/Desktop App</span>
                 </div>
                 <div class="project-content">
+                    <span class="proj-status">In sviluppo</span>
                     <h2>Synapsi</h2>
-                    <p>-- IN SVILUPPO --</p>
                     <p>Synapsi è un'app desktop per lavoratori autonomi che consente di gestire in modo centralizzato clienti, progetti, preventivi, ore lavorate, collaboratori e pagamenti.
                         L'intero sistema è accessibile anche tramite un bot AI integrato su Telegram pro attivo,
                         che permette di consultare e inserire informazioni sia tramite messaggi scritti che vocali,
@@ -197,7 +211,7 @@
             </div>
             <div class="about-text">
                 <span class="section-label">Come lavoro</span>
-                <h2>Tradurre<br>idee<br><span>in codice.</span></h2>
+                <h2>Tradurre<br>idee<br><em>in codice.</em></h2>
                 <p>Amo i progetti che hanno personalità, non solo funzionalità.
                     Lavoro su tutto lo stack. Backend solido, Frontend curato,
                     deploy containerizzato. Di seguito, alcune delle mie tecnologie preferite.</p>
@@ -217,8 +231,8 @@
     <section id="contatti" class="contact">
         <div class="contact-bg"></div>
         <div class="contact-content">
-            <h2>Lavoriamo insieme</h2>
             <p class="contact-call">Dove trovarmi</p>
+            <h2>Lavoriamo <em>insieme</em></h2>
             <div class="contact-links">
                 <a href="https://wa.me/393519498296"
                    target="_blank"
@@ -240,8 +254,7 @@
                    aria-label="Email"
                    class="contact-icon">
                     <img src="https://www.gstatic.com/images/branding/product/2x/gmail_2020q4_48dp.png"
-                         alt="Gmail"
-                         style="height: 1.8rem; width: auto; vertical-align: middle;" />
+                         alt="Gmail" />
                 </a>
                 <a href="https://github.com/Omarone529"
                    target="_blank"
