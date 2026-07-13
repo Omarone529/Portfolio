@@ -3,6 +3,7 @@
 const translations = {
   en: {
     'nav.works': 'Works',
+    'nav.about': 'About me',
     'nav.contacts': 'Contacts',
     'hero.desc': `Building digital solutions from logic
                     to interface, with a strong feel for <em>design</em>
