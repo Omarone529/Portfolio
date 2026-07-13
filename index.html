@@ -70,10 +70,20 @@
 <nav>
     <div class="nav-container">
         <a href="#hero" class="nav-brand">Omar<span>Bayadi</span></a>
-        <div class="nav-links">
-            <a href="#lavori">Lavori</a>
-            <a href="#about">About me</a>
-            <a href="#contatti">Contatti</a>
+        <div class="nav-right">
+            <div class="nav-links">
+                <a href="#lavori" data-i18n="nav.works">Lavori</a>
+                <a href="#about">About me</a>
+                <a href="#contatti" data-i18n="nav.contacts">Contatti</a>
+            </div>
+            <div class="lang-toggle" role="group" aria-label="Lingua / Language">
+                <button type="button" class="lang-btn active" data-lang="it" aria-pressed="true" title="Italiano" aria-label="Italiano">
+                    <svg viewBox="0 0 21 14" aria-hidden="true"><rect width="7" height="14" fill="#009246"/><rect x="7" width="7" height="14" fill="#F4F5F0"/><rect x="14" width="7" height="14" fill="#CE2B37"/></svg>
+                </button>
+                <button type="button" class="lang-btn" data-lang="en" aria-pressed="false" title="English" aria-label="English">
+                    <svg viewBox="0 0 21 14" aria-hidden="true"><rect width="21" height="14" fill="#B22234"/><path stroke="#FFFFFF" stroke-width="1.08" d="M0 1.62h21M0 3.77h21M0 5.92h21M0 8.08h21M0 10.23h21M0 12.38h21"/><rect width="8.4" height="7.54" fill="#3C3B6E"/></svg>
+                </button>
+            </div>
         </div>
     </div>
 </nav>
@@ -85,13 +95,13 @@
             <div class="hero-text">
                 <p class="hero-tag">IT — Full stack developer</p>
                 <h1>Omar <em>Bayadi</em></h1>
-                <p class="hero-desc">Creo soluzioni digitali dalla logica
+                <p class="hero-desc" data-i18n-html="hero.desc">Creo soluzioni digitali dalla logica
                     all'interfaccia, con una forte sensibilità per il <em>design</em>
                     e particolare attenzione ai dettagli.</p>
             </div>
         </div>
         <a href="#lavori" class="hero-scroll">
-            <span>Scorri</span>
+            <span data-i18n="hero.scroll">Scorri</span>
             <div class="scroll-arrow">↓</div>
         </a>
     </section>
@@ -139,17 +149,17 @@
     <section id="lavori" class="work">
         <div class="projects-wrapper">
             <div class="section-header section-header-centered">
-                <span class="section-label">Lavori commissionati</span>
+                <span class="section-label" data-i18n="work.commissioned">Lavori commissionati</span>
             </div>
 
             <article class="project">
                 <div class="project-meta">
                     <span class="proj-index">01</span>
-                    <span class="proj-type">App Desktop e Mobile</span>
+                    <span class="proj-type" data-i18n="proj.timesheet.type">App Desktop e Mobile</span>
                 </div>
                 <div class="project-content">
                     <h2>Timesheet Manager</h2>
-                    <p>Gestionale per il tracciamento ore con grafici, resoconti dettagliati mensili e annuali.
+                    <p data-i18n="proj.timesheet.desc">Gestionale per il tracciamento ore con grafici, resoconti dettagliati mensili e annuali.
                         Stima dello stipendio basato su ore lavorate e detrazioni presenti in busta paga.</p>
                     <div class="proj-tags">
                         <span>Flutter</span>
@@ -164,12 +174,12 @@
             <article class="project">
                 <div class="project-meta">
                     <span class="proj-index">02</span>
-                    <span class="proj-type">Sito Vetrina</span>
+                    <span class="proj-type" data-i18n="proj.mbm.type">Sito Vetrina</span>
                 </div>
                 <div class="project-content">
-                    <span class="proj-status">Presto online</span>
+                    <span class="proj-status" data-i18n="proj.comingSoon">Presto online</span>
                     <h2>MBM Meccanica</h2>
-                    <p>Sito vetrina per azienda metalmeccanica. Design pulito, moderno e navigazione fluida.</p>
+                    <p data-i18n="proj.mbm.desc">Sito vetrina per azienda metalmeccanica. Design pulito, moderno e navigazione fluida.</p>
                     <div class="proj-tags">
                         <span>React</span>
                         <span>Tailwind</span>
@@ -181,7 +191,7 @@
             </article>
 
             <div class="section-header section-header-centered">
-                <span class="section-label">Progetti personali</span>
+                <span class="section-label" data-i18n="work.personal">Progetti personali</span>
             </div>
 
             <article class="project">
@@ -191,7 +201,7 @@
                 </div>
                 <div class="project-content">
                     <h2>ApexGPS</h2>
-                    <p>Servizio web per calcolare percorsi panoramici basandosi su
+                    <p data-i18n="proj.apex.desc">Servizio web per calcolare percorsi panoramici basandosi su
                         punti di interesse e sinuosità delle strade.
                         Un algoritmo custom che mette la bellezza del percorso davanti alla velocità.</p>
                     <div class="proj-tags">
@@ -217,7 +227,7 @@
                 </div>
                 <div class="project-content">
                     <h2>Synapsi</h2>
-                    <p>Synapsi è un'app desktop per lavoratori autonomi che consente di gestire in modo centralizzato clienti, progetti, preventivi, ore lavorate, collaboratori e pagamenti.
+                    <p data-i18n="proj.synapsi.desc">App desktop per lavoratori autonomi che consente di gestire in modo centralizzato clienti, progetti, preventivi, ore lavorate, collaboratori e pagamenti.
                         L'intero sistema è accessibile anche tramite un bot AI integrato su Telegram pro attivo,
                         che permette di consultare e inserire informazioni sia tramite messaggi scritti che vocali,
                         rendendo la gestione operativa più rapida e immediata senza passare necessariamente
@@ -254,9 +264,9 @@
                 </div>
             </div>
             <div class="about-text">
-                <span class="section-label">Come lavoro</span>
-                <h2>Tradurre<br>idee<br><em>in codice.</em></h2>
-                <p>Amo i progetti che hanno personalità, non solo funzionalità.
+                <span class="section-label" data-i18n="about.label">Come lavoro</span>
+                <h2 data-i18n-html="about.title">Tradurre<br>idee<br><em>in codice.</em></h2>
+                <p data-i18n="about.desc">Amo i progetti che hanno personalità, non solo funzionalità.
                     Lavoro su tutto lo stack. Backend solido, Frontend curato,
                     deploy containerizzato. Di seguito, alcune delle mie tecnologie preferite.</p>
                 <div class="stack-grid">
@@ -275,8 +285,8 @@
     <section id="contatti" class="contact">
         <div class="contact-bg"></div>
         <div class="contact-content">
-            <p class="contact-call">Dove trovarmi</p>
-            <h2>Lavoriamo <em>insieme</em></h2>
+            <p class="contact-call" data-i18n="contact.call">Dove trovarmi</p>
+            <h2 data-i18n-html="contact.title">Lavoriamo <em>insieme</em></h2>
             <div class="contact-links">
                 <a href="https://wa.me/393519498296"
                    target="_blank"

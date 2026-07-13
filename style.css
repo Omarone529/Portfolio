@@ -148,9 +148,59 @@ nav.nav-scrolled {
     opacity: 0.7;
 }
 
+.nav-right {
+    display: flex;
+    align-items: center;
+}
+
 .nav-links {
     display: flex;
     gap: 2.25rem;
+}
+
+/* Language toggle (flags) */
+.lang-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    margin-left: 2.25rem;
+    padding-left: 2.25rem;
+    border-left: 1px solid var(--line);
+}
+
+.lang-btn {
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    line-height: 0;
+    opacity: 0.35;
+    filter: grayscale(0.6);
+    transition: opacity 0.3s ease, filter 0.3s ease, transform 0.3s var(--ease-out);
+}
+
+.lang-btn svg {
+    display: block;
+    width: 21px;
+    height: 14px;
+    border-radius: 3px;
+    box-shadow: inset 0 0 0 1px rgba(38, 34, 28, 0.14);
+}
+
+.lang-btn:hover {
+    opacity: 0.75;
+    transform: translateY(-1px);
+}
+
+.lang-btn.active {
+    opacity: 1;
+    filter: none;
+}
+
+.lang-btn:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 4px;
 }
 
 .nav-links a {
@@ -858,6 +908,11 @@ footer {
     .nav-links {
         gap: 1.5rem;
     }
+    .lang-toggle {
+        margin-left: 1.5rem;
+        padding-left: 1.5rem;
+        gap: 0.7rem;
+    }
     .hero {
         padding: 6rem 1.5rem 3rem;
     }
@@ -912,6 +967,15 @@ footer {
     }
     .nav-links {
         gap: 1.25rem;
+    }
+    .lang-toggle {
+        margin-left: 1rem;
+        padding-left: 1rem;
+        gap: 0.55rem;
+    }
+    .lang-btn svg {
+        width: 18px;
+        height: 12px;
     }
     .project-meta {
         flex-direction: row;
