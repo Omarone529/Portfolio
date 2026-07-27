@@ -11,12 +11,11 @@
     <meta name="author" content="Omar Bayadi" />
     <meta name="keywords" content="Omar Bayadi, full-stack developer, sviluppatore full stack, web developer, Python, Django, React, Flutter, Docker, PostgreSQL, portfolio" />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
-    <meta name="theme-color" content="#FBF4E4" />
+    <meta name="theme-color" content="#191919" />
     <link rel="canonical" href="https://omarbayadi.com/" />
 
     <!-- Favicon -->
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
-    <link rel="alternate icon" href="favicon.ico" />
 
     <!-- Open Graph / Facebook / WhatsApp / LinkedIn -->
     <meta property="og:type" content="website" />
@@ -69,277 +68,115 @@
 
 <nav>
     <div class="nav-container">
-        <a href="#hero" class="nav-brand">Omar<span>Bayadi</span></a>
-        <div class="nav-right">
-            <div class="nav-links">
-                <a href="#lavori" data-i18n="nav.works">Lavori</a>
-                <a href="#about" data-i18n="nav.about">Su di me</a>
-                <a href="#contatti" data-i18n="nav.contacts">Contatti</a>
-            </div>
-            <div class="lang-toggle" role="group" aria-label="Lingua / Language">
-                <button type="button" class="lang-btn active" data-lang="it" aria-pressed="true" title="Italiano" aria-label="Italiano">
-                    <svg viewBox="0 0 21 14" aria-hidden="true"><rect width="7" height="14" fill="#009246"/><rect x="7" width="7" height="14" fill="#F4F5F0"/><rect x="14" width="7" height="14" fill="#CE2B37"/></svg>
-                </button>
-                <button type="button" class="lang-btn" data-lang="en" aria-pressed="false" title="English" aria-label="English">
-                    <svg viewBox="0 0 21 14" aria-hidden="true"><rect width="21" height="14" fill="#B22234"/><path stroke="#FFFFFF" stroke-width="1.08" d="M0 1.62h21M0 3.77h21M0 5.92h21M0 8.08h21M0 10.23h21M0 12.38h21"/><rect width="8.4" height="7.54" fill="#3C3B6E"/></svg>
-                </button>
-            </div>
+        <div class="nav-links">
+            <a href="#lavori" class="current" data-i18n="nav.works">progetti</a>
+            <a href="#contatti-footer" data-i18n="nav.contact">contatti</a>
+        </div>
+        <div class="lang-toggle" role="group" aria-label="Lingua / Language">
+            <button type="button" class="lang-btn active" data-lang="it" aria-pressed="true" title="Italiano" aria-label="Italiano">
+                <svg viewBox="0 0 21 14" aria-hidden="true"><rect width="7" height="14" fill="#009246"/><rect x="7" width="7" height="14" fill="#F4F5F0"/><rect x="14" width="7" height="14" fill="#CE2B37"/></svg>
+            </button>
+            <button type="button" class="lang-btn" data-lang="en" aria-pressed="false" title="English" aria-label="English">
+                <svg viewBox="0 0 21 14" aria-hidden="true"><rect width="21" height="14" fill="#B22234"/><path stroke="#FFFFFF" stroke-width="1.08" d="M0 1.62h21M0 3.77h21M0 5.92h21M0 8.08h21M0 10.23h21M0 12.38h21"/><rect width="8.4" height="7.54" fill="#3C3B6E"/></svg>
+            </button>
         </div>
     </div>
 </nav>
 
-<main>
-    <!-- Hero section -->
+<main id="top">
+    <!-- Hero -->
     <section class="hero" id="hero">
         <div class="hero-inner">
             <div class="hero-text">
-                <p class="hero-tag">IT — Full stack developer</p>
-                <h1>Omar <em>Bayadi</em></h1>
+                <h1>Omar Bayadi</h1>
                 <p class="hero-desc" data-i18n-html="hero.desc">Creo soluzioni digitali dalla logica
                     all'interfaccia, con una forte sensibilità per il <em>design</em>
                     e particolare attenzione ai dettagli.</p>
             </div>
         </div>
-        <a href="#lavori" class="hero-scroll">
-            <span data-i18n="hero.scroll">Scorri</span>
-            <div class="scroll-arrow">↓</div>
-        </a>
     </section>
-
-    <!-- Marquee -->
-    <div class="marquee-section">
-        <div class="marquee-track">
-            <span>Python</span><span class="sep">◆</span>
-            <span>Django</span><span class="sep">◆</span>
-            <span>C#</span><span class="sep">◆</span>
-            <span>ASP.NET</span><span class="sep">◆</span>
-            <span>TypeScript</span><span class="sep">◆</span>
-            <span>React</span><span class="sep">◆</span>
-            <span>Angular</span><span class="sep">◆</span>
-            <span>Three.js</span><span class="sep">◆</span>
-            <span>Flutter</span><span class="sep">◆</span>
-            <span>Docker</span><span class="sep">◆</span>
-            <span>Git</span><span class="sep">◆</span>
-            <span>Python</span><span class="sep">◆</span>
-            <span>Django</span><span class="sep">◆</span>
-            <span>C#</span><span class="sep">◆</span>
-            <span>ASP.NET</span><span class="sep">◆</span>
-            <span>TypeScript</span><span class="sep">◆</span>
-            <span>React</span><span class="sep">◆</span>
-            <span>Angular</span><span class="sep">◆</span>
-            <span>Three.js</span><span class="sep">◆</span>
-            <span>Flutter</span><span class="sep">◆</span>
-            <span>Docker</span><span class="sep">◆</span>
-            <span>Git</span><span class="sep">◆</span>
-            <span>Python</span><span class="sep">◆</span>
-            <span>Django</span><span class="sep">◆</span>
-            <span>C#</span><span class="sep">◆</span>
-            <span>ASP.NET</span><span class="sep">◆</span>
-            <span>TypeScript</span><span class="sep">◆</span>
-            <span>React</span><span class="sep">◆</span>
-            <span>Angular</span><span class="sep">◆</span>
-            <span>Three.js</span><span class="sep">◆</span>
-            <span>Flutter</span><span class="sep">◆</span>
-            <span>Docker</span><span class="sep">◆</span>
-            <span>Git</span><span class="sep">◆</span>
-        </div>
-    </div>
 
     <!-- Projects -->
     <section id="lavori" class="work">
-        <div class="projects-wrapper">
-            <div class="section-header section-header-centered">
-                <span class="section-label" data-i18n="work.commissioned">Lavori commissionati</span>
-            </div>
-
-            <article class="project">
-                <div class="project-meta">
-                    <span class="proj-index">01</span>
-                    <span class="proj-type" data-i18n="proj.timesheet.type">App Desktop e Mobile</span>
-                </div>
-                <div class="project-content">
-                    <h2>Timesheet Manager</h2>
-                    <p data-i18n="proj.timesheet.desc">Gestionale per il tracciamento ore con grafici, resoconti dettagliati mensili e annuali.
-                        Stima dello stipendio basato su ore lavorate e detrazioni presenti in busta paga.</p>
-                    <div class="proj-tags">
-                        <span>Flutter</span>
-                        <span>Dart</span>
+        <ul class="proj-list">
+            <li>
+                <a class="proj-tile reveal" href="progetti/timesheet-manager.html">
+                    <div class="proj-tile-image">
+                        <img src="assets/TimesheetManager.png" alt="Timesheet Manager" loading="lazy" />
                     </div>
-                </div>
-                <div class="project-image">
-                    <img src="assets/TimesheetManager.png" alt="Timesheet Manager" loading="lazy" />
-                </div>
-            </article>
-
-            <article class="project">
-                <div class="project-meta">
-                    <span class="proj-index">02</span>
-                    <span class="proj-type" data-i18n="proj.mbm.type">Sito Vetrina</span>
-                </div>
-                <div class="project-content">
-                    <span class="proj-status" data-i18n="proj.comingSoon">Presto online</span>
-                    <h2>MBM Meccanica</h2>
-                    <p data-i18n="proj.mbm.desc">Sito vetrina per azienda metalmeccanica. Design pulito, moderno e navigazione fluida.</p>
-                    <div class="proj-tags">
-                        <span>React</span>
-                        <span>Tailwind</span>
+                    <div class="proj-tile-caption">
+                        <h2 class="proj-tile-title">Timesheet Manager</h2>
+                        <div class="proj-tile-meta" data-i18n="proj.timesheet.type">App Desktop e Mobile · Flutter</div>
                     </div>
-                </div>
-                <div class="project-image">
-                    <img src="assets/MBM_Meccanica_Logo.png" alt="MBM Meccanica" loading="lazy" />
-                </div>
-            </article>
-
-            <div class="section-header section-header-centered">
-                <span class="section-label" data-i18n="work.personal">Progetti personali</span>
-            </div>
-
-            <article class="project">
-                <div class="project-meta">
-                    <span class="proj-index">03</span>
-                    <span class="proj-type">Web App</span>
-                </div>
-                <div class="project-content">
-                    <h2>ApexGPS</h2>
-                    <p data-i18n="proj.apex.desc">Servizio web per calcolare percorsi panoramici basandosi su
-                        punti di interesse e sinuosità delle strade.
-                        Un algoritmo custom che mette la bellezza del percorso davanti alla velocità.</p>
-                    <div class="proj-tags">
-                        <span>Django</span>
-                        <span>Django REST framework</span>
-                        <span>PostgreSQL</span>
-                        <span>PostGIS</span>
-                        <span>React</span>
-                        <span>Tailwind</span>
-                        <span>Docker</span>
-                        <span>Azure</span>
+                </a>
+            </li>
+            <li>
+                <a class="proj-tile reveal" href="progetti/mbm-meccanica.html">
+                    <div class="proj-tile-image">
+                        <img src="assets/MBM_Meccanica_Logo.png" alt="MBM Meccanica" loading="lazy" />
                     </div>
-                </div>
-                <div class="project-image">
-                    <img src="assets/ApexGPS_logo.png" alt="ApexGPS" loading="lazy" />
-                </div>
-            </article>
-
-            <article class="project">
-                <div class="project-meta">
-                    <span class="proj-index">04</span>
-                    <span class="proj-type">Web/Desktop App</span>
-                </div>
-                <div class="project-content">
-                    <h2>Synapsi</h2>
-                    <p data-i18n="proj.synapsi.desc">App desktop per lavoratori autonomi che consente di gestire in modo centralizzato clienti, progetti, preventivi, ore lavorate, collaboratori e pagamenti.
-                        L'intero sistema è accessibile anche tramite un bot AI integrato su Telegram pro attivo,
-                        che permette di consultare e inserire informazioni sia tramite messaggi scritti che vocali,
-                        rendendo la gestione operativa più rapida e immediata senza passare necessariamente
-                        dall'interfaccia grafica. Il bot è anche capace di ricordare all'utente eventuali attività in sospeso.</p>
-                    <div class="proj-tags">
-                        <span>Python</span>
-                        <span>FastAPI</span>
-                        <span>SQLAlchemy</span>
-                        <span>SQLite</span>
-                        <span>Telegram Bot</span>
-                        <span>Google Gemini Flash</span>
-                        <span>React</span>
-                        <span>TypeScript</span>
-                        <span>Tailwind CSS</span>
-                        <span>Vite</span>
-                        <span>Electron</span>
+                    <div class="proj-tile-caption">
+                        <h2 class="proj-tile-title">MBM Meccanica</h2>
+                        <div class="proj-tile-meta" data-i18n="proj.mbm.type">Sito Vetrina · React · Presto online</div>
                     </div>
-                </div>
-                <div class="project-image">
-                    <img src="assets/Synapsi_logo.png" alt="Synapsi" loading="lazy" />
-                </div>
-            </article>
-        </div>
-    </section>
-
-    <!-- About -->
-    <section id="about" class="about">
-        <div class="about-container">
-            <div class="about-visual">
-                <div class="about-image-wrap">
-                    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=900&q=80&auto=format"
-                         alt="Coding atmosphere"
-                         loading="lazy" />
-                </div>
-            </div>
-            <div class="about-text">
-                <span class="section-label" data-i18n="about.label">Come lavoro</span>
-                <h2 data-i18n-html="about.title">Tradurre<br>idee<br><em>in codice.</em></h2>
-                <p data-i18n="about.desc">Amo i progetti che hanno personalità, non solo funzionalità.
-                    Lavoro su tutto lo stack. Backend solido, Frontend curato,
-                    deploy containerizzato. Di seguito, alcune delle mie tecnologie preferite.</p>
-                <div class="stack-grid">
-                    <span>Python / Django</span>
-                    <span>React</span>
-                    <span>Django REST</span>
-                    <span>Tailwind</span>
-                    <span>Docker</span>
-                    <span>Three.js</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact -->
-    <section id="contatti" class="contact">
-        <div class="contact-bg"></div>
-        <div class="contact-content">
-            <p class="contact-call" data-i18n="contact.call">Dove trovarmi</p>
-            <h2 data-i18n-html="contact.title">Lavoriamo <em>insieme</em></h2>
-            <div class="contact-links">
-                <a href="https://wa.me/393519498296"
-                   target="_blank"
-                   rel="noopener"
-                   aria-label="WhatsApp"
-                   class="contact-icon">
-                    <i class="fab fa-whatsapp"></i>
                 </a>
-                <a href="https://discord.com/users/434084025410519050"
-                   target="_blank"
-                   rel="noopener"
-                   aria-label="Discord"
-                   class="contact-icon">
-                    <i class="fab fa-discord"></i>
+            </li>
+            <li>
+                <a class="proj-tile reveal" href="progetti/apexgps.html">
+                    <div class="proj-tile-image">
+                        <img src="assets/ApexGPS_logo.png" alt="ApexGPS" loading="lazy" />
+                    </div>
+                    <div class="proj-tile-caption">
+                        <h2 class="proj-tile-title">ApexGPS</h2>
+                        <div class="proj-tile-meta" data-i18n="proj.apex.type">Web App · Django &amp; React</div>
+                    </div>
                 </a>
-                <a href="https://mail.google.com/mail/?view=cm&fs=1&to=omarlucky0@gmail.com"
-                   target="_blank"
-                   rel="noopener"
-                   aria-label="Email"
-                   class="contact-icon">
-                    <img src="https://www.gstatic.com/images/branding/product/2x/gmail_2020q4_48dp.png"
-                         alt="Gmail" />
+            </li>
+            <li>
+                <a class="proj-tile reveal" href="progetti/synapsi.html">
+                    <div class="proj-tile-image">
+                        <img src="assets/Synapsi_logo.png" alt="Synapsi" loading="lazy" />
+                    </div>
+                    <div class="proj-tile-caption">
+                        <h2 class="proj-tile-title">Synapsi</h2>
+                        <div class="proj-tile-meta" data-i18n="proj.synapsi.type">Web/Desktop App · Python &amp; React</div>
+                    </div>
                 </a>
-                <a href="https://github.com/Omarone529"
-                   target="_blank"
-                   rel="noopener"
-                   aria-label="GitHub"
-                   class="contact-icon">
-                    <i class="fab fa-github"></i>
-                </a>
-                <a href="https://gitlab.com/Omar_Bayadi"
-                   target="_blank"
-                   rel="noopener"
-                   aria-label="GitLab"
-                   class="contact-icon">
-                    <i class="fab fa-gitlab"></i>
-                </a>
-                <a href="https://www.linkedin.com/in/omar-bayadi-287453238"
-                   target="_blank"
-                   rel="noopener"
-                   aria-label="LinkedIn"
-                   class="contact-icon">
-                    <i class="fab fa-linkedin-in"></i>
-                </a>
-            </div>
-        </div>
+            </li>
+        </ul>
     </section>
 </main>
 
-<footer>
-    <span>&copy; 2026 Omar Bayadi</span>
-    <span>Full-stack developer</span>
+<footer id="contatti-footer">
+    <div class="footer-contact">
+        <a href="https://wa.me/393519498296" target="_blank" rel="noopener" aria-label="WhatsApp">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+        <a href="https://discord.com/users/434084025410519050" target="_blank" rel="noopener" aria-label="Discord">
+            <i class="fab fa-discord"></i>
+        </a>
+        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=omarlucky0@gmail.com" target="_blank" rel="noopener" aria-label="Email">
+            <img src="https://www.gstatic.com/images/branding/product/2x/gmail_2020q4_48dp.png" alt="Gmail" />
+        </a>
+        <a href="https://github.com/Omarone529" target="_blank" rel="noopener" aria-label="GitHub">
+            <i class="fab fa-github"></i>
+        </a>
+        <a href="https://gitlab.com/Omar_Bayadi" target="_blank" rel="noopener" aria-label="GitLab">
+            <i class="fab fa-gitlab"></i>
+        </a>
+        <a href="https://www.linkedin.com/in/omar-bayadi-287453238" target="_blank" rel="noopener" aria-label="LinkedIn">
+            <i class="fab fa-linkedin-in"></i>
+        </a>
+    </div>
+    <div class="footer-meta">
+        <span>&copy; 2026 Omar Bayadi</span>
+        <span data-i18n="footer.role">Full-stack developer</span>
+    </div>
 </footer>
+
+<a href="#top" class="back-to-top" aria-label="Torna su">
+    <i class="fa-solid fa-arrow-up"></i>
+</a>
 
 <script src="main.js"></script>
 </body>

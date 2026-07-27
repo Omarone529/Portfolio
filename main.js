@@ -1,37 +1,47 @@
 // i18n: Italian lives in the HTML, English here. On load the Italian
 // strings are captured from the DOM so they never have to be duplicated.
+// A single shared dictionary covers the home page and every project page;
+// each page only queries the data-i18n elements it actually has.
 const translations = {
   en: {
-    'nav.works': 'Works',
-    'nav.about': 'About me',
-    'nav.contacts': 'Contacts',
+    'nav.works': 'works',
+    'nav.contact': 'contact',
     'hero.desc': `Building digital solutions from logic
                     to interface, with a strong feel for <em>design</em>
                     and close attention to detail.`,
     'hero.scroll': 'Scroll',
-    'work.commissioned': 'Commissioned work',
-    'work.personal': 'Personal projects',
-    'proj.timesheet.type': 'Desktop & Mobile App',
-    'proj.timesheet.desc': `Time-tracking tool with charts and detailed monthly and yearly reports.
-                        Salary estimation based on hours worked and payslip deductions.`,
-    'proj.mbm.type': 'Showcase Website',
     'proj.comingSoon': 'Coming soon',
-    'proj.mbm.desc': 'Showcase website for a metalworking company. Clean, modern design and smooth navigation.',
-    'proj.apex.desc': `Web service that computes scenic routes based on
-                        points of interest and how twisty the roads are.
-                        A custom algorithm that puts the beauty of the ride before speed.`,
-    'proj.synapsi.desc': `Desktop app for freelancers that centralizes the management of clients, projects, quotes, worked hours, collaborators and payments.
-                        The whole system is also accessible through a proactive AI bot integrated with Telegram,
-                        which lets you look up and enter information via both text and voice messages,
-                        making day-to-day operations faster and more immediate without necessarily
-                        going through the graphical interface. The bot can also remind the user of any pending tasks.`,
-    'about.label': 'How I work',
-    'about.title': 'Turning<br>ideas<br><em>into code.</em>',
-    'about.desc': `I love projects with personality, not just functionality.
-                    I work across the whole stack. Solid backend, polished frontend,
-                    containerized deploys. Below, some of my favorite technologies.`,
-    'contact.call': 'Where to find me',
-    'contact.title': 'Let’s work <em>together</em>'
+    'proj.timesheet.type': 'Desktop & Mobile App · Flutter',
+    'proj.timesheet.lead': 'A personal tool so you never lose track of hours worked again.',
+    'proj.timesheet.solution': `Timesheet Manager is a desktop and mobile app that lets you log hours day by day, generate monthly and yearly reports with clear charts, and estimate net salary based on actual hours worked and payslip deductions.`,
+    'proj.timesheet.f1': 'Quick logging of hours worked, including retroactively',
+    'proj.timesheet.f2': 'Monthly and yearly charts to visualize trends over time',
+    'proj.timesheet.f3': 'Automatic salary estimation based on hours and payslip deductions',
+    'proj.timesheet.f4': 'Sync between the desktop and mobile versions',
+    'proj.mbm.type': 'Showcase Website · React',
+    'proj.mbm.lead': 'A showcase website built to tell the story of a metalworking company’s craft and precision.',
+    'proj.mbm.solution': `A light, fast, modern showcase site built with React and Tailwind CSS, designed to present the company's services with smooth navigation and a clean design that conveys professionalism from the first load.`,
+    'proj.mbm.f1': 'Responsive design optimized for every device',
+    'proj.mbm.f2': 'Dedicated sections for services, workmanship and contacts',
+    'proj.mbm.f3': 'High performance thanks to a lightweight frontend architecture',
+    'proj.apex.type': 'Web App · Django & React',
+    'proj.apex.lead': 'A service that calculates routes meant to be enjoyed, not just traveled.',
+    'proj.apex.solution': `ApexGPS computes scenic routes based on points of interest and how twisty the roads are, through a custom algorithm that puts the beauty of the ride before speed. The geospatial backend processes road data with PostGIS, while the frontend delivers a smooth, immediate experience.`,
+    'proj.apex.f1': 'Custom scoring algorithm based on curvature and points of interest',
+    'proj.apex.f2': 'Scenic route search starting from any given point',
+    'proj.apex.f3': 'Containerized REST API deployed on Azure cloud',
+    'proj.apex.f4': 'Reactive map interface built in React',
+    'proj.synapsi.type': 'Web/Desktop App · Python & React',
+    'proj.synapsi.lead': 'A command center for freelancers, reachable just by sending a message.',
+    'proj.synapsi.solution': `Synapsi centralizes clients, projects, quotes, worked hours, collaborators and payments in a single desktop app. The system is backed by an always-on AI bot on Telegram, which lets you look up and enter data through both text and voice messages, so work can be managed on the go without necessarily going through the graphical interface.`,
+    'proj.synapsi.f1': 'Centralized management of clients, projects and quotes',
+    'proj.synapsi.f2': 'Telegram bot with AI (Gemini) for voice and text input',
+    'proj.synapsi.f3': 'Automatic reminders for pending tasks',
+    'proj.synapsi.f4': 'Native desktop app built with Electron',
+    'back.all': 'All projects',
+    'case.solution': 'The project',
+    'case.features': 'Key features',
+    'case.stack': 'Tech stack'
   },
   it: {}
 };
@@ -114,9 +124,6 @@ function onScroll() {
     progress.style.width = pct + '%';
   }
 
-  // Scrolled state (compact nav + border)
-  nav.classList.toggle('nav-scrolled', currentScroll > 20);
-
   // Hide/show
   clearTimeout(scrollTimeout);
   if (currentScroll > lastScrollTop && currentScroll > 80) {
@@ -137,17 +144,13 @@ window.addEventListener('scroll', () => {
   }
 }, { passive: true });
 
-// Staggered reveal on scroll
+// Staggered reveal on scroll (elements already carry the .reveal class in markup)
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-const revealEls = document.querySelectorAll(
-  '.project, .section-header, .about-container, .contact-content'
-);
+const revealEls = document.querySelectorAll('.reveal');
 
 if (reduceMotion) {
   revealEls.forEach(el => el.classList.add('is-visible'));
 } else {
-  revealEls.forEach(el => el.classList.add('reveal'));
-
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
