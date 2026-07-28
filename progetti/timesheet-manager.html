@@ -4,26 +4,51 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Timesheet Manager — Omar Bayadi</title>
-    <meta name="title" content="Timesheet Manager — Omar Bayadi" />
+    <title>Timesheet Manager · Omar Bayadi</title>
+    <meta name="title" content="Timesheet Manager · Omar Bayadi" />
     <meta name="description" content="Timesheet Manager: app desktop e mobile per il tracciamento ore, resoconti e stima dello stipendio. Progetto di Omar Bayadi, full-stack developer." />
     <meta name="author" content="Omar Bayadi" />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
     <meta name="theme-color" content="#191919" />
     <link rel="canonical" href="https://omarbayadi.com/progetti/timesheet-manager.html" />
 
+    <!-- Language variants: the English page is this same page with ?lang=en -->
+    <link rel="alternate" hreflang="it" href="https://omarbayadi.com/progetti/timesheet-manager.html" />
+    <link rel="alternate" hreflang="en" href="https://omarbayadi.com/progetti/timesheet-manager.html?lang=en" />
+    <link rel="alternate" hreflang="x-default" href="https://omarbayadi.com/progetti/timesheet-manager.html" />
+
+    <!-- Resolves the language before first paint, so a visitor arriving on
+         ?lang=en never sees the Italian markup flash past. -->
+    <script>
+        (function () {
+            var q = new URLSearchParams(location.search).get('lang');
+            var l = (q === 'en' || q === 'it') ? q : null;
+            if (!l) { try { l = localStorage.getItem('lang'); } catch (e) { /* private mode */ } }
+            if (l !== 'en' && l !== 'it') l = 'it';
+            window.__i18nLang = l;
+            document.documentElement.lang = l;
+            if (l === 'en') {
+                document.documentElement.className += ' i18n-pending';
+                // Safety net: never leave the page hidden if main.js fails to load
+                setTimeout(function () {
+                    document.documentElement.classList.remove('i18n-pending');
+                }, 1500);
+            }
+        })();
+    </script>
+
     <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
 
     <meta property="og:type" content="article" />
     <meta property="og:url" content="https://omarbayadi.com/progetti/timesheet-manager.html" />
     <meta property="og:site_name" content="Omar Bayadi" />
-    <meta property="og:title" content="Timesheet Manager — Omar Bayadi" />
+    <meta property="og:title" content="Timesheet Manager · Omar Bayadi" />
     <meta property="og:description" content="App desktop e mobile per il tracciamento ore, resoconti e stima dello stipendio." />
     <meta property="og:image" content="https://omarbayadi.com/assets/og-image.png" />
     <meta property="og:locale" content="it_IT" />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Timesheet Manager — Omar Bayadi" />
+    <meta name="twitter:title" content="Timesheet Manager · Omar Bayadi" />
     <meta name="twitter:description" content="App desktop e mobile per il tracciamento ore, resoconti e stima dello stipendio." />
     <meta name="twitter:image" content="https://omarbayadi.com/assets/og-image.png" />
 
@@ -55,7 +80,7 @@
 }
     </script>
 </head>
-<body>
+<body data-page="timesheet">
 
 <div class="grain" aria-hidden="true"></div>
 <div class="scroll-progress" aria-hidden="true"><span></span></div>
@@ -64,6 +89,7 @@
     <div class="nav-container">
         <div class="nav-links">
             <a href="../index.html#lavori" data-i18n="nav.works">progetti</a>
+            <a href="../index.html#chi-sono" data-i18n="nav.about">chi sono</a>
             <a href="#contatti-footer" data-i18n="nav.contact">contatti</a>
         </div>
         <div class="lang-toggle" role="group" aria-label="Lingua / Language">
@@ -92,9 +118,16 @@
             <p class="hero-tag" data-i18n="proj.timesheet.type">App Desktop e Mobile · Flutter</p>
             <h1>Timesheet <em>Manager</em></h1>
             <p class="project-lead" data-i18n="proj.timesheet.lead">Un gestionale personale per non perdere più il conto delle ore lavorate.</p>
-            <div class="proj-tags">
-                <span>Flutter</span>
-                <span>Dart</span>
+            <!-- Link slot: uncomment and fill the href once the project is deployed -->
+            <div class="project-links">
+                <!--
+                <a href="" target="_blank" rel="noopener">
+                    <span data-i18n="link.live">Vedi il progetto</span><span class="nav-arrow">→</span>
+                </a>
+                <a href="" target="_blank" rel="noopener">
+                    <span data-i18n="link.repo">Codice sorgente</span><span class="nav-arrow">→</span>
+                </a>
+                -->
             </div>
         </div>
 
@@ -156,7 +189,7 @@
     </div>
 </footer>
 
-<a href="#top" class="back-to-top" aria-label="Torna su">
+<a href="#top" class="back-to-top" data-i18n-aria="a11y.backToTop" aria-label="Torna su">
     <i class="fa-solid fa-arrow-up"></i>
 </a>
 

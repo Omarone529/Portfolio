@@ -4,27 +4,52 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Synapsi — Omar Bayadi</title>
-    <meta name="title" content="Synapsi — Omar Bayadi" />
-    <meta name="description" content="Synapsi: app desktop per lavoratori autonomi con bot AI su Telegram, per gestire clienti, progetti, preventivi e pagamenti. Progetto di Omar Bayadi, full-stack developer." />
+    <title>Synapsi · Omar Bayadi</title>
+    <meta name="title" content="Synapsi · Omar Bayadi" />
+    <meta name="description" content="Synapsi: gestionale per lavoratori autonomi con bot AI su Telegram, dalla fatturazione elettronica al bilancio. Progetto di Omar Bayadi, full-stack developer." />
     <meta name="author" content="Omar Bayadi" />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
     <meta name="theme-color" content="#191919" />
     <link rel="canonical" href="https://omarbayadi.com/progetti/synapsi.html" />
+
+    <!-- Language variants: the English page is this same page with ?lang=en -->
+    <link rel="alternate" hreflang="it" href="https://omarbayadi.com/progetti/synapsi.html" />
+    <link rel="alternate" hreflang="en" href="https://omarbayadi.com/progetti/synapsi.html?lang=en" />
+    <link rel="alternate" hreflang="x-default" href="https://omarbayadi.com/progetti/synapsi.html" />
+
+    <!-- Resolves the language before first paint, so a visitor arriving on
+         ?lang=en never sees the Italian markup flash past. -->
+    <script>
+        (function () {
+            var q = new URLSearchParams(location.search).get('lang');
+            var l = (q === 'en' || q === 'it') ? q : null;
+            if (!l) { try { l = localStorage.getItem('lang'); } catch (e) { /* private mode */ } }
+            if (l !== 'en' && l !== 'it') l = 'it';
+            window.__i18nLang = l;
+            document.documentElement.lang = l;
+            if (l === 'en') {
+                document.documentElement.className += ' i18n-pending';
+                // Safety net: never leave the page hidden if main.js fails to load
+                setTimeout(function () {
+                    document.documentElement.classList.remove('i18n-pending');
+                }, 1500);
+            }
+        })();
+    </script>
 
     <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
 
     <meta property="og:type" content="article" />
     <meta property="og:url" content="https://omarbayadi.com/progetti/synapsi.html" />
     <meta property="og:site_name" content="Omar Bayadi" />
-    <meta property="og:title" content="Synapsi — Omar Bayadi" />
-    <meta property="og:description" content="App desktop per lavoratori autonomi con bot AI su Telegram, per gestire clienti, progetti, preventivi e pagamenti." />
+    <meta property="og:title" content="Synapsi · Omar Bayadi" />
+    <meta property="og:description" content="Gestionale per lavoratori autonomi con bot AI su Telegram: clienti, progetti, preventivi, fatturazione elettronica, spese e bilancio." />
     <meta property="og:image" content="https://omarbayadi.com/assets/og-image.png" />
     <meta property="og:locale" content="it_IT" />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Synapsi — Omar Bayadi" />
-    <meta name="twitter:description" content="App desktop per lavoratori autonomi con bot AI su Telegram, per gestire clienti, progetti, preventivi e pagamenti." />
+    <meta name="twitter:title" content="Synapsi · Omar Bayadi" />
+    <meta name="twitter:description" content="Gestionale per lavoratori autonomi con bot AI su Telegram: clienti, progetti, preventivi, fatturazione elettronica, spese e bilancio." />
     <meta name="twitter:image" content="https://omarbayadi.com/assets/og-image.png" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -41,20 +66,29 @@
   "@type": "CreativeWork",
   "name": "Synapsi",
   "url": "https://omarbayadi.com/progetti/synapsi.html",
-  "description": "App desktop per lavoratori autonomi con bot AI su Telegram, per gestire clienti, progetti, preventivi e pagamenti.",
+  "description": "Gestionale per lavoratori autonomi con bot AI su Telegram: clienti, progetti, preventivi, fatturazione elettronica, spese e bilancio.",
   "image": "https://omarbayadi.com/assets/Synapsi_logo.png",
   "keywords": [
     "Python",
     "FastAPI",
     "SQLAlchemy",
     "SQLite",
-    "Telegram Bot",
-    "Google Gemini Flash",
+    "JWT",
+    "ReportLab",
+    "FatturaPA XML",
+    "APScheduler",
+    "Playwright",
+    "python-telegram-bot",
+    "Gemini Flash Lite",
+    "Gemini Vision",
     "React",
     "TypeScript",
-    "Tailwind CSS",
     "Vite",
-    "Electron"
+    "Tailwind CSS",
+    "Recharts",
+    "Electron",
+    "PyInstaller",
+    "Ed25519"
   ],
   "creator": {
     "@type": "Person",
@@ -64,7 +98,7 @@
 }
     </script>
 </head>
-<body>
+<body data-page="synapsi">
 
 <div class="grain" aria-hidden="true"></div>
 <div class="scroll-progress" aria-hidden="true"><span></span></div>
@@ -73,6 +107,7 @@
     <div class="nav-container">
         <div class="nav-links">
             <a href="../index.html#lavori" data-i18n="nav.works">progetti</a>
+            <a href="../index.html#chi-sono" data-i18n="nav.about">chi sono</a>
             <a href="#contatti-footer" data-i18n="nav.contact">contatti</a>
         </div>
         <div class="lang-toggle" role="group" aria-label="Lingua / Language">
@@ -101,12 +136,16 @@
             <p class="hero-tag" data-i18n="proj.synapsi.type">Web/Desktop App · Python &amp; React</p>
             <h1>Syn<em>apsi</em></h1>
             <p class="project-lead" data-i18n="proj.synapsi.lead">Un centro di comando per lavoratori autonomi, raggiungibile anche solo scrivendo un messaggio.</p>
-            <div class="proj-tags">
-                <span>Python</span>
-                <span>FastAPI</span>
-                <span>Telegram Bot</span>
-                <span>React</span>
-                <span>Electron</span>
+            <!-- Link slot: uncomment and fill the href once the project is deployed -->
+            <div class="project-links">
+                <!--
+                <a href="" target="_blank" rel="noopener">
+                    <span data-i18n="link.live">Vedi il progetto</span><span class="nav-arrow">→</span>
+                </a>
+                <a href="" target="_blank" rel="noopener">
+                    <span data-i18n="link.repo">Codice sorgente</span><span class="nav-arrow">→</span>
+                </a>
+                -->
             </div>
         </div>
 
@@ -119,15 +158,25 @@
         <div class="case-study">
             <div class="case-block reveal">
                 <h2 class="section-label" data-i18n="case.solution">Il progetto</h2>
-                <p data-i18n="proj.synapsi.solution">Synapsi centralizza clienti, progetti, preventivi, ore lavorate, collaboratori e pagamenti in un'unica app desktop. Il sistema è affiancato da un bot AI su Telegram, sempre attivo, che permette di consultare e inserire dati tramite messaggi scritti o vocali, così da gestire il lavoro anche in movimento, senza passare dall'interfaccia grafica.</p>
+                <p data-i18n="proj.synapsi.solution">Synapsi è un gestionale per lavoratori autonomi e artigiani. Raccoglie in un'unica app desktop clienti, progetti, preventivi, fatture, ore, collaboratori, spese e pagamenti, e da questi dati ricava il bilancio e la previsione di cassa. Il ciclo di fatturazione è completo e arriva fino all'XML per la fatturazione elettronica. Ci sono poi due caratteristiche che lo distinguono da un gestionale normale. La prima è che ogni installazione gira interamente sul computer di chi la usa, backend, database e credenziali compresi, senza un server centrale. La seconda è che si può usare anche da un bot Telegram, con messaggi scritti o vocali, quindi senza aprire l'applicazione.</p>
+            </div>
+            <div class="case-block reveal">
+                <h2 class="section-label" data-i18n="case.hard">La parte difficile</h2>
+                <p data-i18n="proj.synapsi.hard1">Il bot interpreta messaggi vocali, quindi ogni tanto sbaglia. Il problema è che una registrazione sbagliata sembra identica a una giusta finché non la si va a controllare. Per questo ogni conferma del bot include uno screenshot della sezione in cui ha scritto, così si vede subito cosa è stato registrato, e un pulsante per annullare l'operazione.</p>
+                <p data-i18n="proj.synapsi.hard2">Il pulsante compare solo sulle creazioni, ed è una scelta deliberata: annullare una creazione significa cancellare una riga appena inserita, mentre annullare una modifica richiederebbe di ricostruire lo stato precedente, che non viene salvato da nessuna parte. Le creazioni coprono comunque quasi tutto quello che il bot scrive, cioè ore, pagamenti, spese, clienti, progetti, preventivi e fatture. Per raccoglierle non serve che ogni handler dichiari cosa ha creato: un hook su SQLAlchemy osserva la sessione dell'operazione e registra le righe inserite, quindi anche le funzioni aggiunte in seguito risultano annullabili senza modifiche.</p>
+                <p data-i18n="proj.synapsi.hard3">Un problema simile riguarda il bilancio. Essendo di cassa, considera solo i soldi effettivamente incassati, e questo fa sì che un utente che ha inserito tutto correttamente possa comunque vedere un totale diverso da quello che si aspetta guardando le fatture emesse. L'app quindi non si limita a mostrare il numero, ma prova a spiegare da dove nasce la differenza, elencando le voci che la compongono e gli errori di inserimento più comuni: preventivi accettati e mai fatturati, ore non fatturate, pagamenti non collegati a una fattura, fatture sovrapagate e preventivi fermi da troppo tempo.</p>
             </div>
             <div class="case-block reveal">
                 <h2 class="section-label" data-i18n="case.features">Funzionalità principali</h2>
                 <ul>
-                    <li data-i18n="proj.synapsi.f1">Gestione centralizzata di clienti, progetti e preventivi</li>
-                    <li data-i18n="proj.synapsi.f2">Bot Telegram con AI (Gemini) per input vocale e testuale</li>
-                    <li data-i18n="proj.synapsi.f3">Promemoria automatici per le attività in sospeso</li>
-                    <li data-i18n="proj.synapsi.f4">App desktop nativa costruita con Electron</li>
+                    <li data-i18n="proj.synapsi.f1">Anagrafica di clienti, progetti e collaboratori, ciascuno con lo stato, le date e le tariffe che gli competono, e il saldo ancora aperto sempre in vista</li>
+                    <li data-i18n="proj.synapsi.f2">Ciclo attivo completo dal preventivo alla fattura, con PDF, XML per la fatturazione elettronica, ritenuta d'acconto, bollo virtuale e ricorrenze che si emettono da sole</li>
+                    <li data-i18n="proj.synapsi.f3">Ore di lavoro e incassi, con un accantonamento tasse suggerito su ogni pagamento ricevuto</li>
+                    <li data-i18n="proj.synapsi.f4">Spese registrate dalla foto di uno scontrino, di cui l'AI riconosce importo, fornitore, data e categoria</li>
+                    <li data-i18n="proj.synapsi.f5">Bilancio per categoria, crediti da incassare e previsione di cassa per finestra di scadenza, con report in PDF e un export per il commercialista</li>
+                    <li data-i18n="proj.synapsi.f6">Agenda delle scadenze, con i giorni di ritardo su quelle già passate, e ricerca globale su tutto l'archivio</li>
+                    <li data-i18n="proj.synapsi.f7">Bot Telegram che a voce o per iscritto consulta, crea e modifica qualsiasi dato, risponde a domande su bilancio e spese e ricorda le scadenze, allegando ogni volta lo screenshot della sezione di cui sta parlando</li>
+                    <li data-i18n="proj.synapsi.f8">Backup cifrati e automatici verso una cartella esterna a scelta, con ripristino guidato: la copia si riapre da sola sul computer di origine, altrove serve la password</li>
                 </ul>
             </div>
             <div class="case-block reveal">
@@ -137,13 +186,23 @@
                     <span>FastAPI</span>
                     <span>SQLAlchemy</span>
                     <span>SQLite</span>
-                    <span>Telegram Bot</span>
-                    <span>Google Gemini Flash</span>
+                    <span>JWT</span>
+                    <span>ReportLab</span>
+                    <span>FatturaPA XML</span>
+                    <span>openpyxl</span>
+                    <span>APScheduler</span>
+                    <span>Playwright</span>
+                    <span>python-telegram-bot</span>
+                    <span>Gemini Flash Lite</span>
+                    <span>Gemini Vision</span>
                     <span>React</span>
                     <span>TypeScript</span>
-                    <span>Tailwind CSS</span>
                     <span>Vite</span>
+                    <span>Tailwind CSS</span>
+                    <span>Recharts</span>
                     <span>Electron</span>
+                    <span>PyInstaller</span>
+                    <span>Ed25519</span>
                 </div>
             </div>
         </div>
@@ -177,7 +236,7 @@
     </div>
 </footer>
 
-<a href="#top" class="back-to-top" aria-label="Torna su">
+<a href="#top" class="back-to-top" data-i18n-aria="a11y.backToTop" aria-label="Torna su">
     <i class="fa-solid fa-arrow-up"></i>
 </a>
 

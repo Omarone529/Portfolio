@@ -19,6 +19,8 @@
     --shadow-lg: 0 40px 80px -30px rgba(0, 0, 0, 0.65);
     --radius: 4px;
     --radius-lg: 6px;
+    /* Single measure for project pages: title, cover and body all share it */
+    --measure: 800px;
     --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
     --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
     --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
@@ -29,6 +31,13 @@
 html {
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
+}
+
+/* Set by the inline script in <head> only when the page opens in English:
+   holds the paint until main.js has swapped the Italian markup out. Cleared
+   by main.js, and by a timeout there in case the script never runs. */
+html.i18n-pending body {
+    visibility: hidden;
 }
 
 body {
@@ -183,9 +192,11 @@ nav {
     border-radius: 4px;
 }
 
-/* Hero */
+/* Hero: fills the viewport so nothing below shows through.
+   dvh tracks the visible area on mobile, where the URL bar resizes it. */
 .hero {
-    min-height: 92vh;
+    min-height: 100vh;
+    min-height: 100dvh;
     position: relative;
     display: flex;
     align-items: center;
@@ -305,10 +316,11 @@ nav {
     transform: scale(1.07);
 }
 
+/* Caption reads as a caption: aligned to the image's left edge, not centred */
 .proj-tile-caption {
     background: var(--bg-black);
-    padding: 1.6rem 1rem;
-    text-align: center;
+    padding: 1.5rem 1.6rem 1.7rem;
+    text-align: left;
 }
 
 .proj-tile-title {
@@ -324,13 +336,104 @@ nav {
     opacity: 0.75;
 }
 
-.proj-tile-meta {
-    font-size: 0.85rem;
+/* One-line core function: what the project does, in plain words */
+.proj-tile-core {
+    font-size: 0.95rem;
     color: var(--soft-ink);
-    margin-top: 0.4rem;
+    line-height: 1.55;
+    max-width: 46ch;
+    margin: 0.55rem 0 0;
 }
 
-/* Back to top */
+.proj-tile-meta {
+    font-size: 0.8rem;
+    color: var(--muted-ink);
+    margin-top: 0.7rem;
+}
+
+/* About */
+.about {
+    padding: 7rem 2rem 8rem;
+    border-top: 1px solid var(--line-soft);
+}
+
+.about-inner {
+    max-width: var(--measure);
+    margin: 0 auto;
+}
+
+.about-inner .section-label {
+    display: block;
+}
+
+.about-desc {
+    font-size: clamp(1rem, 1.5vw, 1.12rem);
+    color: var(--soft-ink);
+    line-height: 1.75;
+    max-width: 62ch;
+    margin-top: 1.5rem;
+}
+
+.about-stack-label {
+    margin: 3rem 0 1.1rem;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--soft-ink);
+}
+
+.stack-grid {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.stack-grid li {
+    font-size: 0.78rem;
+    letter-spacing: 0.02em;
+    padding: 0.45rem 0.95rem;
+    border: 1px solid var(--line);
+    border-radius: 100px;
+    color: var(--soft-ink);
+    transition: border-color 0.3s ease, color 0.3s ease;
+}
+
+.stack-grid li:hover {
+    border-color: rgba(255, 255, 255, 0.25);
+    color: var(--ink);
+}
+
+/* Matches the link treatment used on the project pages */
+.cv-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 3rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--ink);
+    text-decoration: none;
+    padding-bottom: 0.3rem;
+    border-bottom: 1px solid var(--line);
+    transition: border-color 0.3s ease, opacity 0.3s ease;
+}
+
+.cv-link:hover {
+    border-bottom-color: var(--ink);
+    opacity: 0.8;
+}
+
+.cv-link .nav-arrow {
+    display: inline-block;
+    transition: transform 0.3s var(--ease-out);
+}
+
+.cv-link:hover .nav-arrow {
+    transform: translateY(2px);
+}
+
+/* Back to top: only offered once there is something to scroll back up from */
 .back-to-top {
     position: fixed;
     right: 2rem;
@@ -347,17 +450,27 @@ nav {
     text-decoration: none;
     font-size: 1.2rem;
     border: 1px solid var(--line);
-    transition: background 0.3s ease, transform 0.3s var(--ease-out);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(8px);
+    transition: background 0.3s ease, transform 0.3s var(--ease-out),
+                opacity 0.3s ease, visibility 0.3s;
 }
 
-.back-to-top:hover {
+.back-to-top.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.back-to-top.is-visible:hover {
     background: #3a3a3a;
     transform: translateY(-3px);
 }
 
 /* Project detail pages */
 .project-hero {
-    max-width: 900px;
+    max-width: var(--measure);
     margin: 0 auto;
     padding: 9rem 2rem 3rem;
 }
@@ -437,8 +550,39 @@ nav {
     margin-bottom: 2rem;
 }
 
+/* Links out to the live project / repo. Collapses while the slot is
+   still empty, so nothing has to move once the URLs land. */
+.project-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.75rem;
+    margin-top: 2rem;
+}
+
+.project-links:empty {
+    display: none;
+}
+
+.project-links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--ink);
+    text-decoration: none;
+    padding-bottom: 0.3rem;
+    border-bottom: 1px solid var(--line);
+    transition: border-color 0.3s ease, opacity 0.3s ease;
+}
+
+.project-links a:hover {
+    border-bottom-color: var(--ink);
+    opacity: 0.8;
+}
+
 .project-cover {
-    max-width: 1100px;
+    max-width: var(--measure);
     margin: 0 auto 5rem;
     padding: 0 2rem;
 }
@@ -449,19 +593,19 @@ nav {
     align-items: center;
     justify-content: center;
     padding: 3rem;
-    box-shadow: var(--shadow-lg);
+    box-shadow: var(--shadow-md);
 }
 
 .project-cover-inner img {
     width: auto;
     max-width: 100%;
     height: auto;
-    max-height: 380px;
+    max-height: 300px;
     object-fit: contain;
 }
 
 .case-study {
-    max-width: 800px;
+    max-width: var(--measure);
     margin: 0 auto;
     padding: 0 2rem 6rem;
     display: flex;
@@ -478,6 +622,10 @@ nav {
     color: var(--soft-ink);
     font-size: 1.02rem;
     line-height: 1.75;
+}
+
+.case-block p + p {
+    margin-top: 1.15rem;
 }
 
 .case-block ul {
@@ -600,6 +748,9 @@ footer {
     }
     .proj-list {
         grid-template-columns: 1fr;
+    }
+    .about {
+        padding: 5rem 1.5rem 5.5rem;
     }
     .project-hero {
         padding: 7.5rem 1.5rem 2.5rem;
