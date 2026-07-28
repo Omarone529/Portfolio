@@ -4,26 +4,51 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>ApexGPS — Omar Bayadi</title>
-    <meta name="title" content="ApexGPS — Omar Bayadi" />
+    <title>ApexGPS · Omar Bayadi</title>
+    <meta name="title" content="ApexGPS · Omar Bayadi" />
     <meta name="description" content="ApexGPS: servizio web che calcola percorsi panoramici basati su punti di interesse e sinuosità delle strade. Progetto di Omar Bayadi, full-stack developer." />
     <meta name="author" content="Omar Bayadi" />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
     <meta name="theme-color" content="#191919" />
     <link rel="canonical" href="https://omarbayadi.com/progetti/apexgps.html" />
 
+    <!-- Language variants: the English page is this same page with ?lang=en -->
+    <link rel="alternate" hreflang="it" href="https://omarbayadi.com/progetti/apexgps.html" />
+    <link rel="alternate" hreflang="en" href="https://omarbayadi.com/progetti/apexgps.html?lang=en" />
+    <link rel="alternate" hreflang="x-default" href="https://omarbayadi.com/progetti/apexgps.html" />
+
+    <!-- Resolves the language before first paint, so a visitor arriving on
+         ?lang=en never sees the Italian markup flash past. -->
+    <script>
+        (function () {
+            var q = new URLSearchParams(location.search).get('lang');
+            var l = (q === 'en' || q === 'it') ? q : null;
+            if (!l) { try { l = localStorage.getItem('lang'); } catch (e) { /* private mode */ } }
+            if (l !== 'en' && l !== 'it') l = 'it';
+            window.__i18nLang = l;
+            document.documentElement.lang = l;
+            if (l === 'en') {
+                document.documentElement.className += ' i18n-pending';
+                // Safety net: never leave the page hidden if main.js fails to load
+                setTimeout(function () {
+                    document.documentElement.classList.remove('i18n-pending');
+                }, 1500);
+            }
+        })();
+    </script>
+
     <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
 
     <meta property="og:type" content="article" />
     <meta property="og:url" content="https://omarbayadi.com/progetti/apexgps.html" />
     <meta property="og:site_name" content="Omar Bayadi" />
-    <meta property="og:title" content="ApexGPS — Omar Bayadi" />
+    <meta property="og:title" content="ApexGPS · Omar Bayadi" />
     <meta property="og:description" content="Servizio web che calcola percorsi panoramici basati su punti di interesse e sinuosità delle strade." />
     <meta property="og:image" content="https://omarbayadi.com/assets/og-image.png" />
     <meta property="og:locale" content="it_IT" />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="ApexGPS — Omar Bayadi" />
+    <meta name="twitter:title" content="ApexGPS · Omar Bayadi" />
     <meta name="twitter:description" content="Servizio web che calcola percorsi panoramici basati su punti di interesse e sinuosità delle strade." />
     <meta name="twitter:image" content="https://omarbayadi.com/assets/og-image.png" />
 
@@ -61,7 +86,7 @@
 }
     </script>
 </head>
-<body>
+<body data-page="apex">
 
 <div class="grain" aria-hidden="true"></div>
 <div class="scroll-progress" aria-hidden="true"><span></span></div>
@@ -70,6 +95,7 @@
     <div class="nav-container">
         <div class="nav-links">
             <a href="../index.html#lavori" data-i18n="nav.works">progetti</a>
+            <a href="../index.html#chi-sono" data-i18n="nav.about">chi sono</a>
             <a href="#contatti-footer" data-i18n="nav.contact">contatti</a>
         </div>
         <div class="lang-toggle" role="group" aria-label="Lingua / Language">
@@ -98,12 +124,16 @@
             <p class="hero-tag" data-i18n="proj.apex.type">Web App · Django &amp; React</p>
             <h1>Apex<em>GPS</em></h1>
             <p class="project-lead" data-i18n="proj.apex.lead">Un servizio che calcola percorsi pensati per essere goduti, non solo percorsi.</p>
-            <div class="proj-tags">
-                <span>Django</span>
-                <span>PostGIS</span>
-                <span>React</span>
-                <span>Docker</span>
-                <span>Azure</span>
+            <!-- Link slot: uncomment and fill the href once the project is deployed -->
+            <div class="project-links">
+                <!--
+                <a href="" target="_blank" rel="noopener">
+                    <span data-i18n="link.live">Vedi il progetto</span><span class="nav-arrow">→</span>
+                </a>
+                <a href="" target="_blank" rel="noopener">
+                    <span data-i18n="link.repo">Codice sorgente</span><span class="nav-arrow">→</span>
+                </a>
+                -->
             </div>
         </div>
 
@@ -116,13 +146,20 @@
         <div class="case-study">
             <div class="case-block reveal">
                 <h2 class="section-label" data-i18n="case.solution">Il progetto</h2>
-                <p data-i18n="proj.apex.solution">ApexGPS calcola percorsi panoramici basandosi su punti di interesse e sulla sinuosità delle strade, tramite un algoritmo custom che privilegia la bellezza del tragitto rispetto alla velocità. Il backend geospaziale elabora i dati stradali con PostGIS, mentre il frontend restituisce un'esperienza fluida e immediata.</p>
+                <p data-i18n="proj.apex.solution">ApexGPS è un motore di routing che calcola percorsi panoramici e sinuosi, pensati per la guida di piacere più che per arrivare in fretta. La parte principale del progetto è il servizio backend API: calcola i percorsi, gestisce l'autenticazione con JWT e OAuth e si occupa di salvare e sincronizzare i tracciati di ogni utente. Espone una sola interfaccia dati, usata sia dall'applicazione mobile sia da quella web. I dati stradali vengono elaborati con PostGIS, mentre il frontend in React mostra i percorsi sulla mappa.</p>
+            </div>
+            <div class="case-block reveal">
+                <h2 class="section-label" data-i18n="case.hard">La parte difficile</h2>
+                <p data-i18n="proj.apex.hard">I due obiettivi del motore sono in conflitto tra loro: più si cercano strade sinuose e panoramiche, più il percorso si allunga, e oltre un certo punto diventa un percorso che nessuno farebbe davvero. Per questo il calcolo lavora con un vincolo di 40 minuti rispetto al tragitto normale. Il problema quindi non è trovare la strada più bella in assoluto, ma la migliore tra quelle che rientrano in quel margine.</p>
             </div>
             <div class="case-block reveal">
                 <h2 class="section-label" data-i18n="case.features">Funzionalità principali</h2>
                 <ul>
                     <li data-i18n="proj.apex.f1">Algoritmo di scoring custom basato su curvatura e punti di interesse</li>
                     <li data-i18n="proj.apex.f2">Ricerca di percorsi panoramici a partire da un punto di partenza</li>
+                    <li data-i18n="proj.apex.f5">Tolleranza di tempo configurata perché il percorso panoramico non superi il più veloce di circa quaranta minuti</li>
+                    <li data-i18n="proj.apex.f6">API universale: un'unica interfaccia dati che serve sia l'app mobile sia quella web</li>
+                    <li data-i18n="proj.apex.f7">Autenticazione JWT e OAuth, con salvataggio e sincronizzazione dei percorsi per ogni utente</li>
                     <li data-i18n="proj.apex.f3">API REST containerizzata e distribuita su cloud Azure</li>
                     <li data-i18n="proj.apex.f4">Interfaccia mappa reattiva costruita in React</li>
                 </ul>
@@ -134,6 +171,8 @@
                     <span>Django REST framework</span>
                     <span>PostgreSQL</span>
                     <span>PostGIS</span>
+                    <span>JWT</span>
+                    <span>OAuth</span>
                     <span>React</span>
                     <span>Tailwind CSS</span>
                     <span>Docker</span>
@@ -171,7 +210,7 @@
     </div>
 </footer>
 
-<a href="#top" class="back-to-top" aria-label="Torna su">
+<a href="#top" class="back-to-top" data-i18n-aria="a11y.backToTop" aria-label="Torna su">
     <i class="fa-solid fa-arrow-up"></i>
 </a>
 

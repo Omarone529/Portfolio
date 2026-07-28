@@ -4,26 +4,51 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>MBM Meccanica — Omar Bayadi</title>
-    <meta name="title" content="MBM Meccanica — Omar Bayadi" />
+    <title>MBM Meccanica · Omar Bayadi</title>
+    <meta name="title" content="MBM Meccanica · Omar Bayadi" />
     <meta name="description" content="MBM Meccanica: sito vetrina per azienda metalmeccanica, costruito con React e Tailwind. Progetto di Omar Bayadi, full-stack developer." />
     <meta name="author" content="Omar Bayadi" />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
     <meta name="theme-color" content="#191919" />
     <link rel="canonical" href="https://omarbayadi.com/progetti/mbm-meccanica.html" />
 
+    <!-- Language variants: the English page is this same page with ?lang=en -->
+    <link rel="alternate" hreflang="it" href="https://omarbayadi.com/progetti/mbm-meccanica.html" />
+    <link rel="alternate" hreflang="en" href="https://omarbayadi.com/progetti/mbm-meccanica.html?lang=en" />
+    <link rel="alternate" hreflang="x-default" href="https://omarbayadi.com/progetti/mbm-meccanica.html" />
+
+    <!-- Resolves the language before first paint, so a visitor arriving on
+         ?lang=en never sees the Italian markup flash past. -->
+    <script>
+        (function () {
+            var q = new URLSearchParams(location.search).get('lang');
+            var l = (q === 'en' || q === 'it') ? q : null;
+            if (!l) { try { l = localStorage.getItem('lang'); } catch (e) { /* private mode */ } }
+            if (l !== 'en' && l !== 'it') l = 'it';
+            window.__i18nLang = l;
+            document.documentElement.lang = l;
+            if (l === 'en') {
+                document.documentElement.className += ' i18n-pending';
+                // Safety net: never leave the page hidden if main.js fails to load
+                setTimeout(function () {
+                    document.documentElement.classList.remove('i18n-pending');
+                }, 1500);
+            }
+        })();
+    </script>
+
     <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
 
     <meta property="og:type" content="article" />
     <meta property="og:url" content="https://omarbayadi.com/progetti/mbm-meccanica.html" />
     <meta property="og:site_name" content="Omar Bayadi" />
-    <meta property="og:title" content="MBM Meccanica — Omar Bayadi" />
+    <meta property="og:title" content="MBM Meccanica · Omar Bayadi" />
     <meta property="og:description" content="Sito vetrina per azienda metalmeccanica, costruito con React e Tailwind." />
     <meta property="og:image" content="https://omarbayadi.com/assets/og-image.png" />
     <meta property="og:locale" content="it_IT" />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="MBM Meccanica — Omar Bayadi" />
+    <meta name="twitter:title" content="MBM Meccanica · Omar Bayadi" />
     <meta name="twitter:description" content="Sito vetrina per azienda metalmeccanica, costruito con React e Tailwind." />
     <meta name="twitter:image" content="https://omarbayadi.com/assets/og-image.png" />
 
@@ -55,7 +80,7 @@
 }
     </script>
 </head>
-<body>
+<body data-page="mbm">
 
 <div class="grain" aria-hidden="true"></div>
 <div class="scroll-progress" aria-hidden="true"><span></span></div>
@@ -64,6 +89,7 @@
     <div class="nav-container">
         <div class="nav-links">
             <a href="../index.html#lavori" data-i18n="nav.works">progetti</a>
+            <a href="../index.html#chi-sono" data-i18n="nav.about">chi sono</a>
             <a href="#contatti-footer" data-i18n="nav.contact">contatti</a>
         </div>
         <div class="lang-toggle" role="group" aria-label="Lingua / Language">
@@ -92,10 +118,13 @@
             <p class="hero-tag" data-i18n="proj.mbm.type">Sito Vetrina · React</p>
             <h1>MBM <em>Meccanica</em></h1>
             <p class="project-lead" data-i18n="proj.mbm.lead">Un sito vetrina pensato per raccontare artigianalità e precisione di un'azienda metalmeccanica.</p>
-            <div class="proj-tags">
-                <span data-i18n="proj.comingSoon">Presto online</span>
-                <span>React</span>
-                <span>Tailwind</span>
+            <!-- Link slot: uncomment and fill the href once the project is deployed -->
+            <div class="project-links">
+                <!--
+                <a href="" target="_blank" rel="noopener">
+                    <span data-i18n="link.live">Vedi il progetto</span><span class="nav-arrow">→</span>
+                </a>
+                -->
             </div>
         </div>
 
@@ -108,7 +137,7 @@
         <div class="case-study">
             <div class="case-block reveal">
                 <h2 class="section-label" data-i18n="case.solution">Il progetto</h2>
-                <p data-i18n="proj.mbm.solution">Un sito vetrina leggero, veloce e moderno, costruito con React e Tailwind CSS, pensato per presentare i servizi dell'azienda con una navigazione fluida e un design pulito che trasmette professionalità fin dal primo caricamento.</p>
+                <p data-i18n="proj.mbm.solution">Un sito vetrina con sezioni dedicate a servizi, lavorazioni e contatti, costruito con React e Tailwind CSS. L'architettura frontend è volutamente leggera, così la prima schermata compare subito e il passaggio da una sezione all'altra è immediato.</p>
             </div>
             <div class="case-block reveal">
                 <h2 class="section-label" data-i18n="case.features">Funzionalità principali</h2>
@@ -156,7 +185,7 @@
     </div>
 </footer>
 
-<a href="#top" class="back-to-top" aria-label="Torna su">
+<a href="#top" class="back-to-top" data-i18n-aria="a11y.backToTop" aria-label="Torna su">
     <i class="fa-solid fa-arrow-up"></i>
 </a>
 
