@@ -4,6 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PZ9HCT0QH1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('consent', 'default', { analytics_storage: 'denied' });
+        gtag('config', 'G-PZ9HCT0QH1');
+    </script>
+
     <title>Synapsi · Omar Bayadi</title>
     <meta name="title" content="Synapsi · Omar Bayadi" />
     <meta name="description" content="Synapsi: gestionale per lavoratori autonomi con bot AI su Telegram, dalla fatturazione elettronica al bilancio. Progetto di Omar Bayadi, full-stack developer." />
@@ -45,6 +55,8 @@
     <meta property="og:title" content="Synapsi · Omar Bayadi" />
     <meta property="og:description" content="Gestionale per lavoratori autonomi con bot AI su Telegram: clienti, progetti, preventivi, fatturazione elettronica, spese e bilancio." />
     <meta property="og:image" content="https://omarbayadi.com/assets/og-image.png" />
+    <meta property="og:image:width" content="1500" />
+    <meta property="og:image:height" content="787" />
     <meta property="og:locale" content="it_IT" />
 
     <meta name="twitter:card" content="summary_large_image" />
@@ -95,6 +107,17 @@
     "name": "Omar Bayadi",
     "url": "https://omarbayadi.com/"
   }
+}
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://omarbayadi.com/" },
+    { "@type": "ListItem", "position": 2, "name": "Progetti", "item": "https://omarbayadi.com/#lavori" },
+    { "@type": "ListItem", "position": 3, "name": "Synapsi", "item": "https://omarbayadi.com/progetti/synapsi.html" }
+  ]
 }
     </script>
 </head>
@@ -151,7 +174,10 @@
 
         <div class="project-cover reveal">
             <div class="project-cover-inner">
-                <img src="../assets/Synapsi_logo.png" alt="Synapsi" loading="lazy" />
+                <picture>
+                    <source srcset="../assets/Synapsi_logo.webp" type="image/webp" />
+                    <img src="../assets/Synapsi_logo.png" alt="Synapsi" width="512" height="512" loading="lazy" />
+                </picture>
             </div>
         </div>
 
@@ -218,7 +244,7 @@
             <i class="fab fa-discord"></i>
         </a>
         <a href="https://mail.google.com/mail/?view=cm&fs=1&to=omarlucky0@gmail.com" target="_blank" rel="noopener" aria-label="Email">
-            <img src="https://www.gstatic.com/images/branding/product/2x/gmail_2020q4_48dp.png" alt="Gmail" />
+            <img src="https://www.gstatic.com/images/branding/product/2x/gmail_2020q4_48dp.png" alt="Gmail" width="48" height="48" />
         </a>
         <a href="https://github.com/Omarone529" target="_blank" rel="noopener" aria-label="GitHub">
             <i class="fab fa-github"></i>
