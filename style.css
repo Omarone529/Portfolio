@@ -404,35 +404,6 @@ nav {
     color: var(--ink);
 }
 
-/* Matches the link treatment used on the project pages */
-.cv-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-top: 3rem;
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: var(--ink);
-    text-decoration: none;
-    padding-bottom: 0.3rem;
-    border-bottom: 1px solid var(--line);
-    transition: border-color 0.3s ease, opacity 0.3s ease;
-}
-
-.cv-link:hover {
-    border-bottom-color: var(--ink);
-    opacity: 0.8;
-}
-
-.cv-link .nav-arrow {
-    display: inline-block;
-    transition: transform 0.3s var(--ease-out);
-}
-
-.cv-link:hover .nav-arrow {
-    transform: translateY(2px);
-}
-
 /* Back to top: only offered once there is something to scroll back up from */
 .back-to-top {
     position: fixed;

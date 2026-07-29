@@ -20,10 +20,9 @@ const translations = {
     'about.desc': `I like projects with personality, not just features. I work across the
                     whole stack: a solid backend, a considered frontend, a containerized
                     deploy. From REST APIs in Django to Flutter apps, all the way to bots
-                    that talk to their users — what interests me is understanding the
+                    that talk to their users, what interests me is understanding the
                     problem before writing the solution.`,
     'about.stack.label': 'Tools I reach for most',
-    'about.cv': 'Download CV',
     'link.live': 'View the project',
     'link.repo': 'Source code',
     'a11y.backToTop': 'Back to top',
