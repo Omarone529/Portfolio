@@ -303,6 +303,10 @@ nav {
     overflow: hidden;
 }
 
+.proj-tile-image picture {
+    display: contents;
+}
+
 .proj-tile-image img {
     width: auto;
     height: auto;
@@ -439,6 +443,81 @@ nav {
     transform: translateY(-3px);
 }
 
+/* Cookie consent banner */
+.cookie-banner {
+    position: fixed;
+    left: 1.5rem;
+    bottom: 1.5rem;
+    z-index: 150;
+    max-width: 400px;
+    background: #2c2c2c;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    padding: 1.1rem 1.3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    animation: cookieIn 0.4s var(--ease-out);
+}
+
+.cookie-banner p {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--soft-ink);
+    margin: 0;
+}
+
+.cookie-banner a {
+    color: var(--ink);
+}
+
+.cookie-banner-actions {
+    display: flex;
+    gap: 0.6rem;
+    justify-content: flex-end;
+}
+
+.cookie-banner button {
+    font-family: var(--font-sans);
+    font-size: 0.82rem;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius);
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--ink);
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s var(--ease-out);
+}
+
+.cookie-banner button:hover {
+    transform: translateY(-1px);
+}
+
+.cookie-banner .cookie-accept {
+    background: var(--ink);
+    color: #111111;
+    border-color: var(--ink);
+}
+
+.cookie-banner .cookie-accept:hover {
+    background: #e8e8e8;
+}
+
+@keyframes cookieIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 480px) {
+    .cookie-banner {
+        left: 1rem;
+        right: 1rem;
+        bottom: 1rem;
+        max-width: none;
+    }
+}
+
 /* Project detail pages */
 .project-hero {
     max-width: var(--measure);
@@ -565,6 +644,10 @@ nav {
     justify-content: center;
     padding: 3rem;
     box-shadow: var(--shadow-md);
+}
+
+.project-cover-inner picture {
+    display: contents;
 }
 
 .project-cover-inner img {

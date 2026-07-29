@@ -311,3 +311,57 @@ if (reduceMotion) {
 
   revealEls.forEach(el => observer.observe(el));
 }
+
+/* ---------- Cookie consent (Google Analytics) ---------- */
+(function () {
+  const KEY = 'cookieConsent';
+  const stored = localStorage.getItem(KEY);
+
+  function grantConsent() {
+    if (typeof gtag === 'function') {
+      gtag('consent', 'update', { analytics_storage: 'granted' });
+    }
+  }
+
+  if (stored === 'granted') {
+    grantConsent();
+    return;
+  }
+  if (stored === 'denied') return;
+
+  const lang = window.__i18nLang === 'en' ? 'en' : 'it';
+  const copy = lang === 'en'
+    ? {
+        text: 'This site uses Google Analytics to understand how it’s used. <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Privacy policy</a>.',
+        decline: 'Decline',
+        accept: 'Accept',
+      }
+    : {
+        text: 'Questo sito usa Google Analytics per capire come viene usato. <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Privacy policy</a>.',
+        decline: 'Rifiuta',
+        accept: 'Accetto',
+      };
+
+  const banner = document.createElement('div');
+  banner.className = 'cookie-banner';
+  banner.setAttribute('role', 'dialog');
+  banner.setAttribute('aria-label', 'Cookie consent');
+  banner.innerHTML = `
+    <p>${copy.text}</p>
+    <div class="cookie-banner-actions">
+      <button type="button" class="cookie-decline">${copy.decline}</button>
+      <button type="button" class="cookie-accept">${copy.accept}</button>
+    </div>
+  `;
+  document.body.appendChild(banner);
+
+  banner.querySelector('.cookie-accept').addEventListener('click', () => {
+    localStorage.setItem(KEY, 'granted');
+    grantConsent();
+    banner.remove();
+  });
+  banner.querySelector('.cookie-decline').addEventListener('click', () => {
+    localStorage.setItem(KEY, 'denied');
+    banner.remove();
+  });
+})();
