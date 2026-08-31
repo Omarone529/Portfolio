@@ -1,0 +1,455 @@
+/*
+  The hero, transcribed from adhamdannaway.com.
+
+  His .face is a fixed 1040x600 stage holding four layers: two 420x600 windows
+  onto the same 840x600 composition, one painted and one photographic, inset
+  100px from each edge so they meet dead centre; a 420x200 block of brush
+  strokes along the bottom left; and two 520x600 anchors carrying the words.
+  His stage carries a second block of code opposite the strokes; this one does
+  not, because the words there speak to clients rather than developers. The
+  windows do not scale their content, they reveal more of it, which is why the
+  seam can travel while the face stays put.
+
+  Every number below is his, and so are the easings. Two things are not.
+
+  The entry: his two windows slide in from either side to a seam already at
+  rest, and here the seam itself does the arriving, which the component drives.
+
+  And the units. His stage exists at one size and is a flat jpg below it. This
+  one is the same construction at every width, so nothing is written in pixels:
+  the geometry is in stage units, multiplied by --u, which is what one stage
+  unit is worth in px on the screen it is being drawn on. On the wide layout
+  the stage is exactly 1040px across, --u resolves to 1px, and his numbers are
+  his numbers again.
+*/
+
+/* The sides match .section and the header, so the picture's edge lines up
+   with the name above it and the text below it. */
+.hero {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-page);
+  padding: 2.5rem 1.5rem 3rem;
+}
+
+.face {
+  position: relative;
+  width: 100%;
+  max-width: 46rem;
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem 1.5rem;
+}
+
+/* -------------------------------------------------------------------------- */
+/* The stage                                                                  */
+/* -------------------------------------------------------------------------- */
+
+/*
+  --span is how much of the stage is on screen, in stage units. --crop is the
+  stage x sitting at its left edge.
+
+  A narrow screen gets the figure and little else: he is turned, so he stops
+  545 units into a composition 840 wide and the rest of it is empty page. The
+  wide layout has room for the whole stage and shows it.
+
+  --crop follows the composition rather than standing still, and only here.
+  The composition slides as the seam travels (his 0.1 coupling), and at the
+  start of the entry it stands 84 units left of where it rests: against a fixed
+  crop that cuts the figure's edge off for as long as the sweep lasts. The
+  window travelling with it costs the parallax, which is not visible at this
+  size anyway, and keeps the figure whole.
+*/
+.stage {
+  --span: 580;
+  --crop: calc(100 + var(--shift, 0));
+
+  container-type: inline-size;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  aspect-ratio: var(--span) / 600;
+  grid-column: 1 / -1;
+}
+
+/* The stage itself, 1040 units wide whatever is on screen, hung off the left
+   edge of the window that shows part of it. Everything below is placed in it
+   with his numbers. */
+.frame {
+  --u: calc(100cqw / var(--span));
+
+  position: absolute;
+  top: 0;
+  left: calc(var(--crop) * var(--u) * -1);
+  width: calc(1040 * var(--u));
+  height: 100%;
+}
+
+/* The two windows onto the composition. Their background is at the
+   composition's own size and pinned to one edge, so widening the element
+   reveals more of it rather than stretching it: that is the whole trick.
+
+   --w and --x are written by the component, in stage units. The fallbacks are
+   the resting split, which is what the picture has to be when no script ever
+   runs. */
+.art {
+  position: absolute;
+  top: 0;
+  z-index: 1;
+  width: calc(var(--w, 420) * var(--u));
+  height: calc(600 * var(--u));
+  background-repeat: no-repeat;
+  background-size: calc(840 * var(--u)) calc(600 * var(--u));
+  opacity: 0;
+  /* Only a fade: the movement of the opening is the seam crossing the figure
+     from its left edge, and the component writes that. Without a script there
+     is no sweep, and the fade lands on the resting split, which is correct. */
+  animation: fade-in 0.6s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+
+.paint {
+  left: calc(var(--x, 100) * var(--u));
+  background-image: url("/assets/omar-paint.webp");
+  background-position: left top;
+}
+
+.photo {
+  right: calc(var(--x, 100) * var(--u));
+  background-image: url("/assets/omar-photo.webp");
+  background-position: right top;
+}
+
+/* The block along the bottom. Held until the seam has almost landed: the
+   strokes sit across the whole left half and are painted above the windows, so
+   any earlier and they would be lying on the photograph the seam has not
+   uncovered yet. */
+.block {
+  position: absolute;
+  bottom: 0;
+  width: calc(420 * var(--u));
+  height: calc(200 * var(--u));
+  opacity: 0;
+}
+
+.strokes {
+  left: calc(var(--x, 100) * var(--u));
+  background-image: url("/assets/omar-strokes.webp");
+  background-repeat: no-repeat;
+  background-size: calc(420 * var(--u)) calc(200 * var(--u));
+  animation: slide-in-left 1.1s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1s forwards;
+}
+
+/* -------------------------------------------------------------------------- */
+/* The words: under the picture, until the stage is wide enough to hold them   */
+/* -------------------------------------------------------------------------- */
+
+/*
+  Interface to the left, logic to the right, which is where they are on the
+  wide layout and what the two of them mean. What cannot follow from up there
+  is having them over the picture: the composition is a tall figure with the
+  brush marks running across its lower half, so on a phone the heading lands on
+  the paint and the line under it on the black stroke, and neither can be read.
+  So they keep their sides and take the row under it instead.
+*/
+.side {
+  container-type: inline-size;
+  color: var(--color-muted);
+}
+
+.sideInterface {
+  grid-column: 1;
+}
+
+.sideLogic {
+  grid-column: 2;
+}
+
+/*
+  Sized against the column it is in rather than the screen, so it cannot
+  overflow: the word is a shade under six times the type size at this weight
+  and tracking, and 17% of the column leaves it the last of that. It is the one
+  thing here with no breakpoints, because the constraint is the column and the
+  column already knows how wide it is.
+*/
+.description h2 {
+  font-size: min(2.875rem, 17cqw);
+  line-height: 1.1;
+  letter-spacing: -0.06em;
+  font-weight: 700;
+  color: var(--color-ink);
+  margin: 0 0 0.5rem;
+}
+
+.description p {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.4;
+}
+
+/*
+  Leaning, from the two numbers the component writes on each block: --chosen for
+  the half being looked at, --passed for the other. Both are 0 until a pointer
+  or a finger says otherwise, and 0 in every expression here is the resting
+  state, so the hero is right before a single frame has been written.
+
+  The fade is the ink word's way of receding, and it is overridden further down
+  for the painted one, which cannot afford it. The origins send the growth
+  inward, so the word that is chosen grows towards the picture rather than off
+  the side of the screen.
+*/
+.description {
+  transform: scale(calc(1 + 0.05 * var(--chosen, 0)));
+  filter: opacity(calc(1 - 0.62 * var(--passed, 0)));
+}
+
+.sideInterface .description {
+  transform-origin: left top;
+}
+
+.sideLogic .description {
+  transform-origin: right top;
+}
+
+/*
+  The interface half is the half given over to colour, so its word is lettered
+  in the paint rather than set in ink. Four of the painting's colours on a four
+  step cycle, in the order the brush uses them. The cycle length is the number
+  of rules below: add a colour and the fifth letter silently keeps the first
+  one's.
+
+  At every width, which is a decision and not an oversight. It is louder than
+  the site is anywhere else, and the word earns it: it sits on the painted side
+  and says what that side is. The cost is contrast. The mustard is 1.9:1 on
+  white and the teal is not much better, so on a phone, where this heading is
+  the largest thing on the page, they are carrying it well under what a heading
+  is normally held to. Nothing else on the site is coloured this way, and the
+  line under the word stays grey and readable whatever the word does.
+*/
+.sideInterface .description h2 span:nth-child(4n + 1) {
+  color: var(--color-paint-mustard);
+}
+
+.sideInterface .description h2 span:nth-child(4n + 2) {
+  color: var(--color-paint-teal);
+}
+
+.sideInterface .description h2 span:nth-child(4n + 3) {
+  color: var(--color-paint-coral);
+}
+
+.sideInterface .description h2 span:nth-child(4n + 4) {
+  color: var(--color-paint-red);
+}
+
+/*
+  Which is why the two sides cannot recede the same way. Ink recedes by fading
+  towards the page, and that is what the rule above does to the logic word.
+  Paint cannot: these letters are pale enough that the fade the ink word takes
+  would leave nothing behind. The word gives up its colour and darkens instead,
+  which lands it at about the weight the faded ink word has.
+*/
+.sideInterface .description {
+  filter: opacity(calc(1 - 0.3 * var(--passed, 0)));
+}
+
+.sideInterface .description h2 {
+  filter: saturate(calc(1 - 0.8 * var(--passed, 0)))
+    brightness(calc(1 - 0.42 * var(--passed, 0)));
+}
+
+@media (min-width: 30rem) {
+  .hero {
+    padding-inline: 2rem;
+  }
+}
+
+@media (min-width: 37.5rem) {
+  .description p {
+    font-size: 1rem;
+  }
+}
+
+/* The last step of .section's own ladder, so the hero keeps aligning with the
+   sections under it right up to the fixed stage. */
+@media (min-width: 48rem) {
+  .hero {
+    padding-inline: 2.7rem;
+  }
+
+  /* Room at last for his own arrangement: the words either side of the
+     picture, which is what they are describing. The middle column carries the
+     picture and is given half again as much room as each word beside it. */
+  .face {
+    grid-template-columns: 1fr minmax(0, 1.5fr) 1fr;
+    align-items: center;
+  }
+
+  .stage {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .sideInterface {
+    grid-row: 1;
+  }
+
+  .sideLogic {
+    grid-column: 3;
+    grid-row: 1;
+  }
+}
+
+@media (min-width: 56.25rem) {
+  /* The 46rem cap is a measure for a column of prose, and from here the hero is
+     not one: it is a picture with a short block either side of it, and held to
+     46rem the picture shrinks while the type around it grows. */
+  .face {
+    max-width: 60rem;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* From 71.25rem: the whole stage, and the words over it                      */
+/* -------------------------------------------------------------------------- */
+
+@media (min-width: 71.25rem) {
+  .hero {
+    padding: 2.5rem 1.25rem 4rem;
+  }
+
+  /* A fixed frame with everything placed inside it by hand, so the column that
+     carried the words on narrow screens is dropped here. */
+  .face {
+    display: block;
+    width: 1040px;
+    max-width: none;
+    height: 600px;
+  }
+
+  /* All of it, standing still. There is room for the empty side of the stage
+     at this size, and the parallax the crop gives up on a phone is his and
+     worth keeping. --u comes out at exactly 1px. */
+  .stage {
+    --span: 1040;
+    --crop: 0;
+  }
+
+  /* Each side covers its half of the stage, so the words sit over the art. */
+  .side {
+    position: absolute;
+    z-index: 10;
+    top: 0;
+    width: 520px;
+    height: 600px;
+    text-align: left;
+  }
+
+  /* The interface side reaches out past the stage, into the gutter the fixed
+     1040px stage leaves beside itself: the pull is whatever that gutter holds
+     minus a 24px margin, capped at 100px and never positive, so the words move
+     left as the screen widens and can neither be clipped nor pushed inward.
+     The side moves rather than the words inside it, and grows by as much as it
+     moved, so it still spans its half of the stage. */
+  .sideInterface {
+    --pull: clamp(-100px, (1040px + 2.5rem - 100vw) / 2 + 24px, 0px);
+
+    left: var(--pull);
+    width: calc(520px - var(--pull));
+  }
+
+  .sideLogic {
+    right: 0;
+  }
+
+  .description {
+    position: absolute;
+    top: 180px;
+    width: 290px;
+    opacity: 0;
+    animation: fade-in 0.5s cubic-bezier(0.19, 1, 0.22, 1) 1.5s forwards;
+  }
+
+  /* Anchored at the outer edge, so the words grow into the stage when their
+     half is the one being pointed at rather than off the side of it. */
+  .sideInterface .description {
+    left: 0;
+  }
+
+  .sideLogic .description {
+    right: 0;
+  }
+
+  .description h2 {
+    font-size: 82px;
+    line-height: 1.1;
+    letter-spacing: -0.06em;
+    margin-bottom: 0.8rem;
+  }
+
+  .description p {
+    display: block;
+    font-size: 18px;
+    line-height: 1.4;
+    color: var(--color-muted);
+  }
+
+  /*
+    And lettered in time as well as in colour: each one arrives 35ms after the
+    one before it, so the word is written rather than shown. The delay runs from
+    the same 1.5s the block it sits in waits for, so the first letter and the
+    line below it start together.
+
+    Only the painted word does this. The other one is ink, it is set rather than
+    painted, and it appears the way ink appears: all at once.
+  */
+  .sideInterface .description h2 span {
+    opacity: 0;
+    animation: fade-in 0.5s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+    animation-delay: calc(1.5s + var(--at) * 35ms);
+  }
+}
+
+/* Applied only while the picture glides back to centre, so the per-frame writes
+   during tracking are not fighting a transition. easeOutQuad, his easing. */
+.settling {
+  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Entry                                                                      */
+/* -------------------------------------------------------------------------- */
+
+@keyframes slide-in-left {
+  from {
+    opacity: 0;
+    /* Of the block's own width, so it does not need a unit to scale with. */
+    transform: translateX(-119%);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fade-in {
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .art,
+  .block,
+  .description,
+  /* Written at the specificity the rule above uses, since a media query lends
+     none of its own and the shorter selector would simply lose. */
+  .sideInterface .description h2 span {
+    animation: none;
+    opacity: 1;
+  }
+
+  .settling {
+    transition: none;
+  }
+}

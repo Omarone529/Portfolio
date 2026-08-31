@@ -1,0 +1,528 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   Design tokens
+
+   Values transcribed from adhamdannaway.com so the two sites share the same
+   physical feel: the same greys, the same 12px/8px radius pair, the same two
+   card shadows and the same .3s on everything that moves.
+   ========================================================================== */
+
+@theme {
+  /* Surfaces. The page is white; alternating sections drop to #fafafa. */
+  --color-page: #ffffff;
+  --color-surface: #fafafa;
+  --color-card: #ffffff;
+  --color-footer: #f5f5f5;
+  --color-rule: #dddddd;
+
+  /* Text */
+  --color-ink: #333333;
+  /* The reference's #757575, six units darker. His grey clears 4.5:1 on white
+     but not on the two tinted grounds this site puts it on: 4.41 on #fafafa,
+     4.23 in the footer. This one clears everywhere (5.02, 4.81, 4.61) and is
+     the smallest step that does. Side by side the two are indistinguishable. */
+  --color-muted: #6f6f6f;
+
+  /* The blue of the logic side, lent to the page for the focus ring. The
+     reading progress bar used to wear it too and is now grey. The interface
+     side has no token: on the page its orange only ever appears inside the
+     hero art itself. */
+  --color-logic: #2f5fd0;
+
+  /* The paint itself, transcribed from PAINT in tools/hero.swift. The interface
+     heading is lettered in these four, so if the palette the tool lays down
+     ever changes, the word stops matching the picture behind it. The fifth,
+     the pale salmon, is too light to put under a letter. */
+  --color-paint-mustard: #f0ba3d;
+  --color-paint-teal: #8cc7c7;
+  --color-paint-coral: #f0a18c;
+  --color-paint-red: #e6453b;
+
+  /* Adham's exact card shadows: at rest, and lifted on hover */
+  --shadow-card: 0 1px 4px 0 rgb(0 0 0 / 0.2);
+  --shadow-card-hover: 0 4px 8px 0 rgb(0 0 0 / 0.2);
+  --shadow-inset-top: inset 0 1px 4px 0 rgb(0 0 0 / 0.1);
+
+  --radius-card: 12px;
+  --radius-media: 8px;
+
+  /* Content column */
+  --container-page: 1040px;
+
+  /* Type scale. The hero size is the phone's, and the ladder under `h1` takes
+     it up from there: at 5rem a two word project title was three lines on a
+     360px screen and the longest word was wider than the screen itself. */
+  --text-hero: 2.75rem;
+  --text-hero--line-height: 1.1;
+  --text-hero--letter-spacing: -0.06em;
+  --text-display: 2.25rem;
+  --text-display--line-height: 1.2;
+  --text-title: 1.625rem;
+  --text-title--line-height: 1.3;
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    background: var(--color-page);
+    color: var(--color-ink);
+    font-size: 1.125rem;
+    line-height: 1.6;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    color: var(--color-ink);
+    text-wrap: balance;
+  }
+
+  h1 {
+    font-size: var(--text-hero);
+    line-height: 1.1;
+    letter-spacing: -0.06em;
+    font-weight: 700;
+  }
+
+  h2 {
+    font-size: var(--text-display);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    font-weight: 300;
+  }
+
+  h3 {
+    font-size: var(--text-title);
+    line-height: 1.3;
+    font-weight: 600;
+  }
+
+  /* Four steps rather than two, because the jump from a phone's 2.75rem to the
+     6rem the desktop wants is too far to make in one and the widths in between
+     are where a long title breaks badly. */
+  @media (min-width: 30rem) {
+    h1 {
+      font-size: 3.5rem;
+    }
+  }
+
+  @media (min-width: 37.5rem) {
+    h1 {
+      font-size: 4.5rem;
+    }
+  }
+
+  @media (min-width: 48rem) {
+    h1 {
+      font-size: 6rem;
+    }
+  }
+
+  @media (min-width: 64rem) {
+    h1 {
+      font-size: 6.375rem;
+    }
+  }
+
+  /* A visible focus ring everywhere, since half the hero is a link. */
+  :focus-visible {
+    outline: 2px solid var(--color-logic);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+}
+
+/* ==========================================================================
+   Layout primitives
+   ========================================================================== */
+
+@layer components {
+  .row {
+    max-width: var(--container-page);
+    margin-inline: auto;
+    width: 100%;
+  }
+
+  /* Adham's section rhythm: 64/32 → 80/43 → 96/43 px. The narrowest step is
+     ours: his 32px each side takes an eighth of a 320px screen and leaves the
+     text out of line with the header, which pads by 24. */
+  .section {
+    padding: 4rem 1.5rem;
+  }
+
+  @media (min-width: 30rem) {
+    .section {
+      padding: 4rem 2rem;
+    }
+  }
+
+  @media (min-width: 48rem) {
+    .section {
+      padding: 5rem 2.7rem;
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .section {
+      padding: 6rem 2.7rem;
+    }
+  }
+
+  /* The tinted band, with the hairline and inset shadow that separate it. */
+  .section-alt {
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-rule);
+    box-shadow: var(--shadow-inset-top);
+  }
+
+  .section-plain {
+    border-bottom: 1px solid var(--color-rule);
+  }
+
+  .eyebrow {
+    display: block;
+    color: var(--color-muted);
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.2rem;
+  }
+
+  /* --------------------------------------------------------------------
+     Project card: a transcription of Adham's .thumbs li
+     -------------------------------------------------------------------- */
+  /* height: 100% lets the card fill the grid row, which auto-rows-fr keeps the
+     same for every row. Without it the card is only as tall as its own text and
+     the four end up different heights. */
+  .card {
+    display: block;
+    height: 100%;
+    background: var(--color-card);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+    padding: 0.75rem 0.75rem 0;
+    text-decoration: none;
+    color: var(--color-ink);
+    transition:
+      box-shadow 0.3s,
+      transform 0.3s;
+  }
+
+  .card:hover,
+  .card:focus-visible {
+    box-shadow: var(--shadow-card-hover);
+    transform: translateY(-2px);
+  }
+
+  .card-media {
+    position: relative;
+    border-radius: var(--radius-media);
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+  }
+
+  /* The logo fills the frame and is let down to size by a transform, rather
+     than sitting in it as a centred grid item under a percentage max-height.
+     That earlier arrangement silently failed: a percentage max-height resolves
+     against the grid row, which an aspect-ratio frame leaves indefinite, so the
+     vertical cap never applied and the two tall logos overflowed and were
+     clipped. Absolute inset: 0 resolves against a definite padding box, and a
+     transform is measured from the centre, so the logo stays centred at any
+     size. --logo-scale is image.scale in content/projects.ts; the default is
+     the frame fill the wide wordmarks use. */
+  .card-media img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transform: scale(var(--logo-scale, 0.68));
+    transition: transform 0.3s;
+  }
+
+  .card:hover .card-media img {
+    transform: scale(calc(var(--logo-scale, 0.68) * 1.03));
+  }
+
+  .card-body {
+    position: relative;
+    padding: 1rem 2.75rem 1rem 0.5rem;
+  }
+
+  /* The arrow that fades in and slides right on hover (his .arrow-r). */
+  .card-arrow {
+    position: absolute;
+    top: 1.1rem;
+    right: 0.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    opacity: 0;
+    transform: translateX(-6px);
+    transition:
+      opacity 0.3s,
+      transform 0.3s;
+    color: var(--color-muted);
+  }
+
+  .card:hover .card-arrow,
+  .card:focus-visible .card-arrow {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* --------------------------------------------------------------------
+     Screenshot: the same white card the logo sits in on the case study,
+     around a picture that keeps its own proportions instead of a 16:9 frame.
+     -------------------------------------------------------------------- */
+  .shot {
+    background: var(--color-card);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+    padding: 0.75rem;
+  }
+
+  /* The hairline is not decoration. A screenshot of an application carries its
+     own near white ground, which meets the white of the card at an edge no
+     shadow falls on, so without it the picture has no top and no right side. */
+  .shot img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-media);
+    border: 1px solid var(--color-rule);
+  }
+
+  .shot figcaption {
+    padding: 0.75rem 0.5rem 0.25rem;
+    font-size: 0.9375rem;
+    color: var(--color-muted);
+  }
+
+  /* --------------------------------------------------------------------
+     Reveal on scroll
+     -------------------------------------------------------------------- */
+  .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+      opacity 0.6s ease-out,
+      transform 0.6s ease-out;
+  }
+
+  .reveal[data-visible="true"] {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* --------------------------------------------------------------------
+     Prose inside a case study
+     -------------------------------------------------------------------- */
+  .prose p {
+    font-size: 1.25rem;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+
+  .prose p:last-child {
+    margin-bottom: 0;
+  }
+
+  .prose ul {
+    font-size: 1.125rem;
+    line-height: 1.6;
+    display: grid;
+    gap: 0.9rem;
+  }
+
+  .prose li {
+    position: relative;
+    padding-left: 1.6rem;
+  }
+
+  .prose li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.62em;
+    width: 7px;
+    height: 7px;
+    border-radius: 999px;
+    background: var(--tag-accent, var(--color-muted));
+  }
+
+  .tag {
+    display: inline-block;
+    border: 1px solid var(--color-rule);
+    border-radius: 999px;
+    background: var(--color-card);
+    padding: 0.3rem 0.85rem;
+    font-size: 0.9375rem;
+    line-height: 1.4;
+    color: var(--color-muted);
+  }
+
+  .link-quiet {
+    color: var(--color-muted);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .link-quiet:hover {
+    color: var(--color-ink);
+  }
+
+  /* The round 44px icon button: the social links in the footer, and back to
+     top. Where it sits and whether it lifts on hover stay in the markup,
+     because those are the only two things the two uses disagree about. */
+  .icon-button {
+    display: flex;
+    height: 2.75rem;
+    width: 2.75rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    background: var(--color-card);
+    color: var(--color-muted);
+    box-shadow: var(--shadow-card);
+    transition:
+      transform 0.3s,
+      box-shadow 0.3s,
+      color 0.3s,
+      opacity 0.3s;
+  }
+
+  /* A social link sets --social-brand to the colour of its own logo and the
+     mark takes it on here, since every icon is drawn in currentColor. Back to
+     top sets nothing and darkens to ink, as before. */
+  .icon-button:hover {
+    color: var(--social-brand, var(--color-ink));
+    box-shadow: var(--shadow-card-hover);
+  }
+
+  /* Gmail is the one mark that is not a single colour, so its envelope is
+     drawn in parts and each part takes its own here rather than through
+     --social-brand. Grey until the hover, like all the others: the parts
+     inherit currentColor until these rules override them. */
+  .gmail-left,
+  .gmail-right,
+  .gmail-fold,
+  .gmail-top-left,
+  .gmail-top-right {
+    transition: fill 0.3s;
+  }
+
+  .icon-button:hover .gmail-left {
+    fill: #4285f4;
+  }
+
+  .icon-button:hover .gmail-right {
+    fill: #34a853;
+  }
+
+  .icon-button:hover .gmail-fold {
+    fill: #ea4335;
+  }
+
+  .icon-button:hover .gmail-top-left {
+    fill: #c5221f;
+  }
+
+  .icon-button:hover .gmail-top-right {
+    fill: #fbbc04;
+  }
+
+  /* The two pill buttons. Padding and type size are left to the markup: the
+     cookie banner wants a smaller pair than a page does. */
+  .button-solid {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 999px;
+    background: var(--color-ink);
+    color: #ffffff;
+    text-decoration: none;
+    transition: opacity 0.3s;
+  }
+
+  .button-solid:hover {
+    opacity: 0.8;
+  }
+
+  .button-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: 1px solid var(--color-rule);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--color-muted);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .button-outline:hover {
+    color: var(--color-ink);
+  }
+
+  /* Off screen until it is focused, which is the whole point of it. */
+  .skip-link {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .skip-link:focus {
+    left: 1rem;
+    top: 1rem;
+    z-index: 60;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip-path: none;
+    border-radius: 999px;
+    background: var(--color-ink);
+    padding: 0.5rem 1rem;
+    color: #ffffff;
+  }
+}
+
+/* ==========================================================================
+   Reduced motion: keep every end state, drop the travel
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}

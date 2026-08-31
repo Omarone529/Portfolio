@@ -1,0 +1,122 @@
+[build]
+  command = "npm run build"
+  publish = "out"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# ---------------------------------------------------------------------------
+# Redirects from the previous hand-written site.
+# Those URLs are indexed; without these the ranking they earned is thrown away.
+# Order matters: Netlify applies the first rule that matches.
+# ---------------------------------------------------------------------------
+
+# The old English pages lived at the Italian URL plus ?lang=en. They now have
+# addresses of their own, so the query-string variants are matched first.
+[[redirects]]
+  from = "/"
+  query = { lang = "en" }
+  to = "/en/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/index.html"
+  query = { lang = "en" }
+  to = "/en/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/progetti/timesheet-manager.html"
+  query = { lang = "en" }
+  to = "/en/projects/timesheet-manager/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/progetti/mbm-meccanica.html"
+  query = { lang = "en" }
+  to = "/en/projects/mbm-meccanica/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/progetti/apexgps.html"
+  query = { lang = "en" }
+  to = "/en/projects/apexgps/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/progetti/synapsi.html"
+  query = { lang = "en" }
+  to = "/en/projects/synapsi/"
+  status = 301
+  force = true
+
+# Italian pages: same content, extension dropped.
+[[redirects]]
+  from = "/index.html"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/progetti/timesheet-manager.html"
+  to = "/progetti/timesheet-manager/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/progetti/mbm-meccanica.html"
+  to = "/progetti/mbm-meccanica/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/progetti/apexgps.html"
+  to = "/progetti/apexgps/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/progetti/synapsi.html"
+  to = "/progetti/synapsi/"
+  status = 301
+  force = true
+
+# ---------------------------------------------------------------------------
+# The English 404
+# ---------------------------------------------------------------------------
+
+# Netlify serves out/404.html for anything missing, and that file is Italian.
+# This rule answers in English for the English half of the site. It is last
+# because it matches a whole subtree, and it is not forced, so it fires only
+# where no exported file exists.
+[[redirects]]
+  from = "/en/*"
+  to = "/en/404/index.html"
+  status = 404
+
+# ---------------------------------------------------------------------------
+# Headers
+# ---------------------------------------------------------------------------
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Frame-Options = "SAMEORIGIN"
+
+# Hashed build assets never change under the same name.
+[[headers]]
+  for = "/_next/static/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"

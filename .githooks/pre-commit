@@ -1,0 +1,18 @@
+#!/bin/sh
+# Formats staged files before they are committed, then re-stages whatever was
+# rewritten, so no unformatted code can reach a commit.
+#
+# Enable it once per clone:
+#   git config core.hooksPath .githooks
+
+set -e
+
+files=$(git diff --cached --name-only --diff-filter=ACMR \
+        -- '*.ts' '*.tsx' '*.css' '*.json' '*.md' | tr '\n' '\0' | xargs -0 -I{} echo {})
+
+[ -z "$files" ] && exit 0
+
+echo "$files" | xargs npx prettier --write --ignore-unknown
+echo "$files" | xargs git add
+
+exit 0
