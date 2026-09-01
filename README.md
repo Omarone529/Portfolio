@@ -10,6 +10,7 @@ hero a volto diviso, card bianche con ombra che si alza, reveal in scroll.
 npm install
 npm run dev      # http://localhost:3000
 npm run build    # genera out/
+npm run cards    # ridisegna le card social leggendo out/
 npx serve out    # prova il sito statico esattamente com'è in produzione
 npm test         # vitest: invarianti di contenuto e SEO
 npm run format   # prettier
@@ -42,6 +43,11 @@ Aggiungere una voce a `PROJECTS` in `content/projects.ts` e mettere il logo in
 del file si ritrova così dall'indirizzo della pagina. Pagina italiana, pagina
 inglese, card in home, JSON-LD, sitemap e navigazione precedente/successivo si
 generano da lì. Non c'è nessuna seconda lista da aggiornare.
+
+Resta un comando: `npm run build && npm run cards`, che disegna le due card
+social del progetto nuovo. Il percorso non va scritto da nessuna parte,
+`projectCard()` lo ricava dallo slug, ma finché il file non esiste `npm test`
+fallisce.
 
 ## L'hero
 
@@ -157,6 +163,31 @@ L'originale usato è 1086x724 e il ritaglio ne prende 700x500, quindi le parti
 vengono ingrandite due volte e mezza. Il dipinto regge bene perché è fatto di
 forme piatte; la parte fotografica risulta morbida. Con l'export a piena
 risoluzione dalla libreria foto l'hero sarebbe nitido.
+
+## Le card social
+
+L'immagine che si vede quando un link viene incollato in una chat. Ce n'è una
+per pagina e per lingua: `og-image-it.png` e `og-image-en.png` per la home,
+`<slug>-card-<lang>.png` per ogni case study, tutte 1500x787.
+
+Non si disegnano a mano. `tools/cards.mjs` legge il sito già costruito in
+`out/`, ne ritaglia il markup e le stringhe vere, carica i fogli di stile
+compilati (quindi i token, le ombre e il Figtree self-hosted) e fotografa il
+risultato con Chrome headless. La card personale è il nome, l'`og:description`
+della home e i tag della sezione "Chi sono"; quella di un progetto è la
+cornice del logo, il titolo, il tipo e la frase di sintesi. Cambiare una tinta,
+un titolo o una riga di copy cambia le card alla prossima esecuzione.
+
+Dove scrivere il file lo decide il sito, non il tool: ogni pagina dichiara il
+proprio `og:image`, il tool lo rilegge e salva lì. La convenzione sul nome sta
+in `projectCard()` in `content/projects.ts` e in nessun altro posto.
+
+```bash
+npm run build && npm run cards
+```
+
+Serve Chrome installato. Se non è nel percorso solito, `CHROME=<path>` davanti
+al comando.
 
 ## Deploy
 

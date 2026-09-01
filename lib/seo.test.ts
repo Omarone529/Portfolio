@@ -1,3 +1,5 @@
+import { existsSync } from "node:fs";
+import { join } from "node:path";
 import type { Metadata } from "next";
 import { describe, expect, it } from "vitest";
 import { LANGS, SITE, absolute, homePath, projectPath } from "@/content/site";
@@ -130,7 +132,29 @@ describe("social cards", () => {
   });
 
   it("ships an absolute image url, which crawlers require", () => {
-    expect(ogImage(homeMetadata("it"))).toBe(`${SITE.url}${SITE.ogImage}`);
+    expect(ogImage(homeMetadata("it"))).toBe(`${SITE.url}${SITE.ogImage.it}`);
+  });
+
+  /**
+   * The card carries the hero, and the hero is two words in the language of
+   * the page it is on. One card for both would put an Italian sentence into
+   * the preview of a page that declares itself en_US.
+   */
+  it("gives each language the card written in it", () => {
+    const cards = LANGS.map((lang) => ogImage(homeMetadata(lang)));
+    expect(new Set(cards).size).toBe(LANGS.length);
+    for (const lang of LANGS) {
+      expect(ogImage(homeMetadata(lang))).toBe(`${SITE.url}${SITE.ogImage[lang]}`);
+    }
+  });
+
+  /** As with the project cards: a named file that is not there is a blank
+      preview nobody sees until someone shares the page. */
+  it("names site cards that are actually in public/assets", () => {
+    for (const lang of LANGS) {
+      const path = SITE.ogImage[lang];
+      expect(existsSync(join(process.cwd(), "public", path)), path).toBe(true);
+    }
   });
 
   /**
@@ -153,7 +177,7 @@ describe("social cards", () => {
 
   /** The site card is what a page without a picture of its own falls back to. */
   it("falls back to the site card", () => {
-    expect(twitterImage(homeMetadata("en"))).toBe(`${SITE.url}${SITE.ogImage}`);
+    expect(twitterImage(homeMetadata("en"))).toBe(`${SITE.url}${SITE.ogImage.en}`);
   });
 });
 

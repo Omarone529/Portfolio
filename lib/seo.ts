@@ -39,7 +39,7 @@ export function buildMetadata({
   const social = ogDescription ?? description;
   const canonical = absolute(paths[lang]);
   const card = image ?? {
-    path: SITE.ogImage,
+    path: SITE.ogImage[lang],
     width: SITE.ogImageSize.width,
     height: SITE.ogImageSize.height,
     alt: `${SITE.name} · ${SITE.role}`,

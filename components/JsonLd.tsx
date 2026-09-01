@@ -104,10 +104,10 @@ export function projectSchema(lang: Lang, project: Project) {
     name: projectTitle(project),
     url: absolute(projectPath(lang, project.slug)),
     description: project.meta.ogDescription[lang],
-    // The screenshot the page is shared with, so the structured data and the
-    // social card name the same picture. The logo is the fallback: it is what
-    // a project with no screenshots yet still has.
-    image: absolute(projectCard(project, lang)?.path ?? project.image.webp),
+    // The picture the page is shared with, so the structured data and the
+    // social card name the same file. Every project has one, so there is
+    // nothing to fall back to.
+    image: absolute(projectCard(project, lang).path),
     inLanguage: lang,
     dateCreated: String(project.year),
     keywords: project.stack,

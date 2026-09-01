@@ -73,15 +73,6 @@ export interface Project {
    * the section exists on the case study only where the pictures do.
    */
   shots?: Shot[];
-  /**
-   * The picture this case study is shared with, at the size and shape of the
-   * site card. It is a jpeg, and it is the one image here that is not a webp:
-   * the crawlers that draw a link preview want jpeg or png, and a webp is
-   * shown by some of them as no picture at all. Cut from the first screenshot
-   * and letterboxed onto the surface grey, so the whole screen survives the
-   * crop every platform applies.
-   */
-  card?: string;
   stack: string[];
   meta: {
     title: L10n;
@@ -240,7 +231,6 @@ export const PROJECTS: Project[] = [
           "been left pending.",
       ],
     },
-    card: "/assets/synapsi-card.jpg",
     shots: [
       {
         webp: "/assets/synapsi-dashboard.webp",
@@ -510,7 +500,6 @@ export const PROJECTS: Project[] = [
           "the React frontend shows the routes on the map.",
       ],
     },
-    card: "/assets/apexgps-card.jpg",
     shots: [
       {
         webp: "/assets/apexgps-hero.webp",
@@ -661,7 +650,6 @@ export const PROJECTS: Project[] = [
           "and a few examples of the finished parts.",
       ],
     },
-    card: "/assets/mbm-meccanica-card.jpg",
     shots: [
       {
         webp: "/assets/mbm-meccanica-hero.webp",
@@ -824,27 +812,33 @@ export function getProject(slug: string): Project | undefined {
 
 /**
  * The picture a case study is shared with, described the way a crawler needs
- * it. The alt text is the first screenshot's, since the card is cut from it.
+ * it.
  *
- * A project with no card yet returns nothing, which leaves the site card in
- * place rather than inventing something to show.
+ * There is no field for it. The path is the slug, so a project cannot be added
+ * without one and cannot point at a file that was never drawn: `tools/cards.mjs`
+ * reads this same name back out of the built page's `og:image` and writes the
+ * picture there, and the tests check that the file is on disk. That is the
+ * whole arrangement, and it exists because the earlier one, a hand written
+ * path that three projects simply did not have, left half the work previewing
+ * as the site card.
+ *
+ * The card shows the logo in its tinted frame and the title beside it, so that
+ * is what the alt says. It says it in the language of the page doing the
+ * sharing, which is also the language written on the card.
  *
  * @param project the project being shared
- * @param lang which language to take the alt text in
- * @returns the social card for that project, or undefined
+ * @param lang which language the page is in
+ * @returns the social card for that project
  */
 export function projectCard(
   project: Project,
   lang: Lang,
-): { path: string; width: number; height: number; alt: string } | undefined {
-  const shot = project.shots?.[0];
-  if (!project.card || !shot) return undefined;
-
+): { path: string; width: number; height: number; alt: string } {
   return {
-    path: project.card,
+    path: `/assets/${project.slug}-card-${lang}.png`,
     width: SITE.ogImageSize.width,
     height: SITE.ogImageSize.height,
-    alt: shot.alt[lang],
+    alt: `${projectTitle(project)} · ${project.type[lang]}`,
   };
 }
 

@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "cards": "node tools/cards.mjs",
     "start": "next start",
     "lint": "eslint",
     "format": "prettier --write .",
