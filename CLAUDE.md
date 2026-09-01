@@ -32,6 +32,7 @@ runtime and no secret anywhere in the repo.
 ```bash
 npm run dev            # http://localhost:3000
 npm run build          # writes out/
+npm run cards          # redraws the social cards, needs out/ to be current
 npx serve out          # the static site exactly as Netlify serves it
 npm test               # vitest
 npx eslint .           # must be clean, warnings included
@@ -52,7 +53,8 @@ components/*.tsx      Icons, Reveal, JsonLd: at the root because all four use th
 app/(it)/             Italian, at the root       ->  /  and  /progetti/<slug>/
 app/(en)/             English                    ->  /en/  and  /en/projects/<slug>/
 app/favicon.ico       the tab icon, and app/icon.svg beside it for the rest
-public/assets/        every image, webp only, plus the png social card
+public/assets/        every image, webp only, plus the png social cards
+tools/cards.mjs       redraws the social cards from the site in out/
 tools/faces.swift     measures the face in a photograph, run before hero.swift
 tools/hero.swift      cuts the hero portrait out of a photograph
 tools/shoulder.swift  draws the shoulder contour, run after hero.swift
@@ -107,8 +109,23 @@ These are not preferences. Each one is a trap that has already been hit here.
   that only a browser older than Safari 14 would ever have asked for. There is
   no `<picture>` left anywhere, `Project.image` has one path, and
   `@next/next/no-img-element` is off in `eslint.config.mjs` because a static
-  export has no optimizer for `next/image` to use. `og-image.png` stays png:
-  it is the social card, and that is what the crawlers want.
+  export has no optimizer for `next/image` to use. The social cards stay png:
+  a link preview is drawn by a crawler, and several of them show a webp as no
+  picture at all.
+- **The social cards are drawn, not kept.** Every `*-card-*.png` and both
+  `og-image-*.png` are output of `tools/cards.mjs`; nothing in `public/assets/`
+  is edited by hand. The tool reads `out/`, cuts the real markup and the real
+  strings out of the built pages and links the compiled stylesheets, so a tint,
+  a title or a line of copy changes the cards on the next run. The personal
+  card is the name, the home page's own `og:description` and the tags the about
+  section lists; a project card is its logo frame, title, type and blurb. It
+  also reads each page's own `og:image` to learn where to write, which means
+  the file name is decided in `content/` and nowhere else: `projectCard()`
+  derives it from the slug, so a project has a card without declaring one.
+  This is why the first set went stale through an entire redesign, and why
+  `npm run build && npm run cards` belongs in any change to a logo, a tint, a
+  title or a blurb. The tests only check that the named files exist; that they
+  are current is what running the tool is for.
 - **`netlify.toml` carries 301s from the old URLs** (`/progetti/synapsi.html`,
   `/?lang=en` and the rest). They are what keeps the ranking those pages
   earned. Do not drop them when editing that file.

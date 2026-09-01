@@ -11,7 +11,17 @@ export const SITE = {
   role: "Full-stack Developer",
   /** Written out in the footer, and the address the Gmail link opens on. */
   email: "omar.bayadi.lavoro@gmail.com",
-  ogImage: "/assets/og-image.png",
+  /**
+   * The picture a link to the home page previews as: the hero, standing still,
+   * under the name. One per language, because the hero is two words and they
+   * are not the same two words. Drawn by `tools/cards.mjs` from the built
+   * site, which is what keeps them from outliving the design they show.
+   */
+  ogImage: {
+    it: "/assets/og-image-it.png",
+    en: "/assets/og-image-en.png",
+  } as L10n,
+  /** Every card on this site, the projects' included, is drawn at this size. */
   ogImageSize: { width: 1500, height: 787 },
   /** The hero photograph, and what the Person schema points at as the face. */
   portrait: "/assets/omar-face.webp",

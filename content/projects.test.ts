@@ -1,5 +1,7 @@
+import { existsSync } from "node:fs";
+import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { LANGS, projectPath, type Lang } from "./site";
+import { LANGS, SITE, projectPath, type Lang } from "./site";
 import {
   PROJECTS,
   getProject,
@@ -143,32 +145,54 @@ describe("year", () => {
 
 describe("social card", () => {
   /**
-   * The one image on this site that is not a webp. A link preview is drawn by
-   * a crawler, and several of them treat a webp as no picture at all, which is
-   * the whole reason this file exists beside the screenshot it is cut from.
+   * A case study shared in a message has to show the case study. Every project
+   * previewing as the same site card is the one picture the reader has already
+   * seen, and it is what this site shipped until the cards were drawn.
+   *
+   * PNG and not webp: a link preview is drawn by a crawler, and several of
+   * them treat a webp as no picture at all.
    */
-  it("ships the card as a jpeg from public/assets", () => {
+  it("gives every project a card of its own, in both languages", () => {
     for (const project of PROJECTS) {
-      if (!project.card) continue;
-      expect(project.card, project.slug).toMatch(/^\/assets\/[a-z0-9-]+\.jpg$/);
+      for (const lang of LANGS) {
+        const card = projectCard(project, lang);
+        expect(card.path, `${project.slug} ${lang}`).toMatch(
+          /^\/assets\/[a-z0-9-]+\.png$/,
+        );
+      }
     }
   });
 
-  /** The card is cut from the first shot, and takes its alt text from it. */
-  it("never declares a card without the screenshot it comes from", () => {
+  /**
+   * The card the content layer names has to be a file that exists. This is the
+   * invariant the old cards broke: `og-image.png` outlived the design it was a
+   * picture of, and three projects pointed at nothing and quietly fell back to
+   * it. Nothing can test that a picture is current, but a missing one is a
+   * failing test rather than a blank preview six months later.
+   */
+  it("names a file that is actually in public/assets", () => {
     for (const project of PROJECTS) {
-      if (!project.card) continue;
-      expect(project.shots?.length, project.slug).toBeGreaterThan(0);
+      for (const lang of LANGS) {
+        const { path } = projectCard(project, lang);
+        expect(existsSync(join(process.cwd(), "public", path)), path).toBe(true);
+      }
     }
   });
 
-  /** A project with no card of its own falls back to the site card. */
-  it("resolves to nothing for a project that has none", () => {
-    for (const project of PROJECTS) {
-      const card = projectCard(project, "it");
-      if (!project.card) expect(card, project.slug).toBeUndefined();
-      else expect(card?.path, project.slug).toBe(project.card);
+  /** The card shows the logo and the title, so that is what the alt says. */
+  it("describes what the card actually shows", () => {
+    for (const lang of LANGS) {
+      const card = projectCard(PROJECTS[0], lang);
+      expect(card.alt).toContain(projectTitle(PROJECTS[0]));
+      expect(card.alt).toContain(PROJECTS[0].type[lang]);
     }
+  });
+
+  /** Drawn at the site card's size, and declared at the size it was drawn. */
+  it("is the size every card on this site is", () => {
+    const card = projectCard(PROJECTS[0], "it");
+    expect(card.width).toBe(SITE.ogImageSize.width);
+    expect(card.height).toBe(SITE.ogImageSize.height);
   });
 });
 
