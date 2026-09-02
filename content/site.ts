@@ -102,9 +102,9 @@ export function sectionHref(
 
 export const UI = {
   nav: {
-    works: { it: "progetti", en: "work" },
-    about: { it: "chi sono", en: "about" },
-    contact: { it: "contatti", en: "contact" },
+    works: { it: "Progetti", en: "Work" },
+    about: { it: "Chi sono", en: "About" },
+    contact: { it: "Contatti", en: "Contact" },
   },
   home: {
     workHeading: { it: "I miei lavori", en: "My work" },
