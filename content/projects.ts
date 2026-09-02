@@ -187,8 +187,8 @@ export const PROJECTS: Project[] = [
     },
     solution: {
       it: [
-        "Synapsi è un gestionale per freelancer che vogliono tracciare " +
-          "comodamente l'andamento della propria attività lavorativa. Viene " +
+        "Gestionale per freelancer che vogliono tracciare comodamente " +
+          "l'andamento della propria attività lavorativa. Viene " +
           "distribuito come app desktop per Windows e macOS. Ogni " +
           "installazione gira interamente sul PC e tutti i dati sono salvati " +
           "in locale, sul proprio dispositivo.",
@@ -210,7 +210,7 @@ export const PROJECTS: Project[] = [
           "rimasto in sospeso.",
       ],
       en: [
-        "Synapsi is a management suite for freelancers who want to follow " +
+        "A management suite for freelancers who want to follow " +
           "how their own work is going, comfortably. It ships as a desktop " +
           "app for Windows and macOS. Every installation runs entirely on " +
           "the computer, and all the data is saved locally on the device.",
@@ -389,8 +389,8 @@ export const PROJECTS: Project[] = [
     },
     solution: {
       it: [
-        "AskyVet è una piattaforma di divulgazione veterinaria sugli animali " +
-          "domestici. Gli articoli, con copertina, categoria e tag, vengono " +
+        "Piattaforma di divulgazione veterinaria sugli animali domestici. Gli " +
+          "articoli, con copertina, categoria e tag, vengono " +
           "pubblicati dalla redazione, ed è presente la sezione forum.",
         "Nel forum si aprono discussioni libere oppure collegate a un " +
           "articolo, con post, risposte a più livelli e like. Un articolo " +
@@ -401,7 +401,7 @@ export const PROJECTS: Project[] = [
           "moderazione degli utenti.",
       ],
       en: [
-        "AskyVet is a veterinary platform writing about pets. The articles, " +
+        "A platform of veterinary writing about pets. The articles, " +
           "each with a cover, a category and tags, are published by the " +
           "editors, and there is a forum section.",
         "In the forum, discussions are opened freely or attached to an " +
@@ -466,19 +466,19 @@ export const PROJECTS: Project[] = [
     },
     lead: {
       it:
-        "ApexGPS è un servizio web di navigazione che calcola percorsi di " +
-        "guida panoramici. Invece di trovare la strada più veloce, trova " +
+        "Un servizio web di navigazione che calcola percorsi di guida " +
+        "panoramici. Invece di trovare la strada più veloce, trova " +
         "quella più interessante da percorrere, senza che il viaggio duri " +
         "troppo a lungo.",
       en:
-        "ApexGPS is a web navigation service that plots scenic driving " +
+        "A web navigation service that plots scenic driving " +
         "routes. Instead of finding the fastest road, it finds the one that " +
         "is more interesting to ride, without letting the trip run too " +
         "long.",
     },
     solution: {
       it: [
-        "ApexGPS è un motore di routing che calcola percorsi panoramici e " +
+        "Motore di routing che calcola percorsi panoramici e " +
           "sinuosi, pensati per il piacere di guidare più che per arrivare in " +
           "fretta. La parte principale del progetto è il servizio backend " +
           "API: calcola i percorsi, gestisce l'autenticazione con JWT e " +
@@ -490,7 +490,7 @@ export const PROJECTS: Project[] = [
           "mappa.",
       ],
       en: [
-        "ApexGPS is a routing engine that plots scenic, twisty routes, " +
+        "A routing engine that plots scenic, twisty routes, " +
           "meant for the pleasure of riding rather than for getting there " +
           "quickly. The main part of the project is the backend API service: " +
           "it works out the routes, handles authentication with JWT and " +
@@ -762,16 +762,15 @@ export const PROJECTS: Project[] = [
     },
     solution: {
       it: [
-        "Timesheet Manager è un'app desktop e mobile: registra le ore " +
-          "lavorate giorno per giorno, genera resoconti mensili e annuali " +
+        "App desktop e mobile: registra le ore lavorate giorno per giorno, " +
+          "genera resoconti mensili e annuali " +
           "con i grafici, e stima lo stipendio netto in base alle ore " +
           "effettive e alle detrazioni in busta paga.",
       ],
       en: [
-        "Timesheet Manager is a desktop and mobile app that lets you log " +
-          "hours day by day, generate monthly and yearly reports with " +
-          "charts, and estimate net salary based on actual hours worked and " +
-          "payslip deductions.",
+        "A desktop and mobile app that logs hours day by day, generates " +
+          "monthly and yearly reports with charts, and estimates net salary " +
+          "from the actual hours worked and the payslip deductions.",
       ],
     },
     stack: ["Flutter", "Dart"],
