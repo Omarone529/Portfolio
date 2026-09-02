@@ -44,14 +44,15 @@ npm run format         # prettier over the tree
 ```
 content/projects.ts   the 5 case studies, it+en, single source of truth
 content/site.ts       name, hero copy, about, stack, socials, routes, anchors
+content/privacy.ts    the informativa and the notice that points at it, it+en
 lib/seo.ts            title/description/canonical/hreflang/OG/Twitter, from one input
 components/pages/     HomePage and ProjectPage, the body each route renders
 components/chrome/    the frame around them: shell, header, footer, banners
 components/hero/      SplitFace and its stylesheet, the one animated thing
 components/project/   the card and the logo frame a project is drawn with
 components/*.tsx      Icons, Reveal, JsonLd: at the root because all four use them
-app/(it)/             Italian, at the root       ->  /  and  /progetti/<slug>/
-app/(en)/             English                    ->  /en/  and  /en/projects/<slug>/
+app/(it)/             Italian, at the root       ->  /, /progetti/<slug>/, /privacy/
+app/(en)/             English                    ->  /en/, /en/projects/<slug>/, /en/privacy/
 app/favicon.ico       the tab icon, and app/icon.svg beside it for the rest
 public/assets/        every image, webp only, plus the png social cards
 tools/cards.mjs       redraws the social cards from the site in out/
@@ -73,13 +74,24 @@ These are not preferences. Each one is a trap that has already been hit here.
   way the attribute can be correct in both languages. It also means there is no
   `app/layout.tsx`, so `app/not-found.tsx` renders without a layout and cannot
   set `lang` itself.
-- **The site talks to nobody.** There is no analytics, no consent banner, no
-  cookie and no third party request of any kind: fonts are self-hosted by
-  next/font at build time and every image is served from the same origin.
-  Google Analytics was here and was removed with its banner, because a
-  portfolio that measures its visitors owes them an informativa, and the
-  numbers were not worth the page. Adding any tag back brings that duty with
-  it: it is a legal decision before it is a technical one.
+- **The site talks to nobody.** There is no analytics, no cookie and no third
+  party request of any kind: fonts are self-hosted by next/font at build time
+  and every image is served from the same origin. Google Analytics was here and
+  was removed with its banner, because a portfolio that measures its visitors
+  owes them an informativa, and the numbers were not worth the page. Adding any
+  tag back brings that duty with it: it is a legal decision before it is a
+  technical one.
+- **The informativa says what is left, and it is not a consent banner.**
+  `/privacy/` exists because two things are personal data even here: the log
+  Netlify writes for every request, and a message that arrives through one of
+  the contact links. `PrivacyNotice` states that there are no cookies and
+  points at the page; it has no accept button, because there is nothing to
+  accept and a banner that asks anyway teaches the reader to dismiss a real
+  request unread. Its one piece of storage is the dismissal, in localStorage,
+  keyed by `PRIVACY.updated` so a rewritten informativa shows the notice again.
+  That key is the only thing this site ever writes to a reader's device, and
+  the informativa names it. Anything else written there has to be named there
+  too, or the page becomes false.
 - **`.reveal` starts at opacity 0.** With no script there is no observer, so a
   `<noscript>` rule in `RootShell.tsx` pins it open. Do not remove it. The
   observer in `Reveal.tsx` also carries a 10000px top `rootMargin`, and that is

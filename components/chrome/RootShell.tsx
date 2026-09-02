@@ -3,6 +3,7 @@ import { UI, type Lang } from "@/content/site";
 import { sans } from "@/app/fonts";
 import Header from "./Header";
 import Footer from "./Footer";
+import PrivacyNotice from "./PrivacyNotice";
 import ScrollChrome from "./ScrollChrome";
 import SectionScroll from "./SectionScroll";
 
@@ -39,6 +40,7 @@ export default function RootShell({ lang, children }: RootShellProps) {
 
         <SectionScroll />
         <ScrollChrome lang={lang} />
+        <PrivacyNotice lang={lang} />
         {children}
       </body>
     </html>

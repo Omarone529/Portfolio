@@ -368,6 +368,15 @@
     background: var(--tag-accent, var(--color-muted));
   }
 
+  /* The informativa: the same prose, set smaller and closer. Ten sections of
+     legal text at the case study's 1.25rem is a page nobody reaches the end
+     of, and this is the one text on the site written to be read through. */
+  .prose-legal p {
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    margin-bottom: 1.1rem;
+  }
+
   .tag {
     display: inline-block;
     border: 1px solid var(--color-rule);

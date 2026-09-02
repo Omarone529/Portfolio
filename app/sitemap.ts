@@ -1,5 +1,12 @@
 import type { MetadataRoute } from "next";
-import { LANGS, absolute, homePath, projectPath, type Lang } from "@/content/site";
+import {
+  LANGS,
+  absolute,
+  homePath,
+  privacyPath,
+  projectPath,
+  type Lang,
+} from "@/content/site";
 import { PROJECTS } from "@/content/projects";
 
 // The file is written once at build time; there is no server to regenerate it.
@@ -29,6 +36,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 1,
     alternates: alternates(homePaths),
   }));
+
+  const privacyPaths = { it: privacyPath("it"), en: privacyPath("en") };
+  for (const lang of LANGS) {
+    entries.push({
+      url: absolute(privacyPaths[lang]),
+      lastModified,
+      changeFrequency: "yearly",
+      priority: 0.3,
+      alternates: alternates(privacyPaths),
+    });
+  }
 
   for (const project of PROJECTS) {
     const paths = {

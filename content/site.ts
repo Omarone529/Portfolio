@@ -64,6 +64,11 @@ export function projectPath(lang: Lang, slug: string): string {
   return lang === "en" ? `/en/projects/${slug}/` : `/progetti/${slug}/`;
 }
 
+/** The informativa: /privacy/ in Italian, /en/privacy/ in English. */
+export function privacyPath(lang: Lang): string {
+  return lang === "en" ? "/en/privacy/" : "/privacy/";
+}
+
 /** Absolute URL, for canonical tags, hreflang, JSON-LD and the sitemap. */
 export function absolute(path: string): string {
   return `${SITE.url}${path}`;
@@ -119,6 +124,7 @@ export const UI = {
     nav: { it: "Navigazione principale", en: "Main navigation" },
     langGroup: { it: "Lingua / Language", en: "Language / Lingua" },
     skip: { it: "Vai al contenuto", en: "Skip to content" },
+    notice: { it: "Avviso privacy", en: "Privacy notice" },
   },
   footer: {
     role: { it: "Full-stack developer", en: "Full-stack developer" },
@@ -127,6 +133,8 @@ export const UI = {
       it: "Dove trovarmi",
       en: "Where to find me",
     },
+    /** The one word both languages use for it, so the row reads the same. */
+    privacy: { it: "Privacy", en: "Privacy" },
   },
 } satisfies Record<string, Record<string, L10n>>;
 
@@ -254,6 +262,17 @@ export const ABOUT = {
 /* Contact                                                                    */
 /* -------------------------------------------------------------------------- */
 
+/**
+ * Gmail's compose window rather than a mailto:, which on a machine with no
+ * mail client configured opens nothing at all. The link carries no subject or
+ * body: what the message says is the reader's business.
+ *
+ * Named here because two places send a reader to it, the footer's envelope and
+ * the address the informativa gives for exercising a right.
+ */
+export const GMAIL_COMPOSE =
+  "https://mail.google.com/mail/?view=cm&fs=1&to=" + SITE.email;
+
 export type SocialId =
   "whatsapp" | "instagram" | "discord" | "email" | "github" | "gitlab" | "linkedin";
 
@@ -296,12 +315,7 @@ export const SOCIALS: Social[] = [
   {
     id: "email",
     label: "Email",
-    /**
-     * Gmail's compose window rather than a mailto:, which on a machine with no
-     * mail client configured opens nothing at all. The link carries no subject
-     * or body: what the message says is the reader's business.
-     */
-    href: `https://mail.google.com/mail/?view=cm&fs=1&to=${SITE.email}`,
+    href: GMAIL_COMPOSE,
     sameAs: false,
   },
   {

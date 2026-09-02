@@ -6,6 +6,7 @@ import {
   SOCIALS,
   UI,
   homePath,
+  privacyPath,
   sectionHref,
   type Lang,
 } from "@/content/site";
@@ -91,6 +92,12 @@ export default function Footer({ lang, onHome }: FooterProps) {
               {label}
             </Link>
           ))}
+          <Link
+            href={privacyPath(lang)}
+            className="link-quiet flex min-h-11 items-center md:min-h-0"
+          >
+            {UI.footer.privacy[lang]}
+          </Link>
         </nav>
 
         <p className="mt-6 text-[0.875rem]">
