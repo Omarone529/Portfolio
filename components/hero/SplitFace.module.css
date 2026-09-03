@@ -213,10 +213,9 @@
 
 /*
   The interface half is the half given over to colour, so its word is lettered
-  in the paint rather than set in ink. Four of the painting's colours on a four
-  step cycle, in the order the brush uses them. The cycle length is the number
-  of rules below: add a colour and the fifth letter silently keeps the first
-  one's.
+  rather than set in ink. Six colours, no two alike, which is exactly the
+  length of the word in both languages. The cycle length is the number of rules
+  below: drop a colour and the sixth letter silently keeps the first one's.
 
   At every width, which is a decision and not an oversight. It is louder than
   the site is anywhere else, and the word earns it: it sits on the painted side
@@ -226,20 +225,28 @@
   is normally held to. Nothing else on the site is coloured this way, and the
   line under the word stays grey and readable whatever the word does.
 */
-.sideInterface .description h2 span:nth-child(4n + 1) {
-  color: var(--color-paint-mustard);
+.sideInterface .description h2 span:nth-child(6n + 1) {
+  color: var(--color-word-azure);
 }
 
-.sideInterface .description h2 span:nth-child(4n + 2) {
+.sideInterface .description h2 span:nth-child(6n + 2) {
   color: var(--color-paint-teal);
 }
 
-.sideInterface .description h2 span:nth-child(4n + 3) {
-  color: var(--color-paint-coral);
+.sideInterface .description h2 span:nth-child(6n + 3) {
+  color: var(--color-paint-mustard);
 }
 
-.sideInterface .description h2 span:nth-child(4n + 4) {
+.sideInterface .description h2 span:nth-child(6n + 4) {
   color: var(--color-paint-red);
+}
+
+.sideInterface .description h2 span:nth-child(6n + 5) {
+  color: var(--color-word-violet);
+}
+
+.sideInterface .description h2 span:nth-child(6n + 6) {
+  color: var(--color-word-green);
 }
 
 /*
