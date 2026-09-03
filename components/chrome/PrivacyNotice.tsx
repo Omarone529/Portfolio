@@ -48,8 +48,9 @@ function alreadyDismissed(): boolean {
  * happen, and would teach the reader to dismiss a real request unread. It
  * states a fact and points at the page that carries the detail.
  *
- * Following that link counts as having seen it, so the notice does not follow
- * the reader onto the very page it sent them to.
+ * Only the button puts it away. Opening the informativa is not a dismissal:
+ * the strip is still there on the way back, because reading the page and
+ * acknowledging the notice are two different acts.
  *
  * @param lang the language the notice speaks
  * @returns the fixed strip, or nothing once it has been put away
@@ -124,7 +125,6 @@ export default function PrivacyNotice({ lang }: { lang: Lang }) {
         <div className="flex shrink-0 items-center gap-4">
           <Link
             href={privacyPath(lang)}
-            onClick={dismiss}
             className={
               "link-quiet flex min-h-11 items-center text-[0.9375rem] " +
               "underline underline-offset-4 md:min-h-0"
