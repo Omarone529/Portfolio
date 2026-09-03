@@ -736,15 +736,19 @@ layPaint(count: 420, rows: 0..<neckY, length: 0.30...0.85, half: 0.05...0.12)
 // The two treatments
 // ---------------------------------------------------------------------------
 
-/// The photographic treatment: the photograph's own colour, opened in contrast.
+/// The tone of the photographic treatment: the photograph's own colour, opened
+/// in contrast.
 ///
 /// The reference grades his photo half down in saturation as well. That is not
 /// carried over: the paint has already taken every shape on the other side, so
 /// colour is what is left to tell the two halves apart, and half of it thrown
 /// away leaves the photograph looking like a third treatment rather than the
-/// picture the paint was made from. Only the tone is touched, and only enough
-/// to lift the figure off white paper.
-func photographic(_ i: Int) -> Colour {
+/// picture the paint was made from. Only the tone is touched here, and only
+/// enough to lift the figure off white paper.
+///
+/// - Parameter i: pixel index into the source
+/// - Returns: the toned colour, before the balance
+func toned(_ i: Int) -> Colour {
     let r = Double(photo[i * 4 + 0]) / 255
     let g = Double(photo[i * 4 + 1]) / 255
     let b = Double(photo[i * 4 + 2]) / 255
@@ -756,6 +760,21 @@ func photographic(_ i: Int) -> Colour {
         min(1, max(0, v + b - lum))
     )
 }
+
+/// sRGB to light. Gains are ratios of light, and applied to the encoded value
+/// they darken the midtones of whichever channel they lift.
+func linearise(_ c: Double) -> Double {
+    c <= 0.04045 ? c / 12.92 : pow((c + 0.055) / 1.055, 2.4)
+}
+
+/// Light back to sRGB, clamped to the range a pixel can hold.
+func encode(_ c: Double) -> Double {
+    let v = min(1, max(0, c))
+    return v <= 0.0031308 ? v * 12.92 : 1.055 * pow(v, 1 / 2.4) - 0.055
+}
+
+/// Rec. 709 luminance of a linear colour.
+func light(_ c: Colour) -> Double { 0.2126 * c.r + 0.7152 * c.g + 0.0722 * c.b }
 
 /// The painted treatment: solid ink shapes over the paint.
 ///
@@ -800,6 +819,71 @@ func painted(_ i: Int, _ x: Int, _ y: Int) -> (Colour, Double) {
 // ---------------------------------------------------------------------------
 
 let originX = faceX - cropW / 2
+
+/// The gains that carry the brightest surface of the figure back to neutral.
+///
+/// The photograph was taken under a warm light. Its white t-shirt comes out
+/// yellow-green, and the skin comes out yellow with it, which reads as a
+/// complexion rather than as a lamp. Correcting it by hand means choosing what
+/// a face should look like; measuring it does not, so the reference is the
+/// picture's own white: the mean of the brightest hundredth of the figure
+/// inside the crop, taken after the tone so the balance sees what ships.
+///
+/// The gains are renormalised to leave that reference's luminance where it
+/// was. Without it the correction dims the picture as it cools it, and the
+/// figure stops standing off the paper, which is the one thing the tone above
+/// was for. Saturation is untouched here too: this moves where the colour is,
+/// not how much of it there is.
+let whiteGains: Colour = {
+    var samples: [(light: Double, colour: Colour)] = []
+    samples.reserveCapacity(cropW * cropH)
+
+    for y in 0..<cropH {
+        let sourceY = cropY + y
+        guard sourceY >= 0, sourceY < height else { continue }
+        for x in 0..<cropW {
+            let sourceX = originX + x
+            guard sourceX >= 0, sourceX < width else { continue }
+            let i = sourceY * width + sourceX
+            guard maskAt(i * 4) > 0.98 else { continue }
+
+            let c = toned(i)
+            let linear: Colour = (linearise(c.r), linearise(c.g), linearise(c.b))
+            samples.append((light(linear), linear))
+        }
+    }
+
+    guard !samples.isEmpty else { return (1, 1, 1) }
+    let sorted = samples.map(\.light).sorted()
+    let cut = sorted[Int(Double(sorted.count - 1) * 0.99)]
+
+    var sum: Colour = (0, 0, 0)
+    var n = 0.0
+    for (l, c) in samples where l >= cut {
+        sum = (sum.r + c.r, sum.g + c.g, sum.b + c.b)
+        n += 1
+    }
+    guard n > 0 else { return (1, 1, 1) }
+
+    let ref: Colour = (sum.r / n, sum.g / n, sum.b / n)
+    let flat = (ref.r + ref.g + ref.b) / 3
+    let raw: Colour = (flat / ref.r, flat / ref.g, flat / ref.b)
+    let keep = light(ref) / light((ref.r * raw.r, ref.g * raw.g, ref.b * raw.b))
+    return (raw.r * keep, raw.g * keep, raw.b * keep)
+}()
+
+/// The photographic treatment: the tone above, balanced against that white.
+///
+/// - Parameter i: pixel index into the source
+/// - Returns: the colour to lay down
+func photographic(_ i: Int) -> Colour {
+    let c = toned(i)
+    return (
+        encode(linearise(c.r) * whiteGains.r),
+        encode(linearise(c.g) * whiteGains.g),
+        encode(linearise(c.b) * whiteGains.b)
+    )
+}
 
 enum Treatment { case photo, paint }
 
