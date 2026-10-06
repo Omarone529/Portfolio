@@ -1,5 +1,6 @@
 import { SECTION_ID, UI, projectPath, type Lang } from "@/content/site";
-import { type Project } from "@/content/projects";
+import { liveHost, type Project } from "@/content/projects";
+import { ArrowRight } from "../Icons";
 import { PageFrame } from "../chrome/RootShell";
 import ProjectLogo from "../project/ProjectLogo";
 import ProjectShots from "../project/ProjectShots";
@@ -56,6 +57,22 @@ export default function ProjectPage({
                 >
                   {project.lead[lang]}
                 </p>
+                {project.url && (
+                  <p className="mt-6">
+                    <a
+                      href={project.url}
+                      target="_blank"
+                      referrerPolicy="no-referrer"
+                      className={
+                        "link-quiet inline-flex min-h-11 items-center gap-2 " +
+                        "text-[1.125rem] underline underline-offset-4 md:min-h-0"
+                      }
+                    >
+                      {liveHost(project)}
+                      <ArrowRight className="h-4 w-4 -rotate-45" />
+                    </a>
+                  </p>
+                )}
               </div>
 
               <Reveal>

@@ -73,6 +73,12 @@ export interface Project {
    * the section exists on the case study only where the pictures do.
    */
   shots?: Shot[];
+  /**
+   * Where the project runs in public, for one that does. Left out otherwise:
+   * a desktop app or a site that never went live gets no link rather than a
+   * dead one.
+   */
+  url?: string;
   stack: string[];
   meta: {
     title: L10n;
@@ -129,6 +135,7 @@ export const PROJECTS: Project[] = [
           "pages that turn.",
       ],
     },
+    url: "https://joesarchiolla.com/",
     stack: ["React", "Vite", "Tailwind CSS", "Three.js"],
     meta: {
       title: {
@@ -839,6 +846,19 @@ export function projectCard(
     height: SITE.ogImageSize.height,
     alt: `${projectTitle(project)} · ${project.type[lang]}`,
   };
+}
+
+/**
+ * The domain a project's live site is read by, as the text of the link to it.
+ *
+ * The address is its own label: it is the same in both languages, says where
+ * the click goes before it is made, and adds no line of copy to write.
+ *
+ * @param project the project whose site is linked
+ * @returns the host without scheme or slash, or undefined when it is not online
+ */
+export function liveHost(project: Project): string | undefined {
+  return project.url === undefined ? undefined : new URL(project.url).host;
 }
 
 /** All static params Next needs to pre-render the case studies. */

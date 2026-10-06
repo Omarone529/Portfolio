@@ -5,6 +5,7 @@ import { LANGS, SITE, projectPath, type Lang } from "./site";
 import {
   PROJECTS,
   getProject,
+  liveHost,
   projectCard,
   projectSlugs,
   projectTitle,
@@ -128,6 +129,30 @@ describe("project screenshots", () => {
         expect(shot.alt[lang], slug).not.toBe(shot.caption[lang]);
       }
     }
+  });
+});
+
+describe("live site", () => {
+  /**
+   * The link leaves this site, so it has to be a whole address on https: a
+   * relative path would resolve against omarbayadi.com, and http would land a
+   * reader on a warning before the work.
+   */
+  it("is an absolute https address where a project has one", () => {
+    for (const project of PROJECTS) {
+      if (project.url === undefined) continue;
+      expect(project.url, project.slug).toMatch(/^https:\/\/[a-z0-9.-]+\/?$/);
+    }
+  });
+
+  /** The link reads as the bare domain, the way it would be typed. */
+  it("names the site by its host", () => {
+    expect(liveHost(getProject("joedesign")!)).toBe("joesarchiolla.com");
+  });
+
+  /** No address, no link: the case study renders without one. */
+  it("has no host for a project that is not online", () => {
+    expect(liveHost({ ...PROJECTS[0], url: undefined })).toBeUndefined();
   });
 });
 
