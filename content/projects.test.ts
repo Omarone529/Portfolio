@@ -26,7 +26,6 @@ function localizedStrings(project: Project, lang: Lang): string[] {
     project.core[lang],
     project.lead[lang],
     ...project.solution[lang],
-    ...(project.shots ?? []).flatMap((shot) => [shot.alt[lang], shot.caption[lang]]),
     project.meta.title[lang],
     project.meta.description[lang],
     project.meta.ogDescription[lang],
@@ -123,51 +122,6 @@ describe("project demos", () => {
     for (const [slug, demo] of demos) {
       for (const lang of LANGS) {
         expect(demo.label[lang].trim(), `${slug} in ${lang}`).not.toBe("");
-      }
-    }
-  });
-});
-
-describe("project screenshots", () => {
-  const shots = PROJECTS.flatMap((project) =>
-    (project.shots ?? []).map((shot) => [project.slug, shot] as const),
-  );
-
-  /** Every image on this site is a webp served from the same origin. */
-  it("serves every shot as a webp from public/assets", () => {
-    for (const [slug, shot] of shots) {
-      expect(shot.webp, slug).toMatch(/^\/assets\/[a-z0-9-]+\.webp$/);
-    }
-  });
-
-  /**
-   * The pixel size is written into the markup so the browser can hold the
-   * space before the image arrives: a shot is a wide block low on the page,
-   * and without it every paragraph under it moves when it loads.
-   */
-  it("declares the pixel size of every shot", () => {
-    for (const [slug, shot] of shots) {
-      expect(shot.width, slug).toBeGreaterThan(0);
-      expect(shot.height, slug).toBeGreaterThan(0);
-    }
-  });
-
-  /** Two images of the same screen would be a duplicate request, not a gallery. */
-  it("never repeats the same file within a project", () => {
-    for (const project of PROJECTS) {
-      const paths = (project.shots ?? []).map((shot) => shot.webp);
-      expect(new Set(paths).size, project.slug).toBe(paths.length);
-    }
-  });
-
-  /**
-   * A caption sits under the image and the alt replaces it, so the two say
-   * different things: read together they would be the same line twice.
-   */
-  it("never repeats the caption as the alt text", () => {
-    for (const [slug, shot] of shots) {
-      for (const lang of LANGS) {
-        expect(shot.alt[lang], slug).not.toBe(shot.caption[lang]);
       }
     }
   });

@@ -117,7 +117,6 @@ export const UI = {
   project: {
     solution: { it: "Il progetto", en: "The project" },
     stack: { it: "Stack tecnologico", en: "Tech stack" },
-    shots: { it: "Schermate", en: "Screens" },
   },
   a11y: {
     backToTop: { it: "Torna su", en: "Back to top" },

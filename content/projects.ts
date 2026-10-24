@@ -1,22 +1,6 @@
 import { SITE, type L10n, type Lang } from "./site";
 
 /**
- * A screenshot of the thing running, shown at the foot of a case study.
- *
- * `alt` and `caption` are both written because they are read by different
- * people: the caption names the screen in one line under the image, the alt
- * says what is on it for someone who never sees it. Repeating one as the other
- * would give a screen reader the same sentence twice.
- */
-export interface Shot {
-  webp: string;
-  width: number;
-  height: number;
-  alt: L10n;
-  caption: L10n;
-}
-
-/**
  * A screen recording of the thing running, shown in place of the logo in the
  * case study header. The home card keeps the logo: a grid of five videos
  * playing at once would be read as none of them.
@@ -84,11 +68,6 @@ export interface Project {
   lead: L10n;
   /** What the project does, one paragraph per entry. */
   solution: L10n<string[]>;
-  /**
-   * Screenshots of the running product. Left out by a project that has none:
-   * the section exists on the case study only where the pictures do.
-   */
-  shots?: Shot[];
   /** A recording of the running product. Left out by a project that has none. */
   demo?: Demo;
   /**
@@ -266,92 +245,6 @@ export const PROJECTS: Project[] = [
           "been left pending.",
       ],
     },
-    shots: [
-      {
-        webp: "/assets/synapsi-dashboard.webp",
-        width: 1600,
-        height: 547,
-        alt: {
-          it:
-            "La dashboard di Synapsi: le fatture scadute in cima, e sotto " +
-            "l'incassato del mese, il credito ancora aperto e le ore della " +
-            "settimana.",
-          en:
-            "Synapsi's dashboard: overdue invoices at the top, and below them " +
-            "the month's takings, the credit still open and the week's hours.",
-        },
-        caption: {
-          it: "La dashboard, con le fatture in sospeso e i totali del mese.",
-          en: "The dashboard, with the pending invoices and the month's totals.",
-        },
-      },
-      {
-        webp: "/assets/synapsi-agenda.webp",
-        width: 1600,
-        height: 839,
-        alt: {
-          it:
-            "L'agenda di Synapsi, divisa in fatture da incassare, progetti in " +
-            "scadenza, preventivi in attesa di risposta, preventivi accettati " +
-            "da fatturare e progetti fermi.",
-          en:
-            "Synapsi's agenda, split into invoices to collect, projects coming " +
-            "due, quotes awaiting an answer, accepted quotes still to invoice " +
-            "and stalled projects.",
-        },
-        caption: {
-          it:
-            "L'agenda: fatture da incassare, preventivi in attesa, progetti " +
-            "fermi.",
-          en:
-            "The agenda: invoices to collect, quotes awaiting an answer, " +
-            "stalled projects.",
-        },
-      },
-      {
-        webp: "/assets/synapsi-bilancio.webp",
-        width: 1600,
-        height: 594,
-        alt: {
-          it:
-            "Il bilancio di Synapsi: entrate, uscite, saldo e credito da " +
-            "incassare, sopra la verifica dei conti, che elenca le fatture " +
-            "emesse e non incassate, i preventivi mai fatturati e gli incassi " +
-            "non collegati a nessuna fattura.",
-          en:
-            "Synapsi's books: income, expenses, balance and outstanding " +
-            "credit, above the reconciliation, listing invoices issued but not " +
-            "collected, quotes never invoiced and payments tied to no invoice.",
-        },
-        caption: {
-          it: "Il bilancio, con la verifica dei conti.",
-          en: "The books, with the reconciliation.",
-        },
-      },
-      {
-        webp: "/assets/synapsi-bilancio-grafici.webp",
-        width: 1600,
-        height: 714,
-        alt: {
-          it:
-            "I grafici del bilancio di Synapsi: le spese per categoria in un " +
-            "anello, entrate e uscite di due anni a confronto, i crediti " +
-            "aperti cliente per cliente e le ore del mese divise per progetto.",
-          en:
-            "The charts in Synapsi's books: expenses by category in a ring, " +
-            "two years of income and expenses side by side, open credit client " +
-            "by client and the month's hours split by project.",
-        },
-        caption: {
-          it:
-            "I grafici del bilancio: spese per categoria, anni a confronto, " +
-            "crediti e ore.",
-          en:
-            "The charts in the books: expenses by category, years side by " +
-            "side, credit and hours.",
-        },
-      },
-    ],
     demo: {
       mp4: "/assets/synapsi-demo.mp4",
       poster: "/assets/synapsi-demo.webp",
@@ -547,64 +440,6 @@ export const PROJECTS: Project[] = [
           "the React frontend shows the routes on the map.",
       ],
     },
-    shots: [
-      {
-        webp: "/assets/apexgps-hero.webp",
-        width: 1600,
-        height: 770,
-        alt: {
-          it:
-            "L'apertura del sito ApexGPS: una moto ripresa dall'alto su una " +
-            "strada di montagna, e sopra il titolo “Scopri percorsi " +
-            "panoramici” con i tasti per pianificare un percorso.",
-          en:
-            "ApexGPS's opening screen: a motorbike filmed from above on a " +
-            "mountain road, with the heading “Scopri percorsi " +
-            "panoramici” over it and the buttons to plan a route.",
-        },
-        caption: {
-          it: "La prima schermata del sito.",
-          en: "The site's opening screen.",
-        },
-      },
-      {
-        webp: "/assets/apexgps-mappa.webp",
-        width: 1600,
-        height: 686,
-        alt: {
-          it:
-            "La mappa di ApexGPS con un percorso tracciato in arancione da " +
-            "Terni verso Colle Mancino, e le puntine dei luoghi che incontra " +
-            "lungo la strada.",
-          en:
-            "ApexGPS's map with a route traced in orange from Terni towards " +
-            "Colle Mancino, and pins for the places it passes along the way.",
-        },
-        caption: {
-          it: "Il planner, con il percorso calcolato sulla mappa.",
-          en: "The planner, with the route plotted on the map.",
-        },
-      },
-      {
-        webp: "/assets/apexgps-mobile.webp",
-        width: 1600,
-        height: 652,
-        alt: {
-          it:
-            "La sezione del sito che mostra un telefono con i percorsi salvati " +
-            "dagli utenti, ognuno con la sua anteprima sulla mappa, la data e " +
-            "i due estremi del giro.",
-          en:
-            "The part of the site showing a phone with the routes users have " +
-            "saved, each with its own preview on the map, the date and the two " +
-            "ends of the ride.",
-        },
-        caption: {
-          it: "La sezione dei percorsi salvati, sul telefono.",
-          en: "The saved routes section, on the phone.",
-        },
-      },
-    ],
     stack: [
       "Django",
       "Django REST framework",
@@ -697,67 +532,6 @@ export const PROJECTS: Project[] = [
           "and a few examples of the finished parts.",
       ],
     },
-    shots: [
-      {
-        webp: "/assets/mbm-meccanica-hero.webp",
-        width: 1600,
-        height: 833,
-        alt: {
-          it:
-            "L'apertura del sito MBM Meccanica: il reparto macchine ripreso " +
-            "dall'interno, e sopra il titolo “Precisione che si vede” con i " +
-            "tasti per i servizi e per il preventivo.",
-          en:
-            "MBM Meccanica's opening screen: the machine shop filmed from " +
-            "inside, with the heading “Precisione che si vede” over it and " +
-            "the buttons for the services and for a quote.",
-        },
-        caption: {
-          it: "La prima schermata del sito.",
-          en: "The site's opening screen.",
-        },
-      },
-      {
-        webp: "/assets/mbm-meccanica-tornitura.webp",
-        width: 1600,
-        height: 840,
-        alt: {
-          it:
-            "La scheda del tornio DMG Mori NLX 2000Y/500 nel parco macchine, " +
-            "sopra la fotografia dell'utensile al lavoro, con diametro e " +
-            "lunghezza massimi, capacità barra, corsa Y, giri del mandrino e " +
-            "posizioni della torretta.",
-          en:
-            "The card for the DMG Mori NLX 2000Y/500 lathe, over a " +
-            "photograph of the tool at work, with maximum " +
-            "diameter and length, bar capacity, Y travel, spindle speed and " +
-            "turret positions.",
-        },
-        caption: {
-          it: "Il parco macchine: la scheda del tornio.",
-          en: "The machines: the lathe's card.",
-        },
-      },
-      {
-        webp: "/assets/mbm-meccanica-fresatura.webp",
-        width: 1600,
-        height: 837,
-        alt: {
-          it:
-            "La scheda della fresatrice Sigma Flexy, con le lunghezze massime " +
-            "in X e in Y, le corse dei tre assi e l'asse C a 360 gradi " +
-            "continui.",
-          en:
-            "The card for the Sigma Flexy milling machine, with maximum " +
-            "lengths in X and Y, the travel of the three axes and a C axis at " +
-            "a continuous 360 degrees.",
-        },
-        caption: {
-          it: "Il parco macchine: la scheda della fresatrice a 5 assi.",
-          en: "The machines: the 5 axis milling machine's card.",
-        },
-      },
-    ],
     demo: {
       mp4: "/assets/mbm-meccanica-demo.mp4",
       poster: "/assets/mbm-meccanica-demo.webp",

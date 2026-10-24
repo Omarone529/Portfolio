@@ -4,7 +4,6 @@ import { ArrowRight } from "../Icons";
 import { PageFrame } from "../chrome/RootShell";
 import ProjectDemo from "../project/ProjectDemo";
 import ProjectLogo from "../project/ProjectLogo";
-import ProjectShots from "../project/ProjectShots";
 import Reveal from "../Reveal";
 import JsonLd, { breadcrumbSchema, projectSchema } from "../JsonLd";
 
@@ -14,8 +13,7 @@ import JsonLd, { breadcrumbSchema, projectSchema } from "../JsonLd";
  * The header pairs the title with the same tinted logo frame the home grid
  * shows, so arriving from a card lands on the object you clicked, or with the
  * recording of the project running, in that same frame, where there is one.
- * Under it is
- * the prose with the stack, and then the screens, for a project that has them.
+ * Under it is the prose with the stack.
  */
 export default function ProjectPage({
   lang,
@@ -123,19 +121,6 @@ export default function ProjectPage({
             </div>
           </div>
         </section>
-
-        {/* Last on the page, on the white ground, so the pictures are read
-            against the same white the cards around them are cut from. */}
-        {project.shots && (
-          <section className="section">
-            <div className="row">
-              <Reveal>
-                <h2 className="eyebrow mb-5">{UI.project.shots[lang]}</h2>
-              </Reveal>
-              <ProjectShots shots={project.shots} lang={lang} />
-            </div>
-          </section>
-        )}
       </article>
     </PageFrame>
   );
