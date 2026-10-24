@@ -2,6 +2,7 @@ import { SECTION_ID, UI, projectPath, type Lang } from "@/content/site";
 import { liveHost, type Project } from "@/content/projects";
 import { ArrowRight } from "../Icons";
 import { PageFrame } from "../chrome/RootShell";
+import ProjectDemo from "../project/ProjectDemo";
 import ProjectLogo from "../project/ProjectLogo";
 import ProjectShots from "../project/ProjectShots";
 import Reveal from "../Reveal";
@@ -11,7 +12,9 @@ import JsonLd, { breadcrumbSchema, projectSchema } from "../JsonLd";
  * A case study: what the project is, what it does, what it is built with.
  *
  * The header pairs the title with the same tinted logo frame the home grid
- * shows, so arriving from a card lands on the object you clicked. Under it is
+ * shows, so arriving from a card lands on the object you clicked, or with the
+ * recording of the project running, in that same frame, where there is one.
+ * Under it is
  * the prose with the stack, and then the screens, for a project that has them.
  */
 export default function ProjectPage({
@@ -82,7 +85,11 @@ export default function ProjectPage({
                     "shadow-[var(--shadow-card)]"
                   }
                 >
-                  <ProjectLogo project={project} eager />
+                  {project.demo ? (
+                    <ProjectDemo demo={project.demo} lang={lang} />
+                  ) : (
+                    <ProjectLogo project={project} eager />
+                  )}
                 </div>
               </Reveal>
             </div>

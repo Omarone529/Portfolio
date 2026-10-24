@@ -16,6 +16,22 @@ export interface Shot {
   caption: L10n;
 }
 
+/**
+ * A screen recording of the thing running, shown in place of the logo in the
+ * case study header. The home card keeps the logo: a grid of five videos
+ * playing at once would be read as none of them.
+ *
+ * The poster is the recording's first frame, so the frame does not jump when
+ * playback starts. It is also all a reader who asked for reduced motion ever
+ * sees: the recording has no controls, so for them it stays a picture.
+ */
+export interface Demo {
+  mp4: string;
+  poster: string;
+  /** What the recording shows, for someone who never sees it. */
+  label: L10n;
+}
+
 export interface Project {
   slug: string;
   /**
@@ -73,6 +89,8 @@ export interface Project {
    * the section exists on the case study only where the pictures do.
    */
   shots?: Shot[];
+  /** A recording of the running product. Left out by a project that has none. */
+  demo?: Demo;
   /**
    * Where the project runs in public, for one that does. Left out otherwise:
    * a desktop app or a site that never went live gets no link rather than a
@@ -134,6 +152,16 @@ export const PROJECTS: Project[] = [
         "On the “About” page there is also the sketchbook, in 3D, with " +
           "pages that turn.",
       ],
+    },
+    demo: {
+      mp4: "/assets/joedesign-demo.mp4",
+      poster: "/assets/joedesign-demo.webp",
+      label: {
+        it: "Registrazione del sito: la home, l'archivio e la pagina di un progetto.",
+        en:
+          "Screen recording of the site: the home page, the archive and a " +
+          "project page.",
+      },
     },
     url: "https://joesarchiolla.com/",
     stack: ["React", "Vite", "Tailwind CSS", "Three.js"],
@@ -324,6 +352,18 @@ export const PROJECTS: Project[] = [
         },
       },
     ],
+    demo: {
+      mp4: "/assets/synapsi-demo.mp4",
+      poster: "/assets/synapsi-demo.webp",
+      label: {
+        it:
+          "Registrazione dell'app: l'accesso, il bilancio, i progetti e le " +
+          "impostazioni.",
+        en:
+          "Screen recording of the app: signing in, the books, the projects " +
+          "and the settings.",
+      },
+    },
     stack: [
       "Python",
       "FastAPI",
@@ -718,6 +758,18 @@ export const PROJECTS: Project[] = [
         },
       },
     ],
+    demo: {
+      mp4: "/assets/mbm-meccanica-demo.mp4",
+      poster: "/assets/mbm-meccanica-demo.webp",
+      label: {
+        it:
+          "Registrazione del sito: la home, i settori, il parco macchine e " +
+          "i contatti.",
+        en:
+          "Screen recording of the site: the home page, the sectors, the " +
+          "machines and the contacts.",
+      },
+    },
     stack: ["React", "Tailwind CSS"],
     meta: {
       title: {

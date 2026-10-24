@@ -87,6 +87,47 @@ describe("project lookup", () => {
   });
 });
 
+describe("project demos", () => {
+  const demos = PROJECTS.flatMap((project) =>
+    project.demo ? [[project.slug, project.demo] as const] : [],
+  );
+
+  /** The case studies the recordings were made for carry one. */
+  it.each(["joedesign", "synapsi", "mbm-meccanica"])("gives %s a demo", (slug) => {
+    expect(getProject(slug)?.demo).toBeDefined();
+  });
+
+  /**
+   * The video is an mp4 and its poster a webp, both from the same origin: the
+   * poster is what stands in the frame before the first frame decodes, and
+   * what stays there for a reader who asked for reduced motion.
+   */
+  it("serves every demo as an mp4 with a webp poster from public/assets", () => {
+    for (const [slug, demo] of demos) {
+      expect(demo.mp4, slug).toMatch(/^\/assets\/[a-z0-9-]+\.mp4$/);
+      expect(demo.poster, slug).toMatch(/^\/assets\/[a-z0-9-]+\.webp$/);
+    }
+  });
+
+  /** A path that names nothing would leave an empty frame in the header. */
+  it("names files that are actually in public/assets", () => {
+    for (const [, demo] of demos) {
+      for (const path of [demo.mp4, demo.poster]) {
+        expect(existsSync(join(process.cwd(), "public", path)), path).toBe(true);
+      }
+    }
+  });
+
+  /** The alt of the logo is the title; a recording needs to say what it shows. */
+  it("describes every demo in both languages", () => {
+    for (const [slug, demo] of demos) {
+      for (const lang of LANGS) {
+        expect(demo.label[lang].trim(), `${slug} in ${lang}`).not.toBe("");
+      }
+    }
+  });
+});
+
 describe("project screenshots", () => {
   const shots = PROJECTS.flatMap((project) =>
     (project.shots ?? []).map((shot) => [project.slug, shot] as const),
