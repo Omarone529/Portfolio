@@ -45,7 +45,7 @@ export interface PrivacySection {
  * element carries it as it is.
  */
 export const PRIVACY = {
-  updated: "2026-09-02",
+  updated: "2026-10-24",
 
   meta: {
     title: {
@@ -186,8 +186,8 @@ export const PRIVACY = {
         it: [
           "Questo sito non utilizza cookie, di nessun tipo, e non ospita " +
             "strumenti di statistica, di analisi o di tracciamento. I " +
-            "caratteri tipografici e le immagini sono serviti dallo stesso " +
-            "dominio delle pagine, quindi la semplice consultazione non " +
+            "caratteri tipografici, le immagini e i video sono serviti dallo " +
+            "stesso dominio delle pagine, quindi la semplice consultazione non " +
             "comporta richieste verso server di terze parti.",
           "L'unico dato che il sito scrive sul dispositivo è una voce nella " +
             "memoria locale del browser, che registra la chiusura dell'avviso " +
@@ -200,9 +200,9 @@ export const PRIVACY = {
         ],
         en: [
           "This site uses no cookies of any kind, and hosts no statistics, " +
-            "analytics or tracking tool. Fonts and images are served from the " +
-            "same domain as the pages, so simply reading the site produces no " +
-            "request to any third party server.",
+            "analytics or tracking tool. Fonts, images and videos are served " +
+            "from the same domain as the pages, so simply reading the site " +
+            "produces no request to any third party server.",
           "The only thing the site writes to the device is one entry in the " +
             "browser's local storage, recording that the notice shown on " +
             "arrival has been closed so that it does not appear again on " +

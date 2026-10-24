@@ -294,34 +294,6 @@
   }
 
   /* --------------------------------------------------------------------
-     Screenshot: the same white card the logo sits in on the case study,
-     around a picture that keeps its own proportions instead of a 16:9 frame.
-     -------------------------------------------------------------------- */
-  .shot {
-    background: var(--color-card);
-    border-radius: var(--radius-card);
-    box-shadow: var(--shadow-card);
-    padding: 0.75rem;
-  }
-
-  /* The hairline is not decoration. A screenshot of an application carries its
-     own near white ground, which meets the white of the card at an edge no
-     shadow falls on, so without it the picture has no top and no right side. */
-  .shot img {
-    display: block;
-    width: 100%;
-    height: auto;
-    border-radius: var(--radius-media);
-    border: 1px solid var(--color-rule);
-  }
-
-  .shot figcaption {
-    padding: 0.75rem 0.5rem 0.25rem;
-    font-size: 0.9375rem;
-    color: var(--color-muted);
-  }
-
-  /* --------------------------------------------------------------------
      Reveal on scroll
      -------------------------------------------------------------------- */
   .reveal {
