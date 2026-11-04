@@ -6,6 +6,9 @@ import { SEO, SITE } from '@/content'
 import Providers from '@/providers/Providers'
 import { geist, inter } from './fonts'
 
+const NO_SCRIPT_CSS = `.page *, .footer * { opacity: 1 !important; transform: none !important; clip-path: none !important; }
+.edge { display: none !important; }`
+
 export const metadata = {
   metadataBase: new URL(`${SITE.url}/`),
   title: SEO.title,
@@ -55,6 +58,12 @@ export const viewport = {
 export default function RootLayout({ children }) {
   return (
     <html lang={SITE.lang} className={`${geist.variable} ${inter.variable}`}>
+      <head>
+        {/* senza JavaScript le animazioni non partono: tutto ciò che entra animato resta visibile */}
+        <noscript>
+          <style>{NO_SCRIPT_CSS}</style>
+        </noscript>
+      </head>
       <body>
         <Providers>{children}</Providers>
       </body>
