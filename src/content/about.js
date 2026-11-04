@@ -18,7 +18,7 @@ export const ABOUT = {
   results: {
     label: 'Risultati',
     stats: [
-      { label: 'Anni di esperienza', value: 5, suffix: '+' },
+      { label: 'Anni di esperienza', value: 2 },
       { label: 'Tecnologie usate', value: 10, suffix: '+' },
     ],
     cta: { label: 'Vedi i progetti', href: anchor(SECTION.work) },
