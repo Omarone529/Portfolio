@@ -1,5 +1,5 @@
 import { PROJECTS } from './projects'
-import { SECTION, STACK, anchor } from './site'
+import { SECTION, anchor } from './site'
 
 export const ABOUT = {
   label: 'About',
@@ -18,10 +18,10 @@ export const ABOUT = {
   ],
   results: {
     label: 'Risultati',
-    // contati dai dati, così restano veri quando si aggiunge un progetto o una tecnologia
     stats: [
+      // contati dai dati, così restano veri quando si aggiunge un progetto
       { label: 'Progetti realizzati', value: PROJECTS.length },
-      { label: 'Tecnologie usate', value: STACK.length },
+      { label: 'Tecnologie usate', value: 10, suffix: '+' },
     ],
     cta: { label: 'Vedi i progetti', href: anchor(SECTION.work) },
   },
