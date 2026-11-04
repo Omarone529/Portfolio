@@ -1,0 +1,146 @@
+/*
+ * Ordine dei livelli: la pagina (main, z 1) copre il footer fisso (z 0); il
+ * triangolo del bordo (z 2) sta sopra a entrambi. Lo slot non crea un proprio
+ * contesto di livelli, così questi valori valgono per tutta la pagina.
+ */
+.footer-slot {
+  position: relative;
+}
+
+.footer-slot > .edge {
+  z-index: 2;
+}
+
+.footer {
+  position: relative;
+  overflow: hidden;
+  background: var(--footer);
+}
+
+.footer--reveal {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+}
+
+.footer__inner {
+  position: relative;
+  z-index: 1;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 120px var(--gutter) 24px;
+}
+
+.footer__rule {
+  display: block;
+  height: 1px;
+  background: var(--line);
+}
+
+.footer__grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 48px;
+  padding: 72px 0;
+}
+
+.footer__title {
+  font-size: clamp(30px, 4.3vw, 54px);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+}
+
+.footer__mail {
+  display: block;
+  margin-bottom: 56px;
+  font-size: clamp(22px, 3.4vw, 54px);
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+}
+
+.footer__mail .roll {
+  height: 1.05em;
+  line-height: 1.05;
+}
+
+.footer__nav {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer__link {
+  position: relative;
+  display: block;
+  padding: 12px 0 14px;
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.65);
+  transition: color 0.4s var(--ease);
+}
+
+.footer__link:first-child {
+  padding-top: 0;
+  color: var(--fg);
+}
+
+.footer__link:hover {
+  color: var(--fg);
+}
+
+.footer__bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+  padding-top: 64px;
+}
+
+.footer__name {
+  margin-left: 0.02em;
+  font-family: var(--font-display);
+  font-size: clamp(90px, 19vw, 280px);
+  font-weight: 900;
+  line-height: 0.74;
+  letter-spacing: -0.06em;
+}
+
+.footer__legal {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 17px;
+  text-align: right;
+}
+
+.footer__glow {
+  position: absolute;
+  left: 50%;
+  bottom: -55%;
+  width: 140%;
+  height: 90%;
+  transform: translateX(-50%);
+  background: radial-gradient(closest-side, var(--glow), transparent);
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+@media (max-width: 860px) {
+  .footer__inner {
+    padding-top: 72px;
+  }
+  .footer__grid {
+    grid-template-columns: 1fr;
+  }
+  .footer__mail {
+    font-size: 5.4vw;
+  }
+  .footer__bottom {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .footer__legal {
+    text-align: left;
+  }
+}
