@@ -1,7 +1,8 @@
 import { SECTION, anchor } from './site'
 
 /**
- * I case study. Ogni progetto ha `logo` su un fondo `tint` (scalato di
+ * I case study. Ogni progetto ha una `description` di una frase (mostrata nella
+ * vista "Guarda tutti" e nei dati strutturati), `logo` su un fondo `tint` (scalato di
  * `logoScale`), che è ciò che mostra la pila. Chi ha una demo registrata ha
  * anche `video` e `poster`, mostrati nella vista "Guarda tutti".
  * Un `href` esterno apre il sito pubblicato in una nuova scheda.
@@ -10,6 +11,7 @@ export const PROJECTS = [
   {
     title: 'JoeDesign',
     tag: 'Sito portfolio',
+    description: 'Sito portfolio per un product designer, con archivio dei lavori e una pagina per ogni progetto.',
     href: 'https://joesarchiolla.com/',
     logo: '/projects/joedesign-logo.webp',
     tint: '#E9E7E3',
@@ -20,6 +22,7 @@ export const PROJECTS = [
   {
     title: 'Synapsi',
     tag: 'App desktop',
+    description: 'Gestionale per freelance con assistente AI su Telegram, dalla fatturazione elettronica al bilancio.',
     logo: '/projects/synapsi-logo.webp',
     tint: '#FBF0EA',
     logoScale: 0.45,
@@ -29,6 +32,7 @@ export const PROJECTS = [
   {
     title: 'MBM Meccanica',
     tag: 'Sito vetrina',
+    description: "Sito vetrina per un'officina metalmeccanica: servizi, lavorazioni e parco macchine.",
     logo: '/projects/mbm-meccanica-logo.webp',
     tint: '#ECEEF8',
     video: '/projects/mbm-meccanica-demo.mp4',
@@ -37,6 +41,7 @@ export const PROJECTS = [
   {
     title: 'ApexGPS',
     tag: 'Web app',
+    description: 'Pianificatore di percorsi panoramici per motociclisti, con mappa e tracciati sincronizzati.',
     logo: '/projects/apexgps-logo.webp',
     tint: '#EAF1F5',
   },
