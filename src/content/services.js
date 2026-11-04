@@ -1,5 +1,3 @@
-import { SECTION, anchor } from './site'
-
 export const SERVICES = [
   {
     title: 'Siti web creativi',
@@ -30,5 +28,4 @@ export const SERVICES_INTRO = {
   /** Quante parole finali della frase restano più tenui. */
   mutedTail: 4,
   image: { src: '/images/hero-sm.webp', alt: '' },
-  cta: { label: 'Parliamone', href: anchor(SECTION.contact) },
 }

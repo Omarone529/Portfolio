@@ -1,6 +1,6 @@
 import { SECTION, SERVICES, SERVICES_INTRO } from '@/content'
 import { Container, Section } from '@/components/layout/Section'
-import { ArrowLink, RevealImage, ScrollWords, SectionHead } from '@/components/primitives'
+import { RevealImage, ScrollWords, SectionHead } from '@/components/primitives'
 import ServiceRow from './ServiceRow'
 import './Services.css'
 
@@ -16,7 +16,6 @@ export default function Services() {
           <RevealImage className="services__intro-img" src={intro.image.src} alt={intro.image.alt} />
           <ScrollWords className="statement services__statement" text={intro.statement} mutedTail={intro.mutedTail} />
         </div>
-        <ArrowLink href={intro.cta.href}>{intro.cta.label}</ArrowLink>
 
         <ol className="services__list">
           {SERVICES.map((service, i) => (
