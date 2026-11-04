@@ -55,9 +55,7 @@
 .hero__bottom {
   position: relative;
   display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 24px;
+  justify-content: flex-end;
 }
 
 .hero__services {

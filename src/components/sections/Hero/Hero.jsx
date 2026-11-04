@@ -56,7 +56,6 @@ export default function Hero() {
       </div>
 
       <div className="hero__bottom">
-        <MaskLines as="p" play={ready} delay={1} lines={[SITE.year]} />
         <MaskLines
           as="div"
           className="hero__services"
