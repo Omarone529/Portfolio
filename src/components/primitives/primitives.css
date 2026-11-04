@@ -11,6 +11,38 @@
   display: block;
 }
 
+/* ---------- ingressi al caricamento, solo CSS (IntroLines e .intro-fade) ----------
+ * Partono al primo disegno, senza aspettare JavaScript. `--delay` sfalsa gli elementi.
+ */
+
+.intro-rise {
+  animation: intro-rise 1s var(--ease) var(--delay, 0s) both;
+}
+
+.intro-fade {
+  animation: intro-fade 1s var(--ease) var(--delay, 0s) both;
+}
+
+@keyframes intro-rise {
+  from {
+    transform: translateY(110%);
+  }
+}
+
+@keyframes intro-fade {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro-rise,
+  .intro-fade {
+    animation: none;
+  }
+}
+
 /* ---------- hover che si completano ----------
  * Partono con .is-hovering (useHoverPlay) e arrivano sempre in fondo. L'ultimo
  * fotogramma coincide visivamente con il primo, quindi quando la classe viene
