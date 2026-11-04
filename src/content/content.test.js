@@ -1,7 +1,7 @@
 import { existsSync } from 'node:fs'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
-import { NAV, PROJECTS, SECTION, SEO, SERVICES, WORK } from '@/content'
+import { COOKIES, FOOTER, NAV, PRIVACY, PROJECTS, SECTION, SEO, SERVICES, SITE, WORK } from '@/content'
 
 const publicFile = (path) => existsSync(join(process.cwd(), 'public', path))
 
@@ -54,5 +54,26 @@ describe('search copy', () => {
   it('fits the lengths search results show without cutting', () => {
     expect(SEO.title.length).toBeLessThanOrEqual(60)
     expect(SEO.description.length).toBeLessThanOrEqual(160)
+  })
+})
+
+describe('legal documents', () => {
+  it.each([PRIVACY, COOKIES])('$title has a path, an ISO date and complete sections', (doc) => {
+    expect(doc.path).toMatch(/^\/[a-z-]+\/$/)
+    expect(Number.isNaN(Date.parse(doc.updated))).toBe(false)
+    for (const section of doc.sections) {
+      expect(section.heading).toBeTruthy()
+      expect(section.body.length).toBeGreaterThan(0)
+    }
+  })
+
+  it('give a way to reach the controller', () => {
+    expect(JSON.stringify(PRIVACY)).toContain(`mailto:${SITE.email}`)
+    expect(JSON.stringify(COOKIES)).toContain(`mailto:${SITE.email}`)
+  })
+
+  it('are linked from the footer', () => {
+    const hrefs = FOOTER.links.map((l) => l.href)
+    expect(hrefs).toEqual(expect.arrayContaining([PRIVACY.path, COOKIES.path]))
   })
 })
