@@ -57,7 +57,8 @@
 # ---------------------------------------------------------------------------
 # Quelle pagine sono indicizzate: un 301 verso la pagina che oggi contiene lo
 # stesso contenuto conserva il posizionamento che hanno guadagnato. Le pagine
-# dei singoli progetti ora sono la sezione Case study della home.
+# dei singoli progetti ora sono la sezione Case study della home; /privacy/ resta
+# dov'era.
 [[redirects]]
   from = "/index.html"
   to = "/"
@@ -76,14 +77,15 @@
   status = 301
   force = true
 
+# l'informativa inglese ha ora una sola versione, in italiano, allo stesso indirizzo di prima
 [[redirects]]
-  from = "/en/*"
-  to = "/"
+  from = "/en/privacy/*"
+  to = "/privacy/"
   status = 301
   force = true
 
 [[redirects]]
-  from = "/privacy/*"
+  from = "/en/*"
   to = "/"
   status = 301
   force = true
