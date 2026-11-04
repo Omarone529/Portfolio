@@ -1,3 +1,5 @@
+'use client'
+
 import { useEffect, useMemo, useRef } from 'react'
 import Lenis from 'lenis'
 import { useReducedMotion } from 'framer-motion'

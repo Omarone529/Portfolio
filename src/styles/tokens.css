@@ -16,8 +16,8 @@
   /* bagliore del footer, preso dai toni del mare della foto */
   --glow: #1f6d86;
 
-  --font: 'Geist', 'Inter', system-ui, sans-serif;
-  --font-display: 'Inter', 'Geist', system-ui, sans-serif;
+  --font: var(--font-geist), system-ui, sans-serif;
+  --font-display: var(--font-inter), var(--font-geist), system-ui, sans-serif;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
 
   --gutter: 24px;

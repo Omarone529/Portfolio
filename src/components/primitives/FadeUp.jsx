@@ -1,3 +1,5 @@
+'use client'
+
 import { motion } from 'framer-motion'
 import { DURATION, EASE, IN_VIEW } from '@/lib/motion'
 

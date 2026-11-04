@@ -1,3 +1,5 @@
+'use client'
+
 import { useCallback, useRef, useState } from 'react'
 import { AnimatePresence, useScroll } from 'framer-motion'
 import { PROJECTS, SECTION, WORK } from '@/content'

@@ -1,3 +1,5 @@
+'use client'
+
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { HERO, SITE } from '@/content'
 import { ArrowLink, MaskLines } from '@/components/primitives'
