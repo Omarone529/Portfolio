@@ -8,8 +8,6 @@ import { PLACE, SITE } from './site'
 export const SEO = {
   title: `${SITE.fullName} · ${SITE.role} a ${PLACE.city}`,
   description: `${SITE.fullName}, creative developer a ${PLACE.city}: siti web creativi, applicazioni custom e web app su misura, con animazioni curate e codice veloce.`,
-  /** Testo alternativo dell'immagine delle anteprime social. */
-  imageAlt: `${SITE.fullName}, ${SITE.role}, davanti al mare`,
   keywords: [
     'creative developer',
     'sviluppatore web',
