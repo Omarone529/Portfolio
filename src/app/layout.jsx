@@ -11,7 +11,8 @@ const NO_SCRIPT_CSS = `.page *, .footer * { opacity: 1 !important; transform: no
 
 export const metadata = {
   metadataBase: new URL(`${SITE.url}/`),
-  title: SEO.title,
+  // le altre pagine danno solo il proprio titolo, il nome lo aggiunge il modello
+  title: { default: SEO.title, template: `%s · ${SITE.fullName}` },
   description: SEO.description,
   applicationName: SITE.fullName,
   authors: [{ name: SITE.fullName, url: SITE.url }],
