@@ -59,6 +59,7 @@ export default function AllProjects({ onClose }) {
                   <p>{project.title}</p>
                   <p className="muted">{project.tag}</p>
                 </div>
+                <p className="tile__description muted">{project.description}</p>
               </ProjectLink>
             </motion.li>
           ))}

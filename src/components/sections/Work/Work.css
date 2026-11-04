@@ -183,6 +183,12 @@
   border-radius: var(--radius);
 }
 
+.tile__description {
+  max-width: 46ch;
+  padding-top: 12px;
+  font-size: 15px;
+}
+
 .tile:hover .project-video,
 .tile:hover .project-logo {
   transform: scale(1.03);
