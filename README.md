@@ -67,6 +67,7 @@ La CI di GitHub (`.github/workflows/ci.yml`) esegue audit delle dipendenze, lint
 
 ## Scelte da sapere
 
+- **Mobile first:** gli stili di base sono quelli del telefono e si ampliano con due soli breakpoint, `(width >= 48rem)` per il tablet e `(width > 64rem)` per il desktop. Niente `max-width` nelle media query. Ciò che si tocca è alto almeno `--tap` (44px), e le griglie usano `minmax(0, ...)` per non uscire dallo schermo. Verificato senza scroll orizzontale da 320 a 1440px.
 - **Componenti client:** solo le parti animate sono `'use client'`. Il resto viene reso durante la build. `window` e `document` si leggono solo dopo il montaggio (`useIsClient`, `useViewportHeight`, `Portal`).
 - **Link interni:** li gestisce `SmoothScrollProvider`, che scorre fino alla sezione senza lasciare `#` nell'indirizzo. Un'ancora deve puntare a un elemento nel flusso della pagina, non fisso: per questo `#top` è su `<main>` e `#contact` è sullo slot del footer.
 - **Refresh:** ogni ricarica riparte dalla hero (`resetScrollOnLoad`).
