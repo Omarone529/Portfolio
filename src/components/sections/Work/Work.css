@@ -1,0 +1,173 @@
+/* lo spazio in fondo lascia passare il bordo obliquo dei Servizi senza toccare l'ultima card */
+.work {
+  padding-bottom: calc(var(--edge-rise) + 80px);
+}
+
+.work__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 545px) minmax(0, 1fr);
+  gap: 48px;
+  margin-top: 40px;
+}
+
+.work__side {
+  position: sticky;
+  top: 0;
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  max-width: 250px;
+  padding: 200px 0;
+}
+
+.work__side .arrow-link {
+  width: 100%;
+  padding-top: 14px;
+}
+
+.work__side .arrow-link::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--line);
+}
+
+.work__stack {
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+  padding-top: 50px;
+}
+
+/* ---------- card ---------- */
+
+.card {
+  position: sticky;
+  display: block;
+  transform-origin: top center;
+  background: var(--white);
+}
+
+.card__media {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: var(--radius);
+}
+
+.card__media video,
+.card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1.2s var(--ease);
+}
+
+.card__media .card__logo {
+  width: calc(var(--logo-scale) * 100%);
+  height: calc(var(--logo-scale) * 100%);
+  object-fit: contain;
+}
+
+.card:hover .card__media video,
+.card:hover .card__media img {
+  transform: scale(1.05);
+}
+
+.card__meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 0 10px;
+  font-size: 15px;
+  border-bottom: 1px solid var(--line);
+}
+
+/* ---------- guarda tutti ---------- */
+
+.work__aside {
+  position: sticky;
+  top: 0;
+  align-self: start;
+  display: flex;
+  justify-content: center;
+  padding: 245px 0 200px;
+}
+
+.see-all {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 3px 16px 3px 3px;
+  border-radius: var(--radius);
+  background: var(--tile);
+  font-size: 17px;
+  transition: background 0.4s var(--ease);
+}
+
+.see-all:hover {
+  background: var(--tile-hover);
+}
+
+.see-all__thumb {
+  position: relative;
+  flex: none;
+  width: 64px;
+  height: 64px;
+  overflow: hidden;
+  border-radius: 3px;
+}
+
+.see-all__thumb img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.see-all__thumb .see-all__logo {
+  padding: 10px;
+  object-fit: contain;
+}
+
+.see-all__label {
+  white-space: nowrap;
+}
+
+@media (max-width: 1024px) {
+  .work__layout {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  }
+  /* senza la colonna destra, "Guarda tutti" va sotto la pila */
+  .work__aside {
+    position: static;
+    grid-column: 2;
+    justify-content: flex-start;
+    padding: 0;
+  }
+}
+
+@media (max-width: 860px) {
+  .work__layout {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .work__side {
+    position: static;
+    padding: 24px 0 32px;
+  }
+  .work__stack {
+    gap: 48px;
+    padding-top: 0;
+  }
+  .work__aside {
+    grid-column: 1;
+    padding-top: 40px;
+  }
+}
