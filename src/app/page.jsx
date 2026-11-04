@@ -1,4 +1,6 @@
 import { SECTION } from '@/content'
+import { homeJsonLd } from '@/lib/seo'
+import { JsonLd } from '@/components/layout/JsonLd'
 import Hero from '@/components/sections/Hero/Hero'
 import About from '@/components/sections/About/About'
 import Work from '@/components/sections/Work/Work'
@@ -13,6 +15,7 @@ import Footer from '@/components/sections/Footer/Footer'
 export default function HomePage() {
   return (
     <>
+      <JsonLd data={homeJsonLd()} />
       <main id={SECTION.top} className="page">
         <Hero />
         <div className="page__content">
