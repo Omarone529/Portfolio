@@ -41,7 +41,8 @@ export default function Work() {
 
         <div className="work__layout">
           <div className="work__side">
-            <MaskLines as="h2" className="h2" lines={WORK.title} />
+            {/* ripete visivamente il titolo della sezione, che è già l'h2 dell'intestazione */}
+            <MaskLines as="p" className="h2" lines={WORK.title} aria-hidden />
             <ArrowLink href={WORK.cta.href}>{WORK.cta.label}</ArrowLink>
           </div>
 

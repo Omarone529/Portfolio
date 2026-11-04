@@ -198,6 +198,10 @@
   font-size: 15px;
 }
 
+.section-head__label {
+  font: inherit;
+}
+
 .section-head__meta {
   color: var(--muted);
   text-align: right;
