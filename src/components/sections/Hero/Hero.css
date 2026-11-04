@@ -43,7 +43,7 @@
 
 .hero__intro {
   position: relative;
-  margin-top: 17vh;
+  margin-top: 16vh;
   margin-bottom: auto;
 }
 
@@ -67,9 +67,16 @@
 .nav-bar {
   position: relative;
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: start;
+  grid-template-columns: 1fr auto;
+  align-items: center;
   font-size: 15px;
+}
+
+/* logo e "Menu" alti quanto un dito, con un margine negativo che li lascia dov'erano a vista */
+.logo,
+.menu-btn {
+  min-height: var(--tap);
+  margin-block: calc((var(--tap) - 1.25em) / -2);
 }
 
 .logo {
@@ -90,18 +97,20 @@
   background: currentColor;
 }
 
+/* sul telefono i link stanno nel menu a tutto schermo */
 .nav {
-  display: flex;
-  gap: clamp(24px, 4.2vw, 64px);
+  display: none;
 }
 
 .nav__link {
   display: inline-flex;
+  padding-block: 4px;
 }
 
 .menu-btn {
-  display: none;
   justify-self: end;
+  padding-inline: 8px;
+  margin-inline-end: -8px;
 }
 
 .menu {
@@ -111,7 +120,6 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 8px;
   padding: var(--gutter);
   color: var(--white);
   font-size: 15px;
@@ -120,27 +128,35 @@
 
 .menu__close {
   position: absolute;
-  top: var(--gutter);
-  right: var(--gutter);
+  top: calc(var(--gutter) - (var(--tap) - 1.25em) / 2);
+  right: calc(var(--gutter) - 8px);
+  min-height: var(--tap);
+  padding-inline: 8px;
 }
 
 .menu__link {
-  font-size: 48px;
+  display: flex;
+  align-items: center;
+  min-height: calc(var(--tap) + 12px);
+  font-size: clamp(36px, 11vw, 48px);
   line-height: 1.1;
   letter-spacing: -0.04em;
 }
 
-@media (max-width: 860px) {
+@media (width >= 48rem) {
+  .hero__intro {
+    margin-top: 17vh;
+  }
   .nav-bar {
-    grid-template-columns: 1fr auto;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: start;
   }
   .nav {
-    display: none;
+    display: flex;
+    gap: clamp(24px, 4.2vw, 64px);
+    margin-top: -4px;
   }
   .menu-btn {
-    display: block;
-  }
-  .hero__intro {
-    margin-top: 16vh;
+    display: none;
   }
 }
