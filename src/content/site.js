@@ -28,6 +28,7 @@ export const NAV = [
   { label: 'Contatti', href: anchor(SECTION.contact) },
 ]
 
+/** Le tecnologie usate nei progetti: oggi servono al conteggio in About. */
 export const STACK = [
   'React',
   'TypeScript',

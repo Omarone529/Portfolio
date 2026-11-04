@@ -1,5 +1,5 @@
 .about {
-  padding-bottom: 0;
+  padding-bottom: 160px;
 }
 
 .about__statement {
@@ -53,52 +53,6 @@
   padding-top: 0;
 }
 
-/* ---------- fascia tecnologie ---------- */
-
-.marquee {
-  margin-top: 100px;
-  padding: 80px 0;
-  overflow: hidden;
-  border-block: 1px solid var(--line);
-}
-
-.marquee__track {
-  display: flex;
-  gap: 10px;
-  width: max-content;
-  animation: marquee 32s linear infinite;
-}
-
-.marquee:hover .marquee__track {
-  animation-play-state: paused;
-}
-
-.marquee__item {
-  display: grid;
-  place-items: center;
-  width: 223px;
-  height: 167px;
-  border-radius: var(--radius);
-  background: var(--tile);
-  font-family: var(--font-display);
-  font-size: 20px;
-  font-weight: 800;
-  letter-spacing: -0.03em;
-}
-
-/* metà traccia più metà spazio tra le card: la seconda copia prende il posto esatto della prima */
-@keyframes marquee {
-  to {
-    transform: translateX(calc(-50% - 5px));
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .marquee__track {
-    animation: none;
-  }
-}
-
 @media (max-width: 1024px) {
   .about__grid {
     grid-template-columns: 1fr 1fr;
@@ -125,14 +79,5 @@
   }
   .about-row__body {
     gap: 48px;
-  }
-  .marquee {
-    margin-top: 72px;
-    padding: 48px 0;
-  }
-  .marquee__item {
-    width: 160px;
-    height: 120px;
-    font-size: 17px;
   }
 }

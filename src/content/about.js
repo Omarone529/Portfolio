@@ -26,5 +26,4 @@ export const ABOUT = {
     ],
     cta: { label: 'Vedi i progetti', href: anchor(SECTION.work) },
   },
-  stackLabel: 'Tecnologie che uso',
 }

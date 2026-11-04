@@ -1,11 +1,10 @@
 import { ABOUT, SECTION } from '@/content'
 import { Container, Section } from '@/components/layout/Section'
 import { ArrowLink, FadeUp, MaskLines, RevealImage, ScrollWords, SectionHead } from '@/components/primitives'
-import Marquee from './Marquee'
 import Stats from './Stats'
 import './About.css'
 
-/** Chi sono: frase grande, ritratto, come lavoro e i numeri, poi la fascia delle tecnologie. */
+/** Chi sono: frase grande, ritratto, come lavoro e i numeri. */
 export default function About() {
   const { results } = ABOUT
   return (
@@ -36,8 +35,6 @@ export default function About() {
           </div>
         </div>
       </Container>
-
-      <Marquee />
     </Section>
   )
 }
