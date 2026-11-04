@@ -119,6 +119,26 @@
   font-size: 17px;
 }
 
+.footer__policies {
+  display: flex;
+  gap: 20px;
+  font-size: 15px;
+}
+
+/* alti quanto un dito, senza spostare la riga */
+.footer__policies a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap);
+  margin-block: -12px;
+  color: rgba(255, 255, 255, 0.65);
+  transition: color 0.4s var(--ease);
+}
+
+.footer__policies a:hover {
+  color: var(--fg);
+}
+
 .footer__glow {
   position: absolute;
   left: 50%;
@@ -153,5 +173,8 @@
   }
   .footer__legal {
     text-align: right;
+  }
+  .footer__policies {
+    justify-content: flex-end;
   }
 }

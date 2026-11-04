@@ -63,6 +63,15 @@ export default function Footer({ edgeTone }) {
             <div className="footer__legal">
               <p>{FOOTER.legal}</p>
               <p className="muted">{FOOTER.credit}</p>
+              <ul className="footer__policies">
+                {FOOTER.links.map((link) => (
+                  <li key={link.href}>
+                    <a href={link.href}>
+                      <RollText>{link.label}</RollText>
+                    </a>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </motion.div>
