@@ -13,7 +13,7 @@ export const PROJECTS = [
     href: 'https://joesarchiolla.com/',
     logo: '/projects/joedesign-logo.webp',
     tint: '#E9E7E3',
-    logoScale: 0.5,
+    logoScale: 0.36,
     video: '/projects/joedesign-demo.mp4',
     poster: '/projects/joedesign-demo.webp',
   },
