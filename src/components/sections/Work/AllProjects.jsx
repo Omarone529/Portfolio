@@ -23,47 +23,47 @@ export default function AllProjects({ onClose }) {
 
   return (
     <Portal>
-    <motion.div
-      className="all-projects tone-light"
-      role="dialog"
-      aria-modal="true"
-      aria-label={WORK.allTitle}
-      data-lenis-prevent
-      initial={{ clipPath: 'inset(100% 0 0 0)' }}
-      animate={{ clipPath: 'inset(0% 0 0 0)' }}
-      exit={{ clipPath: 'inset(0 0 100% 0)' }}
-      transition={{ duration: 0.9, ease: EASE }}
-    >
-      <header className="all-projects__head">
-        <p>
-          {WORK.allTitle} <span className="muted">({pad2(PROJECTS.length)})</span>
-        </p>
-        <button type="button" className="all-projects__close" onClick={onClose} autoFocus>
-          <RollText>{WORK.showLess}</RollText>
-        </button>
-      </header>
+      <motion.div
+        className="all-projects tone-light"
+        role="dialog"
+        aria-modal="true"
+        aria-label={WORK.allTitle}
+        data-lenis-prevent
+        initial={{ clipPath: 'inset(100% 0 0 0)' }}
+        animate={{ clipPath: 'inset(0% 0 0 0)' }}
+        exit={{ clipPath: 'inset(0 0 100% 0)' }}
+        transition={{ duration: 0.9, ease: EASE }}
+      >
+        <header className="all-projects__head">
+          <p>
+            {WORK.allTitle} <span className="muted">({pad2(PROJECTS.length)})</span>
+          </p>
+          <button type="button" className="all-projects__close" onClick={onClose} autoFocus>
+            <RollText>{WORK.showLess}</RollText>
+          </button>
+        </header>
 
-      <ul className="all-projects__grid">
-        {PROJECTS.map((project, i) => (
-          <motion.li
-            key={project.title}
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: EASE, delay: 0.35 + i * 0.08 }}
-          >
-            <ProjectLink project={project} className="tile">
-              <div className="tile__media" style={{ background: project.tint }}>
-                <ProjectDemo project={project} />
-              </div>
-              <div className="card__meta">
-                <p>{project.title}</p>
-                <p className="muted">{project.tag}</p>
-              </div>
-            </ProjectLink>
-          </motion.li>
-        ))}
-      </ul>
-    </motion.div>
+        <ul className="all-projects__grid">
+          {PROJECTS.map((project, i) => (
+            <motion.li
+              key={project.title}
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, ease: EASE, delay: 0.35 + i * 0.08 }}
+            >
+              <ProjectLink project={project} className="tile">
+                <div className="tile__media" style={{ background: project.tint }}>
+                  <ProjectDemo project={project} />
+                </div>
+                <div className="card__meta">
+                  <p>{project.title}</p>
+                  <p className="muted">{project.tag}</p>
+                </div>
+              </ProjectLink>
+            </motion.li>
+          ))}
+        </ul>
+      </motion.div>
     </Portal>
   )
 }

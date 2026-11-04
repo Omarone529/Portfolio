@@ -12,7 +12,13 @@ export function ScrollWords({ text, mutedTail = 0, className = '' }) {
   return (
     <p ref={ref} className={className}>
       {words.map((word, i) => (
-        <Word key={i} progress={scrollYProgress} from={i / words.length} to={(i + 1) / words.length} muted={i >= firstMuted}>
+        <Word
+          key={i}
+          progress={scrollYProgress}
+          from={i / words.length}
+          to={(i + 1) / words.length}
+          muted={i >= firstMuted}
+        >
           {word}
         </Word>
       ))}

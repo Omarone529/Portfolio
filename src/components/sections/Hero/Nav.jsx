@@ -31,7 +31,12 @@ export default function Nav({ play }) {
 
   return (
     <header className="nav-bar">
-      <motion.a href={anchor(SECTION.top)} className="logo" aria-label={`${SITE.fullName}, home`} {...fadeDown(play, 0.3)}>
+      <motion.a
+        href={anchor(SECTION.top)}
+        className="logo"
+        aria-label={`${SITE.fullName}, home`}
+        {...fadeDown(play, 0.3)}
+      >
         <span className="logo__mark" aria-hidden="true" />
         {SITE.fullName.toUpperCase()}
       </motion.a>

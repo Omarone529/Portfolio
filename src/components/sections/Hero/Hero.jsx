@@ -52,7 +52,11 @@ export default function Hero() {
             </span>,
           ]}
         />
-        <motion.div initial={{ opacity: 0 }} animate={ready ? { opacity: 1 } : {}} transition={{ duration: 1, delay: 1 }}>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={ready ? { opacity: 1 } : {}}
+          transition={{ duration: 1, delay: 1 }}
+        >
           <ArrowLink href={HERO.cta.href}>{HERO.cta.label}</ArrowLink>
         </motion.div>
       </div>

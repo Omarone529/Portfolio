@@ -47,7 +47,13 @@ export default function Work() {
 
           <div className="work__stack" ref={stackRef}>
             {FEATURED.map((project, i) => (
-              <ProjectCard key={project.title} project={project} index={i} total={FEATURED.length} progress={scrollYProgress} />
+              <ProjectCard
+                key={project.title}
+                project={project}
+                index={i}
+                total={FEATURED.length}
+                progress={scrollYProgress}
+              />
             ))}
           </div>
 
