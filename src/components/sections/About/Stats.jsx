@@ -4,7 +4,7 @@ import { DrawLine } from '@/components/primitives'
 import { useCountUp } from '@/hooks/useCountUp'
 import { IN_VIEW } from '@/lib/motion'
 
-/** Righe "etichetta / numero": il numero conta da zero e la riga sotto si disegna. */
+/** Righe "etichetta / numero": il numero conta da zero (seguito dal suo `suffix`, es. "+") e la riga sotto si disegna. */
 export default function Stats({ items }) {
   return (
     <dl className="stats">
@@ -15,15 +15,16 @@ export default function Stats({ items }) {
   )
 }
 
-function Stat({ label, value }) {
+function Stat({ label, value, suffix = '' }) {
   const ref = useRef(null)
   const inView = useInView(ref, IN_VIEW)
   const count = useCountUp(value, inView)
   return (
     <div className="stat" ref={ref}>
       <dt>{label}</dt>
-      <dd className="muted" aria-label={String(value)}>
+      <dd className="muted" aria-label={`${value}${suffix}`}>
         {count}
+        {suffix}
       </dd>
       <DrawLine />
     </div>
