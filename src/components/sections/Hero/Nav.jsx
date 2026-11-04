@@ -3,7 +3,6 @@ import { createPortal } from 'react-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { NAV, SECTION, SITE, anchor } from '@/content'
 import { RollText } from '@/components/primitives'
-import { pad2 } from '@/lib/format'
 import { EASE } from '@/lib/motion'
 import { useSmoothScroll } from '@/hooks/useSmoothScroll'
 
@@ -39,7 +38,6 @@ export default function Nav({ play }) {
         {NAV.map((item, i) => (
           <motion.a key={item.href} href={item.href} className="nav__link" {...fadeDown(play, 0.35 + i * 0.06)}>
             <RollText>{item.label}</RollText>
-            <sup>{pad2(i + 1)}</sup>
           </motion.a>
         ))}
       </nav>
@@ -75,11 +73,10 @@ function Menu({ onClose }) {
       <button type="button" className="menu__close" onClick={onClose} autoFocus>
         Chiudi
       </button>
-      {NAV.map((item, i) => (
+      {NAV.map((item) => (
         // il clic chiude il menu; lo scroll verso la sezione lo gestisce SmoothScrollProvider
         <a key={item.href} href={item.href} className="menu__link" onClick={onClose}>
           {item.label}
-          <sup>{pad2(i + 1)}</sup>
         </a>
       ))}
     </motion.div>
