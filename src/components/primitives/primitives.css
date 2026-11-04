@@ -26,9 +26,11 @@
   vertical-align: top;
 }
 
+/* alta quanto le due copie: senza align-self il flex la schiaccerebbe a una riga e -50% sarebbe mezza riga */
 .roll__in {
   display: flex;
   flex-direction: column;
+  align-self: flex-start;
 }
 
 .is-hovering .roll__in {
