@@ -2,7 +2,8 @@
 
 import { useCallback, useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { NAV, SECTION, SITE, anchor } from '@/content'
+import { NAV, SECTION, anchor } from '@/content'
+import { Logo } from '@/components/layout/Logo'
 import { Portal } from '@/components/layout/Portal'
 import { RollText } from '@/components/primitives'
 import { EASE } from '@/lib/motion'
@@ -11,7 +12,7 @@ import { useSmoothScroll } from '@/hooks/useSmoothScroll'
 /** Ritardo dell'ingresso dall'alto, che è solo CSS (vedi .intro-fade in primitives.css). */
 const introDelay = (seconds) => ({ '--delay': `${seconds}s` })
 
-/** Barra in alto della hero: logo, link numerati e, sotto gli 860px, il menu a tutto schermo. */
+/** Barra in alto della hero: logo, link e, sul telefono, il menu a tutto schermo. */
 export default function Nav() {
   const [open, setOpen] = useState(false)
   const { lock, unlock } = useSmoothScroll()
@@ -28,15 +29,7 @@ export default function Nav() {
 
   return (
     <header className="nav-bar">
-      <a
-        href={anchor(SECTION.top)}
-        aria-label={`${SITE.fullName}, home`}
-        className="logo intro-fade"
-        style={introDelay(0)}
-      >
-        <span className="logo__mark" aria-hidden="true" />
-        {SITE.fullName.toUpperCase()}
-      </a>
+      <Logo href={anchor(SECTION.top)} className="intro-fade" style={introDelay(0)} />
 
       <nav className="nav" aria-label="Principale">
         {NAV.map((item, i) => (

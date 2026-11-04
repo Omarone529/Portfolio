@@ -72,29 +72,10 @@
   font-size: 15px;
 }
 
-/* logo e "Menu" alti quanto un dito, con un margine negativo che li lascia dov'erano a vista */
-.logo,
+/* "Menu" alto quanto un dito, con un margine negativo che lo lascia dov'era a vista (il logo fa lo stesso) */
 .menu-btn {
   min-height: var(--tap);
   margin-block: calc((var(--tap) - 1.25em) / -2);
-}
-
-.logo {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  justify-self: start;
-  font-family: var(--font-display);
-  font-size: 14px;
-  font-weight: 900;
-  letter-spacing: -0.02em;
-}
-
-.logo__mark {
-  width: 14px;
-  height: 8px;
-  border-radius: 8px 8px 0 0;
-  background: currentColor;
 }
 
 /* sul telefono i link stanno nel menu a tutto schermo */
