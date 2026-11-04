@@ -27,7 +27,7 @@ src/
 
 ## Come si fa
 
-- **Aggiungere un progetto:** una voce in `PROJECTS` (`content/projects.js`). Con `video` e `poster` mostra la demo, altrimenti `logo` e `tint`.
+- **Aggiungere un progetto:** una voce in `PROJECTS` (`content/projects.js`) con `logo` e `tint`, mostrati nella pila. Con `video` e `poster` la demo compare nella vista "Guarda tutti". La pila mostra i primi `WORK.featured` progetti.
 - **Aggiungere una sezione:** un id in `SECTION` (`content/site.js`), un componente in `components/sections/`, una riga in `App.jsx`. Per il bordo obliquo usa `<Section edge>`.
 - **Cambiare colori, font e misure:** `styles/tokens.css`. La pendenza dei bordi obliqui è `--edge-angle`.
 
