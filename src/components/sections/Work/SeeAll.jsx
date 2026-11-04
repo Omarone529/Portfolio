@@ -7,18 +7,18 @@ import { EASE } from '@/lib/motion'
 
 const THUMB_INTERVAL = 2200
 
-/** Pulsante laterale: la miniatura scorre tra i progetti, il clic espande o richiude la pila. */
-export default function SeeAll({ expanded, onToggle }) {
+/** Pulsante laterale "Guarda tutti": la miniatura scorre tra i loghi dei progetti, il clic apre la vista completa. */
+export default function SeeAll({ onOpen, ref }) {
   const index = useCycle(PROJECTS.length, THUMB_INTERVAL)
   const project = PROJECTS[index]
-  const label = expanded ? `${WORK.showLess} (${pad2(WORK.featured)})` : `${WORK.seeAll} (${pad2(PROJECTS.length)})`
 
   return (
     <motion.button
+      ref={ref}
       type="button"
       className="see-all"
-      onClick={onToggle}
-      aria-expanded={expanded}
+      onClick={onOpen}
+      aria-haspopup="dialog"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
@@ -28,10 +28,9 @@ export default function SeeAll({ expanded, onToggle }) {
         <AnimatePresence initial={false}>
           <motion.img
             key={index}
-            src={project.poster ?? project.logo}
+            src={project.logo}
             alt=""
-            className={project.poster ? undefined : 'see-all__logo'}
-            style={project.tint && { background: project.tint }}
+            style={{ background: project.tint }}
             initial={{ clipPath: 'inset(100% 0 0 0)' }}
             animate={{ clipPath: 'inset(0% 0 0 0)' }}
             exit={{ opacity: 0 }}
@@ -40,7 +39,7 @@ export default function SeeAll({ expanded, onToggle }) {
         </AnimatePresence>
       </span>
       <span className="see-all__label">
-        <RollText>{label}</RollText>
+        <RollText>{`${WORK.seeAll} (${pad2(PROJECTS.length)})`}</RollText>
       </span>
     </motion.button>
   )

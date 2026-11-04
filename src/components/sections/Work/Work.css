@@ -60,22 +60,7 @@
   border-radius: var(--radius);
 }
 
-.card__media video,
-.card__media img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 1.2s var(--ease);
-}
-
-.card__media .card__logo {
-  width: calc(var(--logo-scale) * 100%);
-  height: calc(var(--logo-scale) * 100%);
-  object-fit: contain;
-}
-
-.card:hover .card__media video,
-.card:hover .card__media img {
+.card:hover .project-logo {
   transform: scale(1.05);
 }
 
@@ -128,16 +113,79 @@
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-}
-
-.see-all__thumb .see-all__logo {
   padding: 10px;
   object-fit: contain;
 }
 
 .see-all__label {
   white-space: nowrap;
+}
+
+/* ---------- media dei progetti ---------- */
+
+.project-logo {
+  width: calc(var(--logo-scale) * 100%);
+  height: calc(var(--logo-scale) * 100%);
+  object-fit: contain;
+  transition: transform 1.2s var(--ease);
+}
+
+.project-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1.2s var(--ease);
+}
+
+/* ---------- vista "guarda tutti" ---------- */
+
+.all-projects {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0 var(--gutter) 80px;
+}
+
+.all-projects__head {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 24px 0;
+  font-size: 17px;
+  background: var(--white);
+  border-bottom: 1px solid var(--line);
+}
+
+.all-projects__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 56px 24px;
+  max-width: var(--max-width);
+  margin: 40px auto 0;
+}
+
+.tile {
+  display: block;
+}
+
+.tile__media {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: var(--radius);
+}
+
+.tile:hover .project-video,
+.tile:hover .project-logo {
+  transform: scale(1.03);
 }
 
 @media (max-width: 1024px) {
@@ -169,5 +217,9 @@
   .work__aside {
     grid-column: 1;
     padding-top: 40px;
+  }
+  .all-projects__grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
   }
 }
