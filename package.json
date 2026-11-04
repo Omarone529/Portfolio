@@ -35,5 +35,11 @@
     "edge 111",
     "firefox 111",
     "safari 16.4"
-  ]
+  ],
+  "overrides": {
+    "compression": "^1.8.2",
+    "@typescript-eslint/typescript-estree": {
+      "minimatch": "^11.0.4"
+    }
+  }
 }
