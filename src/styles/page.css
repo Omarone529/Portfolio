@@ -1,0 +1,15 @@
+/* La pagina copre il footer fisso; il contenuto scorre sopra la hero. */
+.page {
+  position: relative;
+  z-index: 1;
+}
+
+/*
+ * Il contenuto parte più in basso della hero di quanto sale il bordo obliquo
+ * della prima sezione, così al caricamento la hero è pulita.
+ */
+.page__content {
+  position: relative;
+  z-index: 2;
+  margin-top: var(--edge-rise);
+}
