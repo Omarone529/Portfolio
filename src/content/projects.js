@@ -40,20 +40,6 @@ export const PROJECTS = [
     logo: '/projects/apexgps-logo.webp',
     tint: '#EAF1F5',
   },
-  {
-    title: 'AskyVet',
-    tag: 'Blog e forum',
-    logo: '/projects/askyvet-logo.webp',
-    tint: '#E9F8FF',
-    logoScale: 0.55,
-  },
-  {
-    title: 'Timesheet Manager',
-    tag: 'App desktop e mobile',
-    logo: '/projects/timesheet-manager-logo.webp',
-    tint: '#E9F7FD',
-    logoScale: 0.5,
-  },
 ]
 
 export const WORK = {
