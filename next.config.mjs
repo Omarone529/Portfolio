@@ -9,6 +9,11 @@ const nextConfig = {
     unoptimized: true,
   },
   reactStrictMode: true,
+  experimental: {
+    // il CSS (~9KB compressi) arriva dentro l'HTML invece che in file separati che bloccano il primo disegno:
+    // conviene per chi apre il sito la prima volta, cioè quasi tutti i visitatori di un portfolio
+    inlineCss: true,
+  },
   // in sviluppo il server accetta solo la propria origine: così si apre anche da un telefono in rete locale
   allowedDevOrigins: ['192.168.*.*'],
 }
