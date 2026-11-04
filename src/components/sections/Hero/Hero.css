@@ -1,0 +1,148 @@
+.hero {
+  position: sticky;
+  top: 0;
+  z-index: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+  height: 100svh;
+  min-height: 560px;
+  padding: var(--gutter);
+  overflow: hidden;
+  color: var(--white);
+  font-size: 17px;
+  /* tinta media della foto, visibile solo finché non è caricata */
+  background: #3e4c55;
+}
+
+.hero__media,
+.hero__grad,
+.hero__shade {
+  position: absolute;
+  inset: 0;
+}
+
+.hero__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 40%;
+}
+
+.hero__grad {
+  background:
+    linear-gradient(180deg, rgba(10, 20, 28, 0.35) 0%, rgba(10, 20, 28, 0) 32%),
+    linear-gradient(90deg, rgba(10, 20, 28, 0.35) 0%, rgba(10, 20, 28, 0) 45%),
+    linear-gradient(0deg, rgba(10, 20, 28, 0.45) 0%, rgba(10, 20, 28, 0) 40%);
+}
+
+.hero__shade {
+  background: var(--black);
+}
+
+.hero__intro {
+  position: relative;
+  margin-top: 17vh;
+  margin-bottom: auto;
+}
+
+.hero__tagline {
+  margin-bottom: 40px;
+  line-height: 1.32;
+}
+
+.hero__bottom {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.hero__services {
+  line-height: 1.65;
+}
+
+/* ---------- barra di navigazione ---------- */
+
+.nav-bar {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: start;
+  font-size: 15px;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  justify-self: start;
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
+
+.logo__mark {
+  width: 14px;
+  height: 8px;
+  border-radius: 8px 8px 0 0;
+  background: currentColor;
+}
+
+.nav {
+  display: flex;
+  gap: clamp(24px, 4.2vw, 64px);
+}
+
+.nav__link {
+  display: inline-flex;
+}
+
+.menu-btn {
+  display: none;
+  justify-self: end;
+}
+
+.menu {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  padding: var(--gutter);
+  color: var(--white);
+  font-size: 15px;
+  background: var(--dark);
+}
+
+.menu__close {
+  position: absolute;
+  top: var(--gutter);
+  right: var(--gutter);
+}
+
+.menu__link {
+  font-size: 48px;
+  line-height: 1.1;
+  letter-spacing: -0.04em;
+}
+
+@media (max-width: 860px) {
+  .nav-bar {
+    grid-template-columns: 1fr auto;
+  }
+  .nav {
+    display: none;
+  }
+  .menu-btn {
+    display: block;
+  }
+  .hero__intro {
+    margin-top: 16vh;
+  }
+}
