@@ -27,19 +27,3 @@ export const NAV = [
   { label: 'Servizi', href: anchor(SECTION.services) },
   { label: 'Contatti', href: anchor(SECTION.contact) },
 ]
-
-/** Le tecnologie usate nei progetti: oggi servono al conteggio in About. */
-export const STACK = [
-  'React',
-  'TypeScript',
-  'Vite',
-  'Tailwind CSS',
-  'Three.js',
-  'Python',
-  'FastAPI',
-  'Django',
-  'PostgreSQL',
-  'Electron',
-  'Flutter',
-  'Docker',
-]
