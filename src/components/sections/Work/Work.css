@@ -5,20 +5,17 @@
 
 .work__layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 545px) minmax(0, 1fr);
-  gap: 48px;
+  grid-template-columns: minmax(0, 1fr);
   margin-top: 40px;
 }
 
 .work__side {
-  position: sticky;
-  top: 0;
   align-self: start;
   display: flex;
   flex-direction: column;
   gap: 18px;
   max-width: 250px;
-  padding: 200px 0;
+  padding: 24px 0 32px;
 }
 
 .work__side .arrow-link {
@@ -39,8 +36,7 @@
 .work__stack {
   display: flex;
   flex-direction: column;
-  gap: 80px;
-  padding-top: 50px;
+  gap: 48px;
 }
 
 /* ---------- card ---------- */
@@ -75,13 +71,11 @@
 
 /* ---------- guarda tutti ---------- */
 
+/* sul telefono e sul tablet "Guarda tutti" sta sotto la pila */
 .work__aside {
-  position: sticky;
-  top: 0;
   align-self: start;
   display: flex;
-  justify-content: center;
-  padding: 245px 0 200px;
+  padding-top: 40px;
 }
 
 .see-all {
@@ -157,16 +151,22 @@
   align-items: center;
   max-width: var(--max-width);
   margin: 0 auto;
-  padding: 24px 0;
+  padding: 12px 0;
   font-size: 17px;
   background: var(--white);
   border-bottom: 1px solid var(--line);
 }
 
+.all-projects__close {
+  min-height: var(--tap);
+  padding-inline: 8px;
+  margin-inline-end: -8px;
+}
+
 .all-projects__grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 56px 24px;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 40px;
   max-width: var(--max-width);
   margin: 40px auto 0;
 }
@@ -194,38 +194,43 @@
   transform: scale(1.03);
 }
 
-@media (max-width: 1024px) {
+@media (width >= 48rem) {
   .work__layout {
     grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    gap: 48px;
   }
-  /* senza la colonna destra, "Guarda tutti" va sotto la pila */
+  .work__side {
+    position: sticky;
+    top: 0;
+    padding: 200px 0;
+  }
+  .work__stack {
+    gap: 80px;
+    padding-top: 50px;
+  }
   .work__aside {
-    position: static;
     grid-column: 2;
-    justify-content: flex-start;
-    padding: 0;
+    padding-top: 0;
+  }
+  .all-projects__head {
+    padding: 14px 0;
+  }
+  .all-projects__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 56px 24px;
   }
 }
 
-@media (max-width: 860px) {
+/* desktop: tre colonne, con "Guarda tutti" fermo a destra mentre la pila scorre */
+@media (width > 64rem) {
   .work__layout {
-    grid-template-columns: 1fr;
-    gap: 0;
-  }
-  .work__side {
-    position: static;
-    padding: 24px 0 32px;
-  }
-  .work__stack {
-    gap: 48px;
-    padding-top: 0;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 545px) minmax(0, 1fr);
   }
   .work__aside {
-    grid-column: 1;
-    padding-top: 40px;
-  }
-  .all-projects__grid {
-    grid-template-columns: 1fr;
-    gap: 40px;
+    position: sticky;
+    top: 0;
+    grid-column: auto;
+    justify-content: center;
+    padding: 245px 0 200px;
   }
 }
