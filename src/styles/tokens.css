@@ -1,0 +1,53 @@
+/*
+ * Token del design. Breakpoint usati nei file di sezione:
+ * 1024px (tablet) e 860px (mobile).
+ */
+:root {
+  --white: #fff;
+  --black: #000;
+  --dark: #111;
+  --footer: #161616;
+  --tile: #f6f6f6;
+  --tile-hover: #ececec;
+  --ink-muted: rgba(0, 0, 0, 0.55);
+  --ink-line: rgba(0, 0, 0, 0.14);
+  --paper-muted: rgba(255, 255, 255, 0.5);
+  --paper-line: rgba(255, 255, 255, 0.16);
+  /* bagliore del footer, preso dai toni del mare della foto */
+  --glow: #1f6d86;
+
+  --font: 'Geist', 'Inter', system-ui, sans-serif;
+  --font-display: 'Inter', 'Geist', system-ui, sans-serif;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --gutter: 24px;
+  --max-width: 1440px;
+  --radius: 4px;
+
+  /* pendenza dei bordi obliqui: quanto sale il bordo da un lato all'altro della pagina */
+  --edge-angle: 7deg;
+  --edge-rise: calc(100vw * tan(var(--edge-angle)));
+}
+
+@supports not (width: calc(1px * tan(1deg))) {
+  :root {
+    --edge-rise: 12.3vw;
+  }
+}
+
+/* I toni di sezione: sfondo, testo e i colori secondari che ne derivano. */
+.tone-light {
+  --fg: var(--black);
+  --muted: var(--ink-muted);
+  --line: var(--ink-line);
+  background: var(--white);
+  color: var(--fg);
+}
+
+.tone-dark {
+  --fg: var(--white);
+  --muted: var(--paper-muted);
+  --line: var(--paper-line);
+  background: var(--dark);
+  color: var(--fg);
+}

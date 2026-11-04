@@ -1,0 +1,104 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  background: var(--dark);
+}
+
+body {
+  font-family: var(--font);
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.37;
+  color: var(--black);
+  background: var(--dark);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+img,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  text-align: inherit;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+sup {
+  position: relative;
+  top: -0.2em;
+  margin-left: 6px;
+  font-size: 11px;
+  font-weight: 500;
+  vertical-align: top;
+  opacity: 0.55;
+}
+
+:focus-visible {
+  outline: 1px solid currentColor;
+  outline-offset: 4px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.dim {
+  opacity: 0.5;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+/* tipografia condivisa */
+.statement {
+  font-size: clamp(36px, 5.9vw, 86px);
+  font-weight: 500;
+  line-height: 1.02;
+  letter-spacing: -0.045em;
+}
+
+.h2 {
+  font-size: clamp(40px, 4.7vw, 64px);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.035em;
+}
+
+.h3 {
+  font-size: clamp(30px, 3.4vw, 52px);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.035em;
+  hyphens: auto;
+}
