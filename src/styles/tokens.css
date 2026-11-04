@@ -1,6 +1,11 @@
 /*
- * Token del design. Breakpoint usati nei file di sezione:
- * 1024px (tablet) e 860px (mobile).
+ * Token del design.
+ *
+ * Mobile first: gli stili di base sono quelli del telefono e i file di sezione
+ * li ampliano con due soli breakpoint (le custom media non esistono ancora in
+ * CSS, quindi i valori si ripetono uguali ovunque):
+ *   @media (width >= 48rem)   tablet, da 768px
+ *   @media (width > 64rem)    desktop, oltre 1024px
  */
 :root {
   --white: #fff;
@@ -21,6 +26,8 @@
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
 
   --gutter: 24px;
+  /* altezza minima di ciò che si tocca con un dito */
+  --tap: 44px;
   --max-width: 1440px;
   --radius: 4px;
 
