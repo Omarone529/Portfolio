@@ -48,16 +48,6 @@ ul {
   list-style: none;
 }
 
-sup {
-  position: relative;
-  top: -0.2em;
-  margin-left: 6px;
-  font-size: 11px;
-  font-weight: 500;
-  vertical-align: top;
-  opacity: 0.55;
-}
-
 :focus-visible {
   outline: 1px solid currentColor;
   outline-offset: 4px;
