@@ -28,7 +28,7 @@ export function homeJsonLd() {
         '@id': ID.person,
         name: SITE.fullName,
         jobTitle: SITE.role,
-        description: SEO.description,
+        description: SEO.summary,
         url: absoluteUrl('/'),
         image: absoluteUrl('/images/hero.webp'),
         email: `mailto:${SITE.email}`,
