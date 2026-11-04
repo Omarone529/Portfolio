@@ -1,8 +1,9 @@
 import { SECTION, anchor } from './site'
 
 /**
- * I case study. Un progetto con una demo registrata ha `video` e `poster`;
- * gli altri mostrano `logo` su un fondo `tint`, scalato di `logoScale`.
+ * I case study. Ogni progetto ha `logo` su un fondo `tint` (scalato di
+ * `logoScale`), che è ciò che mostra la pila. Chi ha una demo registrata ha
+ * anche `video` e `poster`, mostrati nella vista "Guarda tutti".
  * Un `href` esterno apre il sito pubblicato in una nuova scheda.
  */
 export const PROJECTS = [
@@ -10,18 +11,26 @@ export const PROJECTS = [
     title: 'JoeDesign',
     tag: 'Sito portfolio',
     href: 'https://joesarchiolla.com/',
+    logo: '/projects/joedesign-logo.webp',
+    tint: '#E9E7E3',
+    logoScale: 0.5,
     video: '/projects/joedesign-demo.mp4',
     poster: '/projects/joedesign-demo.webp',
   },
   {
     title: 'Synapsi',
     tag: 'App desktop',
+    logo: '/projects/synapsi-logo.webp',
+    tint: '#FBF0EA',
+    logoScale: 0.45,
     video: '/projects/synapsi-demo.mp4',
     poster: '/projects/synapsi-demo.webp',
   },
   {
     title: 'MBM Meccanica',
     tag: 'Sito vetrina',
+    logo: '/projects/mbm-meccanica-logo.webp',
+    tint: '#ECEEF8',
     video: '/projects/mbm-meccanica-demo.mp4',
     poster: '/projects/mbm-meccanica-demo.webp',
   },
@@ -56,4 +65,5 @@ export const WORK = {
   featured: 4,
   seeAll: 'Guarda tutti',
   showLess: 'Mostra meno',
+  allTitle: 'Tutti i progetti',
 }
