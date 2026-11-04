@@ -30,7 +30,7 @@
   z-index: 1;
   max-width: var(--max-width);
   margin: 0 auto;
-  padding: 120px var(--gutter) 24px;
+  padding: 72px var(--gutter) 24px;
 }
 
 .footer__rule {
@@ -41,7 +41,7 @@
 
 .footer__grid {
   display: grid;
-  grid-template-columns: 1.5fr 1fr;
+  grid-template-columns: minmax(0, 1fr);
   gap: 48px;
   padding: 72px 0;
 }
@@ -53,10 +53,15 @@
   letter-spacing: -0.04em;
 }
 
+/*
+ * L'indirizzo email non si spezza: la misura segue la larghezza dello schermo.
+ * Il padding verticale lo rende alto quanto un dito, il margine negativo lo lascia dov'era.
+ */
 .footer__mail {
   display: block;
-  margin-bottom: 56px;
-  font-size: clamp(22px, 3.4vw, 54px);
+  padding-block: 13px;
+  margin: -13px 0 43px;
+  font-size: 5.4vw;
   line-height: 1.05;
   letter-spacing: -0.04em;
 }
@@ -71,17 +76,19 @@
   flex-direction: column;
 }
 
+/* ogni voce alta almeno quanto un dito */
 .footer__link {
   position: relative;
-  display: block;
-  padding: 12px 0 14px;
+  display: flex;
+  align-items: center;
+  min-height: var(--tap);
+  padding: 8px 0 10px;
   font-size: 15px;
   color: rgba(255, 255, 255, 0.65);
   transition: color 0.4s var(--ease);
 }
 
 .footer__link:first-child {
-  padding-top: 0;
   color: var(--fg);
 }
 
@@ -91,8 +98,7 @@
 
 .footer__bottom {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
+  flex-direction: column;
   gap: 24px;
   padding-top: 64px;
 }
@@ -111,7 +117,6 @@
   flex-direction: column;
   gap: 8px;
   font-size: 17px;
-  text-align: right;
 }
 
 .footer__glow {
@@ -126,21 +131,27 @@
   pointer-events: none;
 }
 
-@media (max-width: 860px) {
+@media (width >= 48rem) {
   .footer__inner {
-    padding-top: 72px;
+    padding-top: 120px;
   }
   .footer__grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
   }
   .footer__mail {
-    font-size: 5.4vw;
+    font-size: clamp(22px, 3.4vw, 54px);
+  }
+  /* la prima voce si allinea al titolo che le sta accanto */
+  .footer__link:first-child {
+    min-height: 0;
+    padding-top: 0;
   }
   .footer__bottom {
-    flex-direction: column;
-    align-items: flex-start;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
   }
   .footer__legal {
-    text-align: left;
+    text-align: right;
   }
 }
