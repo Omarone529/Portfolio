@@ -1,7 +1,9 @@
+'use client'
+
 import { useCallback, useEffect, useState } from 'react'
-import { createPortal } from 'react-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { NAV, SECTION, SITE, anchor } from '@/content'
+import { Portal } from '@/components/layout/Portal'
 import { RollText } from '@/components/primitives'
 import { EASE } from '@/lib/motion'
 import { useSmoothScroll } from '@/hooks/useSmoothScroll'
@@ -47,7 +49,9 @@ export default function Nav({ play }) {
       </button>
 
       {/* fuori dalla hero, che è sotto al resto della pagina: il menu deve coprire tutto */}
-      {createPortal(<AnimatePresence>{open && <Menu onClose={closeMenu} />}</AnimatePresence>, document.body)}
+      <Portal>
+        <AnimatePresence>{open && <Menu onClose={closeMenu} />}</AnimatePresence>
+      </Portal>
     </header>
   )
 }

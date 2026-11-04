@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
-import { createPortal } from 'react-dom'
 import { motion } from 'framer-motion'
 import { PROJECTS, WORK } from '@/content'
+import { Portal } from '@/components/layout/Portal'
 import { RollText } from '@/components/primitives'
 import { pad2 } from '@/lib/format'
 import { EASE } from '@/lib/motion'
@@ -21,7 +21,8 @@ export default function AllProjects({ onClose }) {
     return () => window.removeEventListener('keydown', onKey)
   }, [onClose])
 
-  return createPortal(
+  return (
+    <Portal>
     <motion.div
       className="all-projects tone-light"
       role="dialog"
@@ -62,7 +63,7 @@ export default function AllProjects({ onClose }) {
           </motion.li>
         ))}
       </ul>
-    </motion.div>,
-    document.body,
+    </motion.div>
+    </Portal>
   )
 }

@@ -1,12 +1,15 @@
-import { useEffect, useState } from 'react'
+import { useSyncExternalStore } from 'react'
 
-/** Altezza della finestra, aggiornata al resize. */
+const subscribe = (onChange) => {
+  window.addEventListener('resize', onChange)
+  return () => window.removeEventListener('resize', onChange)
+}
+
+/** Altezza della finestra, aggiornata al resize. Durante il prerender vale 0. */
 export function useViewportHeight() {
-  const [height, setHeight] = useState(() => window.innerHeight)
-  useEffect(() => {
-    const onResize = () => setHeight(window.innerHeight)
-    window.addEventListener('resize', onResize)
-    return () => window.removeEventListener('resize', onResize)
-  }, [])
-  return height
+  return useSyncExternalStore(
+    subscribe,
+    () => window.innerHeight,
+    () => 0,
+  )
 }
