@@ -85,6 +85,8 @@
   justify-content: space-between;
   width: 258px;
   max-width: 100%;
+  /* alto quanto un dito: riga di testo + padding sotto + quanto manca, aggiunto sopra dove non si vede */
+  padding-top: calc(var(--tap) - 1.25em - 14px);
   padding-bottom: 14px;
   font-size: 17px;
 }
