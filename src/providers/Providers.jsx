@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
-import { MotionConfig } from 'framer-motion'
+import { domAnimation, LazyMotion, MotionConfig } from 'framer-motion'
 import { useHoverPlay } from '@/hooks/useHoverPlay'
 import { resetScrollOnLoad } from '@/lib/scroll'
 import { SmoothScrollProvider } from './SmoothScroll'
@@ -16,8 +16,12 @@ export default function Providers({ children }) {
   useEffect(resetScrollOnLoad, [])
 
   return (
-    <MotionConfig reducedMotion="user">
-      <SmoothScrollProvider>{children}</SmoothScrollProvider>
-    </MotionConfig>
+    // LazyMotion carica solo le funzioni usate (animazioni, varianti, uscite, hover, in vista):
+    // strict fa fallire subito un <motion.*> che le scaricherebbe tutte di nuovo
+    <LazyMotion features={domAnimation} strict>
+      <MotionConfig reducedMotion="user">
+        <SmoothScrollProvider>{children}</SmoothScrollProvider>
+      </MotionConfig>
+    </LazyMotion>
   )
 }

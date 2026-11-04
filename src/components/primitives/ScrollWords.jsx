@@ -1,7 +1,7 @@
 'use client'
 
 import { useRef } from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { m, useScroll, useTransform } from 'framer-motion'
 
 /** Paragrafo le cui parole si accendono una alla volta con lo scroll; le ultime `mutedTail` restano tenui. */
 export function ScrollWords({ text, mutedTail = 0, className = '' }) {
@@ -35,7 +35,7 @@ function Word({ children, progress, from, to, muted }) {
   if (muted) return <span className="word--muted">{children} </span>
   return (
     <span>
-      <motion.span style={{ opacity }}>{children}</motion.span>{' '}
+      <m.span style={{ opacity }}>{children}</m.span>{' '}
     </span>
   )
 }

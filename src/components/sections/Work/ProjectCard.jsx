@@ -1,4 +1,4 @@
-import { motion, useTransform } from 'framer-motion'
+import { m, useTransform } from 'framer-motion'
 import { EASE, IN_VIEW } from '@/lib/motion'
 import { ProjectLogo } from './ProjectMedia'
 import ProjectLink from './ProjectLink'
@@ -18,7 +18,7 @@ export default function ProjectCard({ project, index, total, progress }) {
 
   return (
     <ProjectLink project={project} className="card" style={{ scale, top: STICKY_TOP + index * STICKY_STEP }}>
-      <motion.div
+      <m.div
         className="card__media"
         style={{ background: project.tint }}
         initial={{ clipPath: 'inset(12% 8% 12% 8%)' }}
@@ -27,7 +27,7 @@ export default function ProjectCard({ project, index, total, progress }) {
         transition={{ duration: 1.2, ease: EASE }}
       >
         <ProjectLogo project={project} />
-      </motion.div>
+      </m.div>
       <div className="card__meta">
         <p>{project.title}</p>
         <p className="muted">{project.tag}</p>

@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { DURATION, EASE, IN_VIEW } from '@/lib/motion'
 
 const lineVariants = {
@@ -14,14 +14,14 @@ const lineVariants = {
  * Gli altri attributi (es. aria-hidden) passano all'elemento.
  */
 export function MaskLines({ lines, as = 'div', className = '', delay = 0, stagger = 0.08, ...rest }) {
-  const Tag = motion[as]
+  const Tag = m[as]
   return (
     <Tag className={className} initial="hide" whileInView="show" viewport={IN_VIEW} {...rest}>
       {lines.map((line, i) => (
         <span className="mask" key={i}>
-          <motion.span className="mask__in" variants={lineVariants} custom={delay + i * stagger}>
+          <m.span className="mask__in" variants={lineVariants} custom={delay + i * stagger}>
             {line}
-          </motion.span>
+          </m.span>
         </span>
       ))}
     </Tag>

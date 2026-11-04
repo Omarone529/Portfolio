@@ -1,6 +1,6 @@
 'use client'
 
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { m, useScroll, useTransform } from 'framer-motion'
 import { HERO, SITE } from '@/content'
 import { ArrowLink, IntroLines } from '@/components/primitives'
 import { useImageReady } from '@/hooks/useImageReady'
@@ -22,8 +22,8 @@ export default function Hero() {
 
   return (
     <section className="hero">
-      <motion.div className="hero__media" style={{ scale: mediaScale }}>
-        <motion.img
+      <m.div className="hero__media" style={{ scale: mediaScale }}>
+        <m.img
           src={HERO.photo.src}
           alt={HERO.photo.alt}
           fetchPriority="high"
@@ -33,9 +33,9 @@ export default function Hero() {
           animate={photoReady ? { scale: 1 } : {}}
           transition={{ duration: 2, ease: EASE }}
         />
-      </motion.div>
+      </m.div>
       <div className="hero__grad" />
-      <motion.div className="hero__shade" style={{ opacity: shade }} />
+      <m.div className="hero__shade" style={{ opacity: shade }} />
 
       <Nav />
 

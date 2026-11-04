@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { DURATION, EASE, IN_VIEW } from '@/lib/motion'
 
 /**
@@ -9,7 +9,7 @@ import { DURATION, EASE, IN_VIEW } from '@/lib/motion'
  */
 export function RevealImage({ src, alt, className = '', tint }) {
   return (
-    <motion.div
+    <m.div
       className={`reveal-img ${tint ? 'reveal-img--logo' : ''} ${className}`}
       style={tint ? { background: tint } : undefined}
       initial={{ clipPath: 'inset(100% 0% 0% 0%)' }}
@@ -17,7 +17,7 @@ export function RevealImage({ src, alt, className = '', tint }) {
       viewport={IN_VIEW}
       transition={{ duration: DURATION.image, ease: EASE }}
     >
-      <motion.img
+      <m.img
         src={src}
         alt={alt}
         loading="lazy"
@@ -26,6 +26,6 @@ export function RevealImage({ src, alt, className = '', tint }) {
         viewport={IN_VIEW}
         transition={{ duration: DURATION.image + 0.3, ease: EASE }}
       />
-    </motion.div>
+    </m.div>
   )
 }

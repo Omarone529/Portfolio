@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
+import { AnimatePresence, m, useReducedMotion } from 'framer-motion'
 import { PROJECTS, WORK } from '@/content'
 import { RollText } from '@/components/primitives'
 import { pad2 } from '@/lib/format'
@@ -13,7 +13,7 @@ export default function SeeAll({ onOpen, ref }) {
   const project = PROJECTS[index]
 
   return (
-    <motion.button
+    <m.button
       ref={ref}
       type="button"
       className="see-all"
@@ -26,7 +26,7 @@ export default function SeeAll({ onOpen, ref }) {
     >
       <span className="see-all__thumb" aria-hidden="true">
         <AnimatePresence initial={false}>
-          <motion.img
+          <m.img
             key={index}
             src={project.logo}
             alt=""
@@ -41,7 +41,7 @@ export default function SeeAll({ onOpen, ref }) {
       <span className="see-all__label">
         <RollText>{`${WORK.seeAll} (${pad2(PROJECTS.length)})`}</RollText>
       </span>
-    </motion.button>
+    </m.button>
   )
 }
 

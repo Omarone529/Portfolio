@@ -1,7 +1,7 @@
 'use client'
 
 import { useRef } from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { m, useScroll, useTransform } from 'framer-motion'
 import { FOOTER, NAV, SECTION, SITE } from '@/content'
 import { ArrowLink, DrawLine, EdgeWedge, MaskLines, RollText } from '@/components/primitives'
 import { useElementHeight } from '@/hooks/useElementHeight'
@@ -34,7 +34,7 @@ export default function Footer({ edgeTone }) {
       {reveal && <EdgeWedge tone={edgeTone} side="bottom" scale={edgeScale} />}
 
       <footer ref={footerRef} className={`footer tone-dark ${reveal ? 'footer--reveal' : ''}`}>
-        <motion.div className="footer__inner" style={reveal ? { y: innerY } : undefined}>
+        <m.div className="footer__inner" style={reveal ? { y: innerY } : undefined}>
           <span className="footer__rule" />
           <div className="footer__grid">
             <div>
@@ -74,7 +74,7 @@ export default function Footer({ edgeTone }) {
               </ul>
             </div>
           </div>
-        </motion.div>
+        </m.div>
         <div className="footer__glow" aria-hidden="true" />
       </footer>
     </div>

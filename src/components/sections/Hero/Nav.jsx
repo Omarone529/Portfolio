@@ -1,7 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, m } from 'framer-motion'
 import { NAV, SECTION, anchor } from '@/content'
 import { Logo } from '@/components/layout/Logo'
 import { Portal } from '@/components/layout/Portal'
@@ -59,7 +59,7 @@ function Menu({ onClose }) {
   }, [onClose])
 
   return (
-    <motion.div
+    <m.div
       className="menu"
       role="dialog"
       aria-modal="true"
@@ -78,6 +78,6 @@ function Menu({ onClose }) {
           {item.label}
         </a>
       ))}
-    </motion.div>
+    </m.div>
   )
 }

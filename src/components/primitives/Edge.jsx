@@ -1,7 +1,7 @@
 'use client'
 
 import { useRef } from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { m, useScroll, useTransform } from 'framer-motion'
 
 /**
  * Triangolo del colore della sezione che rende obliquo un bordo dritto.
@@ -10,7 +10,7 @@ import { motion, useScroll, useTransform } from 'framer-motion'
  * La pendenza piena è `--edge-rise` (tokens.css).
  */
 export function EdgeWedge({ tone, side, scale }) {
-  return <motion.div aria-hidden="true" className={`edge edge--${side} tone-${tone}`} style={{ scaleY: scale }} />
+  return <m.div aria-hidden="true" className={`edge edge--${side} tone-${tone}`} style={{ scaleY: scale }} />
 }
 
 /**

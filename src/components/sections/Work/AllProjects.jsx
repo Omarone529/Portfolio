@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { PROJECTS, WORK } from '@/content'
 import { Portal } from '@/components/layout/Portal'
 import { RollText } from '@/components/primitives'
@@ -23,7 +23,7 @@ export default function AllProjects({ onClose }) {
 
   return (
     <Portal>
-      <motion.div
+      <m.div
         className="all-projects tone-light"
         role="dialog"
         aria-modal="true"
@@ -45,7 +45,7 @@ export default function AllProjects({ onClose }) {
 
         <ul className="all-projects__grid">
           {PROJECTS.map((project, i) => (
-            <motion.li
+            <m.li
               key={project.title}
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
@@ -61,10 +61,10 @@ export default function AllProjects({ onClose }) {
                 </div>
                 <p className="tile__description muted">{project.description}</p>
               </ProjectLink>
-            </motion.li>
+            </m.li>
           ))}
         </ul>
-      </motion.div>
+      </m.div>
     </Portal>
   )
 }

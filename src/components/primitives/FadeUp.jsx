@@ -1,11 +1,11 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { DURATION, EASE, IN_VIEW } from '@/lib/motion'
 
 /** Blocco che sale e compare quando entra in vista. */
 export function FadeUp({ as = 'div', className, delay = 0, children }) {
-  const Tag = motion[as]
+  const Tag = m[as]
   return (
     <Tag
       className={className}
