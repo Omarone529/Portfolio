@@ -8,14 +8,11 @@ import { RollText } from '@/components/primitives'
 import { EASE } from '@/lib/motion'
 import { useSmoothScroll } from '@/hooks/useSmoothScroll'
 
-const fadeDown = (play, delay) => ({
-  initial: { opacity: 0, y: -10 },
-  animate: play ? { opacity: 1, y: 0 } : {},
-  transition: { duration: 1, ease: EASE, delay },
-})
+/** Ritardo dell'ingresso dall'alto, che è solo CSS (vedi .intro-fade in primitives.css). */
+const introDelay = (seconds) => ({ '--delay': `${seconds}s` })
 
 /** Barra in alto della hero: logo, link numerati e, sotto gli 860px, il menu a tutto schermo. */
-export default function Nav({ play }) {
+export default function Nav() {
   const [open, setOpen] = useState(false)
   const { lock, unlock } = useSmoothScroll()
 
@@ -31,21 +28,21 @@ export default function Nav({ play }) {
 
   return (
     <header className="nav-bar">
-      <motion.a
+      <a
         href={anchor(SECTION.top)}
-        className="logo"
         aria-label={`${SITE.fullName}, home`}
-        {...fadeDown(play, 0.3)}
+        className="logo intro-fade"
+        style={introDelay(0)}
       >
         <span className="logo__mark" aria-hidden="true" />
         {SITE.fullName.toUpperCase()}
-      </motion.a>
+      </a>
 
       <nav className="nav" aria-label="Principale">
         {NAV.map((item, i) => (
-          <motion.a key={item.href} href={item.href} className="nav__link" {...fadeDown(play, 0.35 + i * 0.06)}>
+          <a key={item.href} href={item.href} className="nav__link intro-fade" style={introDelay(0.05 + i * 0.05)}>
             <RollText>{item.label}</RollText>
-          </motion.a>
+          </a>
         ))}
       </nav>
 
