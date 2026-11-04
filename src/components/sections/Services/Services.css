@@ -1,0 +1,82 @@
+.services {
+  padding-bottom: 160px;
+}
+
+.services__intro {
+  position: relative;
+  margin: 64px 0 80px;
+}
+
+/* l'immagine sta nell'angolo e la prima riga della frase le parte accanto, allineata al suo fondo */
+.services__intro-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 178px;
+  height: 232px;
+}
+
+.services__intro-img img {
+  object-position: 50% 55%;
+}
+
+.services__statement {
+  padding-top: calc(232px - 1.02em);
+  text-indent: 210px;
+}
+
+.services__list {
+  margin: 100px 0 0 8.5%;
+}
+
+.service {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr) minmax(0, 0.9fr);
+  gap: 64px;
+  padding: 70px 0;
+}
+
+.service__num {
+  font-size: clamp(80px, 15vw, 210px);
+  font-weight: 500;
+  line-height: 0.8;
+  letter-spacing: -0.06em;
+}
+
+.service__img {
+  aspect-ratio: 406 / 285;
+}
+
+.service__body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.service__text {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 17px;
+}
+
+@media (max-width: 860px) {
+  .services__intro-img {
+    position: static;
+    margin-bottom: 24px;
+  }
+  .services__statement {
+    padding-top: 0;
+    text-indent: 0;
+  }
+  .services__list {
+    margin: 56px 0 0;
+  }
+  .service {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding: 48px 0;
+  }
+}
