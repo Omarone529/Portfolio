@@ -24,7 +24,8 @@ export default function Footer({ edgeTone }) {
   const reveal = height > 0 && height <= viewportHeight
 
   const { scrollYProgress } = useScroll({ target: slotRef, offset: ['start end', 'end end'] })
-  const edgeScale = useTransform(scrollYProgress, [0, 1], [1, 0])
+  // dritto un po' prima della fine: uno scroll che si ferma a una frazione di pixel non lascia una scheggia
+  const edgeScale = useTransform(scrollYProgress, [0, 0.9], [1, 0])
   const innerY = useTransform(scrollYProgress, [0, 1], ['-30%', '0%'])
 
   return (

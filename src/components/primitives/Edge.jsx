@@ -11,10 +11,13 @@ export function EdgeWedge({ tone, side, scale }) {
   return <motion.div aria-hidden="true" className={`edge edge--${side} tone-${tone}`} style={{ scaleY: scale }} />
 }
 
-/** Bordo superiore obliquo di una sezione: si raddrizza mentre la sezione sale nello schermo. */
+/**
+ * Bordo superiore obliquo di una sezione: entra inclinato dal fondo dello
+ * schermo ed è già dritto quando arriva a metà, dove lo sguardo lo segue.
+ */
 export function TopEdge({ tone }) {
   const ref = useRef(null)
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'start 25%'] })
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'start 50%'] })
   const scale = useTransform(scrollYProgress, [0, 1], [1, 0])
   return (
     <div ref={ref} className="edge-anchor">
