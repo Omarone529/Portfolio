@@ -1,5 +1,5 @@
 .services {
-  padding-bottom: 160px;
+  padding-bottom: 120px;
 }
 
 .services__intro {
@@ -7,34 +7,26 @@
   margin: 64px 0 80px;
 }
 
-/* l'immagine sta nell'angolo e la prima riga della frase le parte accanto, allineata al suo fondo */
 .services__intro-img {
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 178px;
   height: 232px;
+  margin-bottom: 24px;
 }
 
 .services__intro-img img {
   object-position: 50% 55%;
 }
 
-.services__statement {
-  padding-top: calc(232px - 1.02em);
-  text-indent: 210px;
-}
-
 .services__list {
-  margin: 100px 0 0 8.5%;
+  margin-top: 56px;
 }
 
 .service {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr) minmax(0, 0.9fr);
-  gap: 64px;
-  padding: 70px 0;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 24px;
+  padding: 48px 0;
 }
 
 .service__num {
@@ -52,7 +44,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 40px;
+  gap: 24px;
 }
 
 .service__text {
@@ -62,21 +54,45 @@
   font-size: 17px;
 }
 
-@media (max-width: 860px) {
+/* tablet: numero a sinistra, immagine e testo uno sotto l'altro a destra */
+@media (width >= 48rem) {
+  .services {
+    padding-bottom: 160px;
+  }
+  /* l'immagine sta nell'angolo e la prima riga della frase le parte accanto, allineata al suo fondo */
   .services__intro-img {
-    position: static;
-    margin-bottom: 24px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
   }
   .services__statement {
-    padding-top: 0;
-    text-indent: 0;
+    padding-top: calc(232px - 1.02em);
+    text-indent: 210px;
   }
   .services__list {
-    margin: 56px 0 0;
+    margin: 100px 0 0 8.5%;
   }
   .service {
-    grid-template-columns: 1fr;
-    gap: 24px;
-    padding: 48px 0;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    gap: 32px 48px;
+    padding: 70px 0;
+  }
+  .service__num {
+    grid-row: span 2;
+  }
+  .service__body {
+    gap: 40px;
+  }
+}
+
+/* desktop: numero, immagine e testo affiancati */
+@media (width > 64rem) {
+  .service {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr) minmax(0, 0.9fr);
+    gap: 64px;
+  }
+  .service__num {
+    grid-row: auto;
   }
 }
