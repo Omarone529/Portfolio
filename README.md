@@ -13,7 +13,7 @@ npm run lint     # oxlint
 ```
 src/
   content/              tutti i testi e i dati, nessun testo nei componenti
-    site.js             nome, email, id delle sezioni, menu, tecnologie
+    site.js             nome, email, id delle sezioni, menu
     hero.js about.js projects.js services.js footer.js
   components/
     primitives/         i mattoncini animati riusati ovunque (+ primitives.css)
