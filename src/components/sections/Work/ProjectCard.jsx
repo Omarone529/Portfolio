@@ -1,5 +1,5 @@
 import { motion, useTransform } from 'framer-motion'
-import { EASE } from '@/lib/motion'
+import { EASE, IN_VIEW } from '@/lib/motion'
 import { ProjectLogo } from './ProjectMedia'
 import ProjectLink from './ProjectLink'
 
@@ -23,7 +23,7 @@ export default function ProjectCard({ project, index, total, progress }) {
         style={{ background: project.tint }}
         initial={{ clipPath: 'inset(12% 8% 12% 8%)' }}
         whileInView={{ clipPath: 'inset(0% 0% 0% 0%)' }}
-        viewport={{ once: true, margin: '-15% 0px' }}
+        viewport={{ ...IN_VIEW, margin: '10000px 0px -15% 0px' }}
         transition={{ duration: 1.2, ease: EASE }}
       >
         <ProjectLogo project={project} />
