@@ -26,10 +26,15 @@ export function ScrollWords({ text, mutedTail = 0, className = '' }) {
   )
 }
 
+// 0.42 è la soglia minima perché anche la parola ancora spenta resti leggibile (contrasto 3:1 per testi grandi)
+const UNLIT_OPACITY = 0.42
+
 function Word({ children, progress, from, to, muted }) {
-  const opacity = useTransform(progress, [from, to], [0.15, 1])
+  const opacity = useTransform(progress, [from, to], [UNLIT_OPACITY, 1])
+  // le parole tenui sono già "spente" per scelta: sopra il loro colore attenuato non si accendono
+  if (muted) return <span className="word--muted">{children} </span>
   return (
-    <span className={muted ? 'word--muted' : undefined}>
+    <span>
       <motion.span style={{ opacity }}>{children}</motion.span>{' '}
     </span>
   )
