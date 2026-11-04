@@ -3,9 +3,9 @@ import { animate } from 'framer-motion'
 import { EASE } from '@/lib/motion'
 
 /**
- * Conta da 0 a `target` quando `active` diventa true. Prima vale già `target`:
- * l'HTML prerenderizzato, i crawler e chi non ha JavaScript leggono il numero
- * vero, e il blocco non è ancora a schermo quando il conteggio riparte da 0.
+ * Conta da 0 a `target` ogni volta che `active` diventa true. Prima vale già
+ * `target`: l'HTML prerenderizzato, i crawler e chi non ha JavaScript leggono il
+ * numero vero, e il blocco non è ancora a schermo quando il conteggio riparte da 0.
  */
 export function useCountUp(target, active, duration = 1.6) {
   const [value, setValue] = useState(target)

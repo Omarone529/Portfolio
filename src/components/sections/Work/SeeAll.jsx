@@ -3,7 +3,7 @@ import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { PROJECTS, WORK } from '@/content'
 import { RollText } from '@/components/primitives'
 import { pad2 } from '@/lib/format'
-import { EASE } from '@/lib/motion'
+import { EASE, IN_VIEW } from '@/lib/motion'
 
 const THUMB_INTERVAL = 2200
 
@@ -21,7 +21,7 @@ export default function SeeAll({ onOpen, ref }) {
       aria-haspopup="dialog"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
+      viewport={IN_VIEW}
       transition={{ duration: 1, ease: EASE }}
     >
       <span className="see-all__thumb" aria-hidden="true">

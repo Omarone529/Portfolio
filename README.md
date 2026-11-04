@@ -71,7 +71,7 @@ La CI di GitHub (`.github/workflows/ci.yml`) esegue audit delle dipendenze, lint
 - **Componenti client:** solo le parti animate sono `'use client'`. Il resto viene reso durante la build. `window` e `document` si leggono solo dopo il montaggio (`useIsClient`, `useViewportHeight`, `Portal`).
 - **Link interni:** li gestisce `SmoothScrollProvider`, che scorre fino alla sezione senza lasciare `#` nell'indirizzo. Un'ancora deve puntare a un elemento nel flusso della pagina, non fisso: per questo `#top` è su `<main>` e `#contact` è sullo slot del footer.
 - **Refresh:** ogni ricarica riparte dalla hero (`resetScrollOnLoad`).
-- **Prima schermata:** la hero entra con animazioni solo CSS (`IntroLines`, `.intro-fade`), così non aspetta JavaScript. Il resto usa Framer Motion quando entra in vista.
+- **Prima schermata:** la hero entra con animazioni solo CSS (`IntroLines`, `.intro-fade`), così non aspetta JavaScript. Il resto usa Framer Motion e si ripete ogni volta che l'elemento rientra nello schermo, da sotto o da sopra (`IN_VIEW` in `lib/motion.js`).
 - **Hover:** le animazioni partono con `.is-hovering` (`useHoverPlay`) e arrivano sempre in fondo. La durata del hook deve coprire l'animazione più lunga in `primitives.css`.
 - **Footer:** resta fisso sotto la pagina e viene scoperto solo se entra nello schermo. Su schermi bassi resta nel flusso normale.
 - **Animazioni ridotte:** chi le ha disattivate nel sistema non ha scroll fluido, video in loop, ingressi animati né conteggi.
