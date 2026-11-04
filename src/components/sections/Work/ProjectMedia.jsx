@@ -1,4 +1,5 @@
 import { useRef } from 'react'
+import { DEMO_SIZE } from '@/content'
 import { useInViewPlayback } from '@/hooks/useInViewPlayback'
 
 /** Il logo del progetto, centrato sul suo fondo (il fondo lo dà il contenitore). */
@@ -8,7 +9,10 @@ export function ProjectLogo({ project }) {
       className="project-logo"
       src={project.logo}
       alt={project.title}
+      width={project.logoSize[0]}
+      height={project.logoSize[1]}
       loading="lazy"
+      decoding="async"
       style={{ '--logo-scale': project.logoScale ?? 0.62 }}
     />
   )
@@ -28,6 +32,8 @@ function DemoVideo({ project }) {
       className="project-video"
       src={project.video}
       poster={project.poster}
+      width={DEMO_SIZE[0]}
+      height={DEMO_SIZE[1]}
       muted
       loop
       playsInline

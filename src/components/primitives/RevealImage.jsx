@@ -6,8 +6,9 @@ import { DURATION, EASE, IN_VIEW } from '@/lib/motion'
 /**
  * Immagine che si apre a tendina dal basso con un leggero zoom-out.
  * Con `tint` l'immagine è un logo: resta intera, centrata su quel colore.
+ * `size` ([larghezza, altezza] del file) riserva lo spazio prima che arrivi.
  */
-export function RevealImage({ src, alt, className = '', tint }) {
+export function RevealImage({ src, alt, size, className = '', tint }) {
   return (
     <m.div
       className={`reveal-img ${tint ? 'reveal-img--logo' : ''} ${className}`}
@@ -20,7 +21,10 @@ export function RevealImage({ src, alt, className = '', tint }) {
       <m.img
         src={src}
         alt={alt}
+        width={size?.[0]}
+        height={size?.[1]}
         loading="lazy"
+        decoding="async"
         initial={{ scale: 1.25 }}
         whileInView={{ scale: 1 }}
         viewport={IN_VIEW}

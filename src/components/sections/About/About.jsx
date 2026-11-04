@@ -14,7 +14,12 @@ export default function About() {
         <ScrollWords className="statement about__statement" text={ABOUT.statement} />
 
         <div className="about__grid">
-          <RevealImage className="about__portrait" src={ABOUT.portrait.src} alt={ABOUT.portrait.alt} />
+          <RevealImage
+            className="about__portrait"
+            src={ABOUT.portrait.src}
+            size={ABOUT.portrait.size}
+            alt={ABOUT.portrait.alt}
+          />
 
           <div className="about__rows">
             {ABOUT.rows.map((row) => (

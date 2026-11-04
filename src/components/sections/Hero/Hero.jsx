@@ -26,6 +26,8 @@ export default function Hero() {
         <m.img
           src={HERO.photo.src}
           alt={HERO.photo.alt}
+          width={HERO.photo.size[0]}
+          height={HERO.photo.size[1]}
           fetchPriority="high"
           // visibile da subito (solo lo zoom aspetta): è l'elemento più grande, e il browser misura
           // il caricamento (LCP) da quando compare, non da quando finisce di animarsi

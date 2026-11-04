@@ -1,9 +1,35 @@
-import { existsSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
-import { COOKIES, FOOTER, NAV, PRIVACY, PROJECTS, SECTION, SEO, SERVICES, SITE, WORK } from '@/content'
+import {
+  ABOUT,
+  COOKIES,
+  FOOTER,
+  HERO,
+  NAV,
+  PRIVACY,
+  PROJECTS,
+  SECTION,
+  SEO,
+  SERVICES,
+  SERVICES_INTRO,
+  SITE,
+  WORK,
+} from '@/content'
 
 const publicFile = (path) => existsSync(join(process.cwd(), 'public', path))
+
+/** Larghezza e altezza di un file webp, lette dall'intestazione (VP8, VP8L o VP8X). */
+function webpSize(path) {
+  const b = readFileSync(join(process.cwd(), 'public', path))
+  const chunk = b.toString('ascii', 12, 16)
+  if (chunk === 'VP8X') return [1 + b.readUIntLE(24, 3), 1 + b.readUIntLE(27, 3)]
+  if (chunk === 'VP8L') {
+    const bits = b.readUInt32LE(21)
+    return [1 + (bits & 0x3fff), 1 + ((bits >> 14) & 0x3fff)]
+  }
+  return [b.readUInt16LE(26) & 0x3fff, b.readUInt16LE(28) & 0x3fff]
+}
 
 describe('navigation', () => {
   it('points only at sections that exist', () => {
@@ -75,5 +101,20 @@ describe('legal documents', () => {
   it('are linked from the footer', () => {
     const hrefs = FOOTER.links.map((l) => l.href)
     expect(hrefs).toEqual(expect.arrayContaining([PRIVACY.path, COOKIES.path]))
+  })
+})
+
+describe('image sizes', () => {
+  // le misure dichiarate riservano lo spazio prima che il file arrivi: se non coincidono la pagina salta
+  const images = [
+    [HERO.photo.src, HERO.photo.size],
+    [ABOUT.portrait.src, ABOUT.portrait.size],
+    [SERVICES_INTRO.image.src, SERVICES_INTRO.image.size],
+    ...SERVICES.map((s) => [s.image, s.imageSize]),
+    ...PROJECTS.map((p) => [p.logo, p.logoSize]),
+  ]
+
+  it.each(images)('%s is declared at its real size', (src, size) => {
+    expect(webpSize(src)).toEqual(size)
   })
 })

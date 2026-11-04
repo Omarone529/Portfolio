@@ -13,7 +13,12 @@ export default function Services() {
         <SectionHead label={intro.label} meta={intro.meta} />
 
         <div className="services__intro">
-          <RevealImage className="services__intro-img" src={intro.image.src} alt={intro.image.alt} />
+          <RevealImage
+            className="services__intro-img"
+            src={intro.image.src}
+            size={intro.image.size}
+            alt={intro.image.alt}
+          />
           <ScrollWords className="statement services__statement" text={intro.statement} mutedTail={intro.mutedTail} />
         </div>
 

@@ -30,6 +30,10 @@ export default function SeeAll({ onOpen, ref }) {
             key={index}
             src={project.logo}
             alt=""
+            width={project.logoSize[0]}
+            height={project.logoSize[1]}
+            loading="lazy"
+            decoding="async"
             style={{ background: project.tint }}
             initial={{ clipPath: 'inset(100% 0 0 0)' }}
             animate={{ clipPath: 'inset(0% 0 0 0)' }}

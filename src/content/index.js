@@ -2,7 +2,7 @@
 export { SITE, PLACE, PROFILES, SKILLS, SECTION, NAV, anchor } from './site'
 export { HERO } from './hero'
 export { ABOUT } from './about'
-export { PROJECTS, WORK } from './projects'
+export { DEMO_SIZE, PROJECTS, WORK } from './projects'
 export { SERVICES, SERVICES_INTRO } from './services'
 export { FOOTER } from './footer'
 export { SEO } from './seo'

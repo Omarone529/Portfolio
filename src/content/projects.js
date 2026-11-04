@@ -5,8 +5,13 @@ import { SECTION, anchor } from './site'
  * vista "Guarda tutti" e nei dati strutturati), `logo` su un fondo `tint` (scalato di
  * `logoScale`), che è ciò che mostra la pila. Chi ha una demo registrata ha
  * anche `video` e `poster`, mostrati nella vista "Guarda tutti".
- * Un `href` esterno apre il sito pubblicato in una nuova scheda.
+ * Un `href` esterno apre il sito pubblicato in una nuova scheda. `logoSize` e
+ * `DEMO_SIZE` sono le misure reali dei file, che il browser usa per riservare
+ * lo spazio prima che arrivino (i test controllano che coincidano).
  */
+/** Misure delle demo registrate e dei loro poster: sono tutte 1280×720. */
+export const DEMO_SIZE = [1280, 720]
+
 export const PROJECTS = [
   {
     title: 'JoeDesign',
@@ -14,6 +19,7 @@ export const PROJECTS = [
     description: 'Sito portfolio per un product designer, con archivio dei lavori e una pagina per ogni progetto.',
     href: 'https://joesarchiolla.com/',
     logo: '/projects/joedesign-logo.webp',
+    logoSize: [512, 512],
     tint: '#E9E7E3',
     logoScale: 0.36,
     video: '/projects/joedesign-demo.mp4',
@@ -24,6 +30,7 @@ export const PROJECTS = [
     tag: 'App desktop',
     description: 'Gestionale per freelance con assistente AI su Telegram, dalla fatturazione elettronica al bilancio.',
     logo: '/projects/synapsi-logo.webp',
+    logoSize: [340, 302],
     tint: '#FBF0EA',
     logoScale: 0.45,
     video: '/projects/synapsi-demo.mp4',
@@ -34,6 +41,7 @@ export const PROJECTS = [
     tag: 'Sito vetrina',
     description: "Sito vetrina per un'officina metalmeccanica: servizi, lavorazioni e parco macchine.",
     logo: '/projects/mbm-meccanica-logo.webp',
+    logoSize: [800, 265],
     tint: '#ECEEF8',
     video: '/projects/mbm-meccanica-demo.mp4',
     poster: '/projects/mbm-meccanica-demo.webp',
@@ -43,6 +51,7 @@ export const PROJECTS = [
     tag: 'Web app',
     description: 'Pianificatore di percorsi panoramici per motociclisti, con mappa e tracciati sincronizzati.',
     logo: '/projects/apexgps-logo.webp',
+    logoSize: [800, 234],
     tint: '#EAF1F5',
   },
 ]

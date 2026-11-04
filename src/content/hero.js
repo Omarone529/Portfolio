@@ -3,6 +3,7 @@ import { SECTION, anchor } from './site'
 export const HERO = {
   photo: {
     src: '/images/hero.webp',
+    size: [1920, 1080],
     alt: 'Omar in piedi su una terrazza davanti al mare in tempesta',
   },
   /** Righe della frase: l'ultima resta più tenue. */
