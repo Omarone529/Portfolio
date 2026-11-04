@@ -9,15 +9,14 @@ const lineVariants = {
 }
 
 /**
- * Righe di testo che salgono da una maschera, una dopo l'altra.
- * Senza `play` partono quando entrano in vista; con `play` partono quando diventa true.
+ * Righe di testo che salgono da una maschera, una dopo l'altra, quando entrano
+ * in vista. Per ciò che si vede al caricamento c'è IntroLines, solo CSS.
  * Gli altri attributi (es. aria-hidden) passano all'elemento.
  */
-export function MaskLines({ lines, as = 'div', className = '', delay = 0, stagger = 0.08, play, ...rest }) {
+export function MaskLines({ lines, as = 'div', className = '', delay = 0, stagger = 0.08, ...rest }) {
   const Tag = motion[as]
-  const trigger = play === undefined ? { whileInView: 'show', viewport: IN_VIEW } : { animate: play ? 'show' : 'hide' }
   return (
-    <Tag className={className} initial="hide" {...trigger} {...rest}>
+    <Tag className={className} initial="hide" whileInView="show" viewport={IN_VIEW} {...rest}>
       {lines.map((line, i) => (
         <span className="mask" key={i}>
           <motion.span className="mask__in" variants={lineVariants} custom={delay + i * stagger}>
