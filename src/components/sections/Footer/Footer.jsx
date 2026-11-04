@@ -4,7 +4,6 @@ import { FOOTER, NAV, SECTION, SITE } from '@/content'
 import { ArrowLink, DrawLine, EdgeWedge, MaskLines, RollText } from '@/components/primitives'
 import { useElementHeight } from '@/hooks/useElementHeight'
 import { useViewportHeight } from '@/hooks/useViewportHeight'
-import { pad2 } from '@/lib/format'
 import './Footer.css'
 
 /**
@@ -48,7 +47,6 @@ export default function Footer({ edgeTone }) {
               {NAV.map((item, i) => (
                 <a key={item.href} href={item.href} className="footer__link">
                   <RollText>{item.label}</RollText>
-                  <sup>{pad2(i + 1)}</sup>
                   <DrawLine delay={i * 0.06} />
                 </a>
               ))}
