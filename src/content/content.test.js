@@ -1,21 +1,7 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
-import {
-  ABOUT,
-  COOKIES,
-  FOOTER,
-  HERO,
-  NAV,
-  PRIVACY,
-  PROJECTS,
-  SECTION,
-  SEO,
-  SERVICES,
-  SERVICES_INTRO,
-  SITE,
-  WORK,
-} from '@/content'
+import { ABOUT, COOKIES, FOOTER, HERO, NAV, PRIVACY, PROJECTS, SECTION, SEO, SERVICES, SITE, WORK } from '@/content'
 
 const publicFile = (path) => existsSync(join(process.cwd(), 'public', path))
 
@@ -109,7 +95,6 @@ describe('image sizes', () => {
   const images = [
     [HERO.photo.src, HERO.photo.size],
     [ABOUT.portrait.src, ABOUT.portrait.size],
-    [SERVICES_INTRO.image.src, SERVICES_INTRO.image.size],
     ...SERVICES.map((s) => [s.image, s.imageSize]),
     ...PROJECTS.map((p) => [p.logo, p.logoSize]),
   ]

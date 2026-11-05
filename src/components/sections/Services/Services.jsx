@@ -1,10 +1,10 @@
 import { SECTION, SERVICES, SERVICES_INTRO } from '@/content'
 import { Container, Section } from '@/components/layout/Section'
-import { RevealImage, ScrollWords, SectionHead } from '@/components/primitives'
+import { ScrollWords, SectionHead } from '@/components/primitives'
 import ServiceRow from './ServiceRow'
 import './Services.css'
 
-/** Servizi, su fondo scuro: frase d'apertura con immagine, poi una riga per servizio. */
+/** Servizi, su fondo scuro: frase d'apertura, poi una riga per servizio. */
 export default function Services() {
   const intro = SERVICES_INTRO
   return (
@@ -13,13 +13,7 @@ export default function Services() {
         <SectionHead label={intro.label} meta={intro.meta} />
 
         <div className="services__intro">
-          <RevealImage
-            className="services__intro-img"
-            src={intro.image.src}
-            size={intro.image.size}
-            alt={intro.image.alt}
-          />
-          <ScrollWords className="statement services__statement" text={intro.statement} mutedTail={intro.mutedTail} />
+          <ScrollWords className="statement services__statement" text={intro.statement} />
         </div>
 
         <ol className="services__list">

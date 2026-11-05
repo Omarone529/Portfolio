@@ -28,7 +28,4 @@ export const SERVICES_INTRO = {
   meta: SERVICES.map((s) => s.title).join(' · '),
   statement:
     "Dal primo schizzo al rilascio: progetto l'interfaccia, scrivo il codice e curo ogni animazione, un dettaglio alla volta.",
-  /** Quante parole finali della frase restano più tenui. */
-  mutedTail: 4,
-  image: { src: '/images/hero-sm.webp', size: [1000, 563], alt: '' },
 }
