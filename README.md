@@ -32,6 +32,7 @@ src/
   providers/            scroll fluido, link interni e tutto ciò che vive solo nel browser
   lib/                  animazioni, formattazione, scroll, SEO (JSON-LD) e llms.txt
   styles/               token di design, base e struttura della pagina
+docs/PERFORMANCE.md     la checklist di performance, con misure e motivazioni
 ```
 
 ## Come si fa
@@ -39,6 +40,7 @@ src/
 - **Aggiungere un progetto:** una voce in `PROJECTS` (`content/projects.js`) con `tag`, `description`, `logo` e `tint`. Con `video` e `poster` la demo compare in "Guarda tutti". Pila, dati strutturati, sitemap e `llms.txt` si aggiornano da soli, e i test controllano che i file esistano.
 - **Aggiungere una sezione:** un id in `SECTION` (`content/site.js`), un componente in `components/sections/`, una riga in `app/page.jsx`. Per il bordo obliquo usa `<Section edge>`.
 - **Cambiare colori, font e misure:** `styles/tokens.css`. La pendenza dei bordi obliqui è `--edge-angle`.
+- **Pagine legali:** i testi sono in `content/legal.js` (`PRIVACY`, `COOKIES`), resi da `LegalPage`. Se il sito comincia a usare cookie, statistiche o contenuti di terzi, queste pagine vanno aggiornate prima di pubblicare, insieme alla CSP.
 - **Cambiare dominio:** `NEXT_PUBLIC_SITE_URL` (default `https://omarbayadi.com`). Canonical, sitemap, robots, JSON-LD e `llms.txt` lo seguono.
 
 ## SEO, GEO e AEO
@@ -51,7 +53,7 @@ src/
 - **Titoli:** un `h1`, poi un `h2` per sezione e un `h3` per ogni servizio.
 - **Anteprima social:** `app/opengraph-image.jpg` (1200×630, sotto i 100KB perché WhatsApp scarta le immagini pesanti). Se cambiano nome o foto va rifatta.
 
-Lighthouse (mobile): SEO, accessibilità, best practices e agentic browsing a 100. LCP 2.0s su telefono simulato lento (CPU 4x, 4G lento).
+Lighthouse (mobile): SEO, accessibilità, best practices e agentic browsing a 100. LCP 1.94s su telefono simulato lento (CPU 4x, 4G lento). La checklist di performance di roadmap.sh, voce per voce, è in [`docs/PERFORMANCE.md`](docs/PERFORMANCE.md).
 
 ## Deploy (Netlify)
 
