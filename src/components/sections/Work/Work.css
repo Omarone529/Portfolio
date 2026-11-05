@@ -1,4 +1,4 @@
-/* lo spazio in fondo lascia passare il bordo obliquo dei Servizi senza toccare l'ultima card */
+/* lo spazio in fondo lascia passare il bordo obliquo dei Servizi senza toccare il portatile */
 .work {
   padding-bottom: calc(var(--edge-rise) + 80px);
 }
@@ -13,106 +13,657 @@
   align-self: start;
   display: flex;
   flex-direction: column;
-  gap: 18px;
-  max-width: 250px;
-  padding: 24px 0 32px;
+  gap: 40px;
+  padding: 24px 0 48px;
 }
 
-.work__side .arrow-link {
-  width: 100%;
-  padding-top: 14px;
+/* ---------- portatile ---------- */
+
+.laptop-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-.work__side .arrow-link::before {
+/* largo quanto la colonna, ma mai più alto dello schermo */
+.laptop {
+  width: min(100%, calc((100svh - 120px) * 1.6));
+  margin-inline: auto;
+}
+
+.laptop__lid {
+  position: relative;
+  width: 86%;
+  margin-inline: auto;
+  padding: 1.6% 1.6% 2.2%;
+  border-radius: 16px 16px 0 0;
+  background: #1b1b1d;
+  box-shadow: inset 0 0 0 1px #3a3a3c;
+}
+
+/* la fotocamera, al centro della cornice */
+.laptop__lid::before {
+  content: '';
+  position: absolute;
+  top: 0.6%;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #2c2c2e;
+  transform: translateX(-50%);
+}
+
+/* tiene il posto del display, così il portatile non si svuota quando lui va a schermo intero */
+.laptop__slot {
+  position: relative;
+  aspect-ratio: 16 / 10;
+}
+
+.laptop__screen {
+  --menubar: clamp(14px, 3cqw, 28px);
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  container-type: inline-size;
+  border-radius: 4px;
+  background:
+    radial-gradient(110% 80% at 15% 0%, #9fd0ee, transparent 60%),
+    radial-gradient(90% 90% at 95% 100%, var(--glow), transparent 65%), #4c8db5;
+}
+
+/* a schermo intero il display copre tutta la finestra del browser */
+.laptop__screen.is-full,
+.laptop__screen:fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  border-radius: 0;
+}
+
+.laptop__base {
+  position: relative;
+  height: clamp(9px, 1.6vw, 18px);
+  border-radius: 2px 2px 14px 14px;
+  background: linear-gradient(#e3e4e6, #a7a9ad);
+  box-shadow: 0 18px 40px -18px rgba(0, 0, 0, 0.45);
+}
+
+/* l'incavo per aprire il coperchio */
+.laptop__base::before {
   content: '';
   position: absolute;
   top: 0;
-  left: 0;
-  width: 100%;
-  height: 1px;
-  background: var(--line);
+  left: 50%;
+  width: 14%;
+  height: 45%;
+  border-radius: 0 0 8px 8px;
+  background: #b9bbbe;
+  transform: translateX(-50%);
 }
 
-.work__stack {
+/* ---------- barra dei menu ---------- */
+
+.desktop__menubar {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 50;
   display: flex;
-  flex-direction: column;
-  gap: 48px;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--menubar);
+  padding-inline: 2.4cqw 0.8cqw;
+  background: rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(12px);
+  font-size: clamp(7px, 1.4cqw, 13px);
+  color: rgba(0, 0, 0, 0.8);
 }
 
-/* ---------- card ---------- */
-
-.card {
-  position: sticky;
-  display: block;
-  transform-origin: top center;
-  background: var(--white);
+.desktop__app {
+  font-weight: 600;
 }
 
-.card__media {
+.desktop__status {
+  display: flex;
+  align-items: center;
+  gap: 0.8cqw;
+  height: 100%;
+  font-variant-numeric: tabular-nums;
+}
+
+.desktop__full {
   display: grid;
   place-items: center;
-  aspect-ratio: 16 / 9;
-  overflow: hidden;
-  border-radius: var(--radius);
+  height: 100%;
+  aspect-ratio: 1.4;
+  border-radius: 4px;
+  color: inherit;
+  transition: background 0.2s;
 }
 
-.card:hover .project-logo {
-  transform: scale(1.05);
+.desktop__full svg {
+  width: 62%;
+  height: 62%;
 }
 
-.card__meta {
+.desktop__full:hover {
+  background: rgba(255, 255, 255, 0.45);
+}
+
+/* il desktop senza finestre aperte */
+.desktop__empty {
+  position: absolute;
+  inset: 0 10% 12cqw;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6cqw;
+  font-size: clamp(11px, 1.8cqw, 17px);
+  color: rgba(255, 255, 255, 0.85);
+  text-align: center;
+}
+
+.desktop__empty-title {
+  font-size: clamp(15px, 3.4cqw, 34px);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--white);
+}
+
+/* ---------- finestre ---------- */
+
+/* posizione e misure arrivano in percentuale dallo stato; ingrandire e ripristinare scorrono */
+.app-window {
+  position: absolute;
+  transform-origin: 50% 100%;
+  transition:
+    left 0.45s var(--ease),
+    top 0.45s var(--ease),
+    width 0.45s var(--ease),
+    height 0.45s var(--ease);
+}
+
+.app-window.is-dragging {
+  transition: none;
+}
+
+/* la finestra del browser che contiene la demo */
+.window {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  border-radius: clamp(5px, 1cqw, 10px);
+  background: var(--tile);
+  box-shadow: 0 1.2cqw 3cqw -1.2cqw rgba(0, 0, 0, 0.4);
+  transition: box-shadow 0.3s;
+}
+
+.app-window.is-focused .window {
+  box-shadow: 0 2.4cqw 6cqw -1.5cqw rgba(0, 0, 0, 0.55);
+}
+
+/* la barra del titolo si afferra per spostare la finestra */
+.window__bar {
+  position: relative;
+  flex: none;
+  display: flex;
+  align-items: center;
+  height: clamp(14px, 3.2cqw, 30px);
+  padding: 0 1.4cqw;
+  border-bottom: 1px solid var(--ink-line);
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+}
+
+.app-window.is-dragging .window__bar {
+  cursor: grabbing;
+}
+
+.window__dots {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  gap: clamp(3px, 0.7cqw, 7px);
+}
+
+/* i tre pallini: il bersaglio è più grande del pallino */
+.window__dot {
+  position: relative;
+  width: clamp(6px, 1cqw, 12px);
+  height: clamp(6px, 1cqw, 12px);
+  border-radius: 50%;
+  background: #ff5f57;
+}
+
+.window__dot--min {
+  background: #febc2e;
+}
+
+.window__dot--max {
+  background: #28c840;
+}
+
+/* nelle finestre in secondo piano i pallini sono grigi, come nei sistemi veri */
+.app-window:not(.is-focused) .window__dot {
+  background: #cfcfd1;
+}
+
+.window__dot::before {
+  content: '';
+  position: absolute;
+  inset: -6px -3px;
+}
+
+/* i simboli compaiono passando sopra i pallini */
+.window__dot::after {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: clamp(6px, 1cqw, 11px);
+  font-weight: 600;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.55);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.window__dot--close::after {
+  content: '×';
+}
+
+.window__dot--min::after {
+  content: '−';
+}
+
+.window__dot--max::after {
+  content: '+';
+}
+
+.window__dots:hover .window__dot::after,
+.window__dot:focus-visible::after {
+  opacity: 1;
+}
+
+/* l'indirizzo sta al centro della barra, come nei browser */
+.window__address {
+  position: absolute;
+  left: 50%;
+  max-width: 50%;
+  overflow: hidden;
+  padding: 0.3cqw 1.4cqw;
+  border-radius: 0.6cqw;
+  background: var(--white);
+  font-size: clamp(7px, 1.2cqw, 12px);
+  color: var(--ink-muted);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transform: translateX(-50%);
+}
+
+.window__screen {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* a schermo intero la demo si vede tutta, anche se la finestra ha un'altra forma */
+.laptop__screen.is-full .project-video {
+  object-fit: contain;
+}
+
+/* l'angolo in basso a destra ridimensiona */
+.window__resize {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: clamp(12px, 2cqw, 22px);
+  aspect-ratio: 1;
+  cursor: nwse-resize;
+  touch-action: none;
+}
+
+/* ---------- dock ---------- */
+
+.dock {
+  position: absolute;
+  left: 50%;
+  bottom: 1.4cqw;
+  z-index: 50;
+  display: flex;
+  gap: 1cqw;
+  padding: 0.8cqw;
+  border-radius: 1.8cqw;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(12px);
+  transform: translateX(-50%);
+}
+
+/* almeno 24px: il minimo per un bersaglio da toccare */
+.dock__item {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: clamp(24px, 5.6cqw, 52px);
+  aspect-ratio: 1;
+  border-radius: 22%;
+  transition: transform 0.4s var(--ease);
+}
+
+/* a schermo intero sul telefono c'è spazio per icone più comode */
+.laptop__screen.is-full .dock__item {
+  width: clamp(40px, 5.6cqw, 60px);
+}
+
+.dock__item img {
+  width: 68%;
+  height: 68%;
+  object-fit: contain;
+}
+
+.dock__item:hover,
+.dock__item:focus-visible {
+  transform: translateY(-12%) scale(1.12);
+}
+
+/* il nome del progetto, sopra l'icona, come nei dock veri */
+.dock__label {
+  position: absolute;
+  bottom: calc(100% + 1.2cqw);
+  left: 50%;
+  padding: 0.4cqw 1cqw;
+  border-radius: 0.6cqw;
+  background: rgba(30, 30, 30, 0.82);
+  font-size: clamp(8px, 1.2cqw, 12px);
+  color: var(--white);
+  white-space: nowrap;
+  opacity: 0;
+  transform: translate(-50%, 4px);
+  transition:
+    opacity 0.2s,
+    transform 0.3s var(--ease);
+  pointer-events: none;
+}
+
+.dock__item:hover .dock__label,
+.dock__item:focus-visible .dock__label {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* il puntino sotto le app aperte */
+.dock__item.is-open::after {
+  content: '';
+  position: absolute;
+  bottom: -0.55cqw;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.7);
+}
+
+/* finché non si prova il dock, le icone pulsano piano per farsi notare (con translate, così l'hover resta libero) */
+.laptop__screen.is-new .dock__item:not(.is-open) {
+  animation: dock-call 2.4s var(--ease) infinite;
+}
+
+.laptop__screen.is-new .dock__item:nth-child(3) {
+  animation-delay: 0.15s;
+}
+
+.laptop__screen.is-new .dock__item:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
+@keyframes dock-call {
+  0%,
+  60%,
+  100% {
+    translate: 0 0;
+  }
+  20% {
+    translate: 0 -14%;
+  }
+}
+
+/* il suggerimento sopra il dock */
+.dock-hint {
+  position: absolute;
+  left: 50%;
+  bottom: calc(1.4cqw + clamp(24px, 5.6cqw, 52px) + 3.4cqw);
+  z-index: 50;
+  padding: 0.6cqw 1.4cqw;
+  border-radius: 99px;
+  background: var(--white);
+  box-shadow: 0 1cqw 3cqw -1cqw rgba(0, 0, 0, 0.4);
+  font-size: clamp(9px, 1.4cqw, 14px);
+  white-space: nowrap;
+  translate: -50% 0;
+  pointer-events: none;
+}
+
+/* mentre si punta un'icona il suggerimento lascia il posto al suo nome */
+.laptop__screen:has(.dock:hover, .dock :focus-visible) .dock-hint {
+  visibility: hidden;
+}
+
+/* ---------- schermo intero ---------- */
+
+/* a schermo intero su un telefono il display è piccolo: barre, pallini e testi non scendono sotto una misura leggibile */
+.laptop__screen.is-full {
+  --menubar: clamp(26px, 3cqw, 30px);
+}
+
+.laptop__screen.is-full .desktop__menubar {
+  font-size: clamp(12px, 1.4cqw, 14px);
+}
+
+.laptop__screen.is-full .window__bar {
+  height: clamp(26px, 3.2cqw, 34px);
+}
+
+.laptop__screen.is-full .window__dot {
+  width: 12px;
+  height: 12px;
+}
+
+.laptop__screen.is-full .window__address {
+  font-size: 12px;
+}
+
+.laptop__screen.is-full .dock-hint {
+  bottom: calc(1.4cqw + clamp(40px, 5.6cqw, 60px) + 3.4cqw + 8px);
+  font-size: clamp(12px, 1.4cqw, 14px);
+}
+
+/* in verticale la finestra si accorcia attorno alla demo, invece di lasciarle fasce vuote sopra e sotto */
+@media (orientation: portrait) {
+  .laptop__screen.is-full .app-window:not(.is-max) {
+    height: auto !important;
+  }
+  .laptop__screen.is-full .app-window:not(.is-max) .window__screen {
+    flex: none;
+    aspect-ratio: 16 / 9;
+  }
+}
+
+/* ---------- comandi sotto il portatile ---------- */
+
+.laptop__controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  padding: 12px 0 10px;
+  gap: 12px;
+}
+
+.laptop__switcher {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.laptop__switcher button,
+.laptop__full {
+  min-height: var(--tap);
+  padding: 0 16px;
+  border: 1px solid var(--line);
+  border-radius: 99px;
   font-size: 15px;
-  border-bottom: 1px solid var(--line);
+  transition:
+    background 0.3s,
+    color 0.3s,
+    border-color 0.3s;
+}
+
+.laptop__switcher button[aria-pressed='true'] {
+  border-color: var(--fg);
+  background: var(--fg);
+  color: var(--white);
+}
+
+.laptop__full {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.laptop__full:hover {
+  border-color: var(--fg);
+}
+
+/* ---------- didascalia ---------- */
+
+/* altezza riservata: cambiando progetto la pagina sotto non salta */
+.laptop__caption {
+  min-height: 170px;
+  font-size: 15px;
+}
+
+.laptop__count {
+  margin-right: 12px;
+  font-size: 15px;
+  font-variant-numeric: tabular-nums;
+}
+
+.laptop__title {
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.laptop__description {
+  max-width: 52ch;
+  padding: 6px 0 14px;
 }
 
 /* ---------- guarda tutti ---------- */
 
-/* sul telefono e sul tablet "Guarda tutti" sta sotto la pila */
-.work__aside {
-  align-self: start;
+.folder {
+  --folder: #3d8fe0;
+  --folder-front-top: #6db6f7;
+  --folder-front-bottom: #4a9cec;
   display: flex;
-  padding-top: 40px;
-}
-
-.see-all {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 3px 16px 3px 3px;
-  border-radius: var(--radius);
-  background: var(--tile);
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
   font-size: 17px;
-  transition: background 0.4s var(--ease);
+  text-align: left;
 }
 
-.see-all:hover {
-  background: var(--tile-hover);
-}
-
-.see-all__thumb {
+/* fondo, card e pannello davanti condividono la stessa scatola */
+.folder__body {
   position: relative;
-  flex: none;
-  width: 64px;
-  height: 64px;
-  overflow: hidden;
-  border-radius: 3px;
+  display: block;
+  width: 168px;
+  height: 128px;
+  perspective: 600px;
 }
 
-.see-all__thumb img {
+/* il fondo della cartella con la linguetta in alto a sinistra */
+.folder__back {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  padding: 10px;
+  inset: 12px 0 0;
+  border-radius: 4px 10px 10px 10px;
+  background: var(--folder);
+}
+
+.folder__back::before {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  width: 42%;
+  height: 13px;
+  border-radius: 8px 10px 0 0;
+  background: var(--folder);
+}
+
+/* le card stanno dentro la cartella: ne spunta solo la parte alta */
+.folder__card {
+  position: absolute;
+  left: 50%;
+  bottom: 22px;
+  width: 112px;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  padding-top: 9px;
+  margin-left: -56px;
+  border-radius: 5px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+  transform: translateY(calc(var(--depth) * -5px)) rotate(calc(var(--i) * 4deg));
+  transition: transform 0.6s var(--ease);
+}
+
+/* il logo sta in cima alla card, nella parte che esce dalla cartella */
+.folder__card img {
+  width: 60%;
+  height: 26px;
   object-fit: contain;
 }
 
-.see-all__label {
+/* il pannello davanti, un po' più chiaro, che si apre ruotando sul bordo in basso */
+.folder__front {
+  position: absolute;
+  inset: 34px 0 0;
+  border-radius: 10px;
+  background: linear-gradient(var(--folder-front-top), var(--folder-front-bottom));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  transform-origin: 50% 100%;
+  transition: transform 0.6s var(--ease);
+}
+
+.folder:hover .folder__front,
+.folder:focus-visible .folder__front {
+  transform: rotateX(-28deg);
+}
+
+.folder:hover .folder__card,
+.folder:focus-visible .folder__card {
+  transform: translate(calc(var(--i) * 30px), calc(-24px - var(--depth) * 7px)) rotate(calc(var(--i) * 11deg));
+}
+
+.folder__label {
   white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .folder__card,
+  .folder__front {
+    transition: none;
+  }
+  .laptop__screen.is-new .dock__item {
+    animation: none;
+  }
+  .app-window {
+    transition: none;
+  }
 }
 
 /* ---------- media dei progetti ---------- */
@@ -199,18 +750,18 @@
     grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
     gap: 48px;
   }
+  /* titolo in alto e cartella in basso, alti quanto il portatile accanto */
   .work__side {
-    position: sticky;
-    top: 0;
-    padding: 200px 0;
+    align-self: stretch;
+    justify-content: space-between;
+    padding: 24px 0 40px;
   }
-  .work__stack {
-    gap: 80px;
-    padding-top: 50px;
+  .laptop__caption {
+    min-height: 140px;
   }
-  .work__aside {
-    grid-column: 2;
-    padding-top: 0;
+  /* da tablet in su il dock è abbastanza grande */
+  .laptop__switcher {
+    display: none;
   }
   .all-projects__head {
     padding: 14px 0;
@@ -221,16 +772,10 @@
   }
 }
 
-/* desktop: tre colonne, con "Guarda tutti" fermo a destra mentre la pila scorre */
+/* desktop: il portatile prende più spazio, così la demo si vede bene */
 @media (width > 64rem) {
   .work__layout {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 545px) minmax(0, 1fr);
-  }
-  .work__aside {
-    position: sticky;
-    top: 0;
-    grid-column: auto;
-    justify-content: center;
-    padding: 245px 0 200px;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+    gap: 64px;
   }
 }

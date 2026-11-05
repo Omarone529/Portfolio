@@ -1,22 +1,22 @@
-import { useEffect, useState } from 'react'
-import { AnimatePresence, m, useReducedMotion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { PROJECTS, WORK } from '@/content'
 import { RollText } from '@/components/primitives'
-import { pad2 } from '@/lib/format'
 import { EASE, IN_VIEW } from '@/lib/motion'
 
-const THUMB_INTERVAL = 2200
+/** Le card che spuntano dalla cartella: le prime tre, la prima in fondo e più in alto. */
+const PEEK = PROJECTS.slice(0, 3)
 
-/** Pulsante laterale "Guarda tutti": la miniatura scorre tra i loghi dei progetti, il clic apre la vista completa. */
+/**
+ * "Guarda tutti": una cartella blu con dentro alcune card dei progetti. In
+ * hover il pannello davanti si apre un poco e le card salgono a ventaglio; il
+ * clic apre la vista completa.
+ */
 export default function SeeAll({ onOpen, ref }) {
-  const index = useCycle(PROJECTS.length, THUMB_INTERVAL)
-  const project = PROJECTS[index]
-
   return (
     <m.button
       ref={ref}
       type="button"
-      className="see-all"
+      className="folder"
       onClick={onOpen}
       aria-haspopup="dialog"
       initial={{ opacity: 0, y: 20 }}
@@ -24,39 +24,29 @@ export default function SeeAll({ onOpen, ref }) {
       viewport={IN_VIEW}
       transition={{ duration: 1, ease: EASE }}
     >
-      <span className="see-all__thumb" aria-hidden="true">
-        <AnimatePresence initial={false}>
-          <m.img
-            key={index}
-            src={project.logo}
-            alt=""
-            width={project.logoSize[0]}
-            height={project.logoSize[1]}
-            loading="lazy"
-            decoding="async"
-            style={{ background: project.tint }}
-            initial={{ clipPath: 'inset(100% 0 0 0)' }}
-            animate={{ clipPath: 'inset(0% 0 0 0)' }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.9, ease: EASE }}
-          />
-        </AnimatePresence>
+      <span className="folder__body" aria-hidden="true">
+        <span className="folder__back" />
+        {PEEK.map((project, i) => (
+          <span
+            key={project.title}
+            className="folder__card"
+            style={{ '--i': i - (PEEK.length - 1) / 2, '--depth': PEEK.length - 1 - i, background: project.tint }}
+          >
+            <img
+              src={project.logo}
+              alt=""
+              width={project.logoSize[0]}
+              height={project.logoSize[1]}
+              loading="lazy"
+              decoding="async"
+            />
+          </span>
+        ))}
+        <span className="folder__front" />
       </span>
-      <span className="see-all__label">
-        <RollText>{`${WORK.seeAll} (${pad2(PROJECTS.length)})`}</RollText>
+      <span className="folder__label">
+        <RollText>{`${WORK.seeAll} (${PROJECTS.length})`}</RollText>
       </span>
     </m.button>
   )
-}
-
-/** Indice che avanza ogni `interval` ms tra 0 e `length - 1`; fermo con le animazioni ridotte. */
-function useCycle(length, interval) {
-  const reduced = useReducedMotion()
-  const [index, setIndex] = useState(0)
-  useEffect(() => {
-    if (reduced) return
-    const timer = setInterval(() => setIndex((i) => (i + 1) % length), interval)
-    return () => clearInterval(timer)
-  }, [length, interval, reduced])
-  return index
 }

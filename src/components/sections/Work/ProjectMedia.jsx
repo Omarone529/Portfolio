@@ -18,14 +18,18 @@ export function ProjectLogo({ project }) {
   )
 }
 
-/** La demo registrata del progetto, che gira solo quando è a schermo; senza demo, il logo. */
-export function ProjectDemo({ project }) {
-  return project.video ? <DemoVideo project={project} /> : <ProjectLogo project={project} />
+/**
+ * La demo registrata del progetto, che gira solo quando è a schermo; senza
+ * demo, il logo. Con `playing` a false resta ferma (per esempio in una
+ * finestra ridotta nel dock).
+ */
+export function ProjectDemo({ project, playing = true }) {
+  return project.video ? <DemoVideo project={project} playing={playing} /> : <ProjectLogo project={project} />
 }
 
-function DemoVideo({ project }) {
+function DemoVideo({ project, playing }) {
   const ref = useRef(null)
-  useInViewPlayback(ref)
+  useInViewPlayback(ref, playing)
   return (
     <video
       ref={ref}

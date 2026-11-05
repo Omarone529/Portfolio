@@ -3,7 +3,6 @@ import { m } from 'framer-motion'
 import { PROJECTS, WORK } from '@/content'
 import { Portal } from '@/components/layout/Portal'
 import { RollText } from '@/components/primitives'
-import { pad2 } from '@/lib/format'
 import { EASE } from '@/lib/motion'
 import { ProjectDemo } from './ProjectMedia'
 import ProjectLink from './ProjectLink'
@@ -36,7 +35,7 @@ export default function AllProjects({ onClose }) {
       >
         <header className="all-projects__head">
           <p>
-            {WORK.allTitle} <span className="muted">({pad2(PROJECTS.length)})</span>
+            {WORK.allTitle} <span className="muted">({PROJECTS.length})</span>
           </p>
           <button type="button" className="all-projects__close" onClick={onClose} autoFocus>
             <RollText>{WORK.showLess}</RollText>

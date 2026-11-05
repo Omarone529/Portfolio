@@ -1,5 +1,3 @@
-import { SECTION, anchor } from './site'
-
 /**
  * I case study. Ogni progetto ha una `description` di una frase (mostrata nella
  * vista "Guarda tutti" e nei dati strutturati), `logo` su un fondo `tint` (scalato di
@@ -58,11 +56,22 @@ export const PROJECTS = [
 
 export const WORK = {
   label: 'Case study',
-  meta: '2025 — 2026',
+  meta: '2025 · 2026',
   title: ['Case', 'study'],
-  cta: { label: 'Lavoriamo insieme', href: anchor(SECTION.contact) },
   /** Quanti progetti mostra la pila prima di "Guarda tutti". */
   featured: 4,
+  visit: 'Visita il sito',
+  /** Testi del portatile: il suggerimento sopra il dock e il desktop senza finestre aperte. */
+  hint: "Clicca un'app per aprirla",
+  emptyTitle: 'Scegli un progetto',
+  emptyText: "Apri un'app dal dock per vedere la demo.",
+  switcher: 'Scegli il progetto',
+  fullscreen: 'Apri a schermo intero',
+  exitFullscreen: 'Esci dallo schermo intero',
+  windowClose: 'Chiudi',
+  windowMinimize: 'Riduci nel dock',
+  windowMaximize: 'Ingrandisci',
+  windowResize: 'Ridimensiona',
   seeAll: 'Guarda tutti',
   showLess: 'Mostra meno',
   allTitle: 'Tutti i progetti',
