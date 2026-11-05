@@ -217,10 +217,6 @@
   object-fit: contain;
 }
 
-.word--muted {
-  color: var(--muted);
-}
-
 /* ---------- intestazione di sezione ---------- */
 
 .section-head {
