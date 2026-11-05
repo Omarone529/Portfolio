@@ -27,3 +27,6 @@ dist-ssr
 .next
 out
 next-env.d.ts
+
+# cache di TypeScript lasciata dal sito su main quando si cambia branch
+*.tsbuildinfo
