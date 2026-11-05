@@ -3,7 +3,7 @@ import { SECTION, anchor } from './site'
 export const ABOUT = {
   label: 'About',
   statement:
-    'Sono Omar, creative developer. Progetto e sviluppo siti web, applicazioni e web app su misura per brand e persone che vogliono distinguersi.',
+    'Sono Omar, sviluppatore full stack. Progetto e realizzo siti web creativi, applicazioni e web app su misura, mettendo al centro chi mi affida il proprio progetto.',
   portrait: { src: '/images/hero.webp', size: [1920, 1080], alt: 'Ritratto di Omar' },
   rows: [
     {
