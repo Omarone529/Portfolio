@@ -40,12 +40,13 @@ function startPointerDrag(event, screen, onMove, onEnd) {
 
 /**
  * La finestra di un progetto nel finto desktop. Si sposta trascinando la
- * barra del titolo, si ridimensiona dall'angolo in basso a destra e si porta
+ * barra del titolo (anche da ingrandita: torna alla sua misura), si
+ * ridimensiona dal bordo destro, da quello in basso e dall'angolo, e si porta
  * in primo piano al clic. I tre pallini chiudono, riducono nel dock e
- * ingrandiscono; il doppio clic sulla barra ingrandisce anche lui. Si apre
- * crescendo dal dock e ci rientra quando è ridotta.
+ * ingrandiscono; il doppio clic sulla barra ingrandisce anche lui. Aprirla,
+ * ridurla e riaprirla passa dall'effetto genio (vedi genie.js).
  */
-export default function AppWindow({ project, win, z, focused, screenRef, act, id }) {
+export default function AppWindow({ project, win, z, focused, screenRef, act, onMinimize, id }) {
   // mentre si trascina le transizioni sono spente, così la finestra segue il puntatore senza ritardo
   const [dragging, setDragging] = useState(false)
   const drag = (e, onMove) => {
@@ -59,15 +60,26 @@ export default function AppWindow({ project, win, z, focused, screenRef, act, id
   }
 
   const onBarDown = (e) => {
-    if (win.max || e.target.closest('button')) return
-    const { x, y } = win
+    if (e.target.closest('button')) return
     const top = menubarPercent()
+    let { x, y } = win
+    if (win.max) {
+      // da ingrandita torna alla sua misura, tenendo il punto afferrato sotto il puntatore
+      const screen = screenRef.current.getBoundingClientRect()
+      const bar = e.currentTarget.getBoundingClientRect()
+      const grabbed = (e.clientX - bar.left) / bar.width
+      x = Math.min(100 - win.w, Math.max(0, ((e.clientX - screen.left) / screen.width) * 100 - grabbed * win.w))
+      y = top
+      act('restoreAt', id, { x, y })
+    }
     drag(e, (dx, dy) => act('move', id, { x: x + dx, y: y + dy, top }))
   }
 
+  /** Il bordo afferrato dice cosa cambia (data-axes): 'x' la larghezza, 'y' l'altezza, 'xy' entrambe. */
   const onResizeDown = (e) => {
+    const axes = e.currentTarget.dataset.axes
     const { w, h } = win
-    drag(e, (dx, dy) => act('resize', id, { w: w + dx, h: h + dy }))
+    drag(e, (dx, dy) => act('resize', id, { w: axes.includes('x') ? w + dx : w, h: axes.includes('y') ? h + dy : h }))
   }
 
   const box = win.max ? MAXIMIZED : { left: `${win.x}%`, top: `${win.y}%`, width: `${win.w}%`, height: `${win.h}%` }
@@ -77,10 +89,12 @@ export default function AppWindow({ project, win, z, focused, screenRef, act, id
       className={`app-window ${focused ? 'is-focused' : ''} ${dragging ? 'is-dragging' : ''} ${win.max ? 'is-max' : ''}`}
       style={{ ...box, zIndex: z }}
       onPointerDownCapture={() => act('focus', id)}
-      initial={{ opacity: 0, scale: 0.4, y: '35%' }}
-      animate={win.min ? { opacity: 0, scale: 0.2, y: '80%' } : { opacity: 1, scale: 1, y: '0%' }}
+      initial={{ opacity: 0 }}
+      // aprire, ridurre e riaprire li anima l'effetto genio sul canvas: qui la finestra sparisce e riappare di colpo
+      animate={{ opacity: win.min ? 0 : 1 }}
       exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.18 } }}
-      transition={{ duration: 0.45, ease: EASE }}
+      transition={{ duration: 0.45, ease: EASE, opacity: { duration: win.min ? 0 : 0.12 } }}
+      data-window={id}
       inert={win.min}
       role="dialog"
       aria-label={project.title}
@@ -97,7 +111,7 @@ export default function AppWindow({ project, win, z, focused, screenRef, act, id
             <button
               type="button"
               className="window__dot window__dot--min"
-              onClick={() => act('minimize', id)}
+              onClick={() => onMinimize(id)}
               aria-label={`${WORK.windowMinimize} ${project.title}`}
             />
             <button
@@ -117,7 +131,27 @@ export default function AppWindow({ project, win, z, focused, screenRef, act, id
         </div>
       </div>
       {!win.max && (
-        <span className="window__resize" onPointerDown={onResizeDown} aria-hidden="true" title={WORK.windowResize} />
+        <>
+          <span
+            className="window__edge window__edge--right"
+            data-axes="x"
+            onPointerDown={onResizeDown}
+            aria-hidden="true"
+          />
+          <span
+            className="window__edge window__edge--bottom"
+            data-axes="y"
+            onPointerDown={onResizeDown}
+            aria-hidden="true"
+          />
+          <span
+            className="window__edge window__edge--corner"
+            data-axes="xy"
+            onPointerDown={onResizeDown}
+            aria-hidden="true"
+            title={WORK.windowResize}
+          />
+        </>
       )}
     </m.div>
   )

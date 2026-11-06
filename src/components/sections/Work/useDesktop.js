@@ -37,6 +37,21 @@ function reducer(state, action) {
       if (windows[id]) return { windows: update(id, { min: false }), order: toFront(id) }
       return { windows: { ...windows, [id]: { ...placeNew(state), min: false, max: false } }, order: toFront(id) }
     }
+    case 'launch':
+      // nuova finestra già al suo posto ma nascosta: l'effetto genio la fa uscire dal dock, poi 'open' la mostra
+      if (windows[action.id]) return state
+      return {
+        windows: { ...windows, [action.id]: { ...placeNew(state), min: true, max: false } },
+        order: toFront(action.id),
+      }
+    case 'restoreAt': {
+      // trascinando una finestra ingrandita torna alla sua misura, sotto il puntatore
+      const win = windows[action.id]
+      return {
+        windows: update(action.id, { max: false, x: clamp(action.x, 0, 100 - win.w), y: action.y }),
+        order: toFront(action.id),
+      }
+    }
     case 'focus':
       return order.at(-1) === action.id ? state : { ...state, order: toFront(action.id) }
     case 'close': {

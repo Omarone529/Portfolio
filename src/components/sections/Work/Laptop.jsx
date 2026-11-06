@@ -1,13 +1,14 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from 'react'
-import { AnimatePresence, m } from 'framer-motion'
+import { AnimatePresence, m, useReducedMotion } from 'framer-motion'
 import { WORK } from '@/content'
 import { ArrowLink } from '@/components/primitives'
 import { pad2 } from '@/lib/format'
 import { EASE } from '@/lib/motion'
 import { useSmoothScroll } from '@/hooks/useSmoothScroll'
 import AppWindow from './AppWindow'
+import { playGenie, preloadPosters, relativeRect, snapshotWindow } from './genie'
 import { useDesktop } from './useDesktop'
 
 /**
@@ -26,10 +27,40 @@ export default function Laptop({ projects }) {
   const project = focused === null ? null : projects[focused]
   const openIds = projects.map((_, i) => i).filter((i) => windows[i])
 
+  const { canvasRef: genieRef, play: playGenieFor } = useGenie(screenRef)
+  const [launching, bounce] = useBounce()
+  const dock = useDockMagnification()
+
+  // le anteprime servono al genio quando una demo non ha ancora caricato il primo fotogramma
+  useEffect(() => preloadPosters(projects.map((p) => p.poster).filter(Boolean)), [projects])
+
   const open = (index) => {
-    act('open', index)
     setExplored(true)
+    const win = windows[index]
+    // riaprire una finestra ridotta: esce dall'icona del dock, poi torna vera
+    if (win?.min) {
+      if (!playGenieFor(index, true, () => act('open', index))) act('open', index)
+      return
+    }
+    // già aperta: torna in primo piano
+    if (win) return act('open', index)
+    // nuova: l'icona rimbalza, la finestra nasce nascosta al suo posto e il genio la fa uscire dal dock
+    bounce(index)
+    act('launch', index)
+    requestAnimationFrame(() =>
+      requestAnimationFrame(() => {
+        if (!playGenieFor(index, true, () => act('open', index))) act('open', index)
+      }),
+    )
   }
+  const minimize = useCallback(
+    (index) => {
+      setExplored(true)
+      playGenieFor(index, false)
+      act('minimize', index)
+    },
+    [act, playGenieFor],
+  )
   const actAndExplore = useCallback(
     (type, id, extra) => {
       act(type, id, extra)
@@ -78,16 +109,19 @@ export default function Laptop({ projects }) {
                     focused={id === focused}
                     screenRef={screenRef}
                     act={actAndExplore}
+                    onMinimize={minimize}
                   />
                 ))}
               </AnimatePresence>
 
-              <nav className="dock" aria-label={WORK.switcher}>
+              <canvas ref={genieRef} className="genie" aria-hidden="true" />
+
+              <nav className="dock" aria-label={WORK.switcher} {...dock}>
                 {projects.map((p, i) => (
                   <button
                     key={p.title}
                     type="button"
-                    className={`dock__item ${windows[i] ? 'is-open' : ''}`}
+                    className={`dock__item ${windows[i] ? 'is-open' : ''} ${launching === i ? 'is-launching' : ''}`}
                     style={{ background: p.tint }}
                     onClick={() => open(i)}
                     aria-pressed={i === focused}
@@ -153,6 +187,87 @@ export default function Laptop({ projects }) {
       </div>
     </div>
   )
+}
+
+/** L'icona che rimbalza mentre la sua app si apre, come nel dock del Mac. */
+function useBounce() {
+  const [launching, setLaunching] = useState(null)
+  const timer = useRef(0)
+  const bounce = useCallback((index) => {
+    clearTimeout(timer.current)
+    setLaunching(index)
+    timer.current = setTimeout(() => setLaunching(null), 900)
+  }, [])
+  useEffect(() => () => clearTimeout(timer.current), [])
+  return [launching, bounce]
+}
+
+/**
+ * La lente del dock: col mouse sopra, le icone si ingrandiscono tanto più
+ * quanto sono vicine al puntatore. Scrive su ogni icona la variabile --mag,
+ * che il CSS usa per scala e sollevamento. Solo col mouse: al tocco no.
+ */
+function useDockMagnification() {
+  const onPointerMove = useCallback((e) => {
+    if (e.pointerType !== 'mouse') return
+    for (const item of e.currentTarget.children) {
+      const r = item.getBoundingClientRect()
+      const distance = Math.abs(e.clientX - (r.left + r.width / 2)) / r.width
+      item.style.setProperty('--mag', String(1 + 0.32 * Math.max(0, 1 - distance / 2.2) ** 1.6))
+    }
+  }, [])
+  const onPointerLeave = useCallback((e) => {
+    for (const item of e.currentTarget.children) item.style.removeProperty('--mag')
+  }, [])
+  return { onPointerMove, onPointerLeave }
+}
+
+/**
+ * L'effetto genio tra una finestra e la sua icona nel dock, disegnato su un
+ * canvas grande quanto il display. `play(index, reverse, onDone)` copia la
+ * finestra e la fa entrare nell'icona (o uscirne con `reverse`); restituisce
+ * false, senza animare, con le animazioni ridotte o se un'altra è in corso.
+ */
+function useGenie(screenRef) {
+  const canvasRef = useRef(null)
+  const running = useRef(false)
+  const reduced = useReducedMotion()
+
+  const play = useCallback(
+    (index, reverse, onDone) => {
+      const screen = screenRef.current
+      const canvas = canvasRef.current
+      const windowEl = screen?.querySelector(`[data-window="${index}"]`)
+      const icon = screen?.querySelectorAll('.dock__item')[index]
+      if (reduced || running.current || !canvas || !windowEl || !icon) return false
+
+      const { canvas: source, rect: from } = snapshotWindow(windowEl, screen)
+      const to = relativeRect(icon, screen.getBoundingClientRect())
+      const dpr = window.devicePixelRatio || 1
+      canvas.width = Math.round(screen.clientWidth * dpr)
+      canvas.height = Math.round(screen.clientHeight * dpr)
+
+      running.current = true
+      playGenie(canvas, {
+        source,
+        from,
+        to,
+        reverse,
+        onDone: () => {
+          onDone?.()
+          // l'ultimo fotogramma resta un istante, il tempo che la finestra vera riappaia
+          setTimeout(() => {
+            canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height)
+            running.current = false
+          }, 140)
+        },
+      })
+      return true
+    },
+    [screenRef, reduced],
+  )
+
+  return { canvasRef, play }
 }
 
 /**
