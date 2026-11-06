@@ -61,10 +61,7 @@ export const WORK = {
   /** Quanti progetti mostra la pila prima di "Guarda tutti". */
   featured: 4,
   visit: 'Visita il sito',
-  /** Testi del portatile: il suggerimento sopra il dock e il desktop senza finestre aperte. */
-  hint: "Clicca un'app per aprirla",
-  emptyTitle: 'Scegli un progetto',
-  emptyText: "Apri un'app dal dock per vedere la demo.",
+  /** Testi del portatile. */
   switcher: 'Scegli il progetto',
   fullscreen: 'Apri a schermo intero',
   exitFullscreen: 'Esci dallo schermo intero',

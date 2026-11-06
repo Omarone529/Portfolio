@@ -15,12 +15,12 @@ import { useDesktop } from './useDesktop'
  * progetto, cliccandola si apre la sua finestra con la demo. Le finestre si
  * spostano, si ridimensionano, si riducono nel dock e si ingrandiscono, e
  * tutto il desktop può andare a schermo intero. All'inizio è aperto il primo
- * progetto e un suggerimento indica il dock finché non lo si prova. Su
+ * progetto e il dock pulsa finché non lo si prova. Su
  * telefono, dove il dock è piccolo, sotto il portatile ci sono anche i nomi.
  */
 export default function Laptop({ projects }) {
   const screenRef = useRef(null)
-  const { windows, order, focused, hasVisible, act } = useDesktop(0)
+  const { windows, order, focused, act } = useDesktop(0)
   const [explored, setExplored] = useState(false)
   const [full, setFull] = useFullscreen(screenRef)
   const project = focused === null ? null : projects[focused]
@@ -48,34 +48,20 @@ export default function Laptop({ projects }) {
               <div className="desktop__menubar">
                 <span className="desktop__app">{project?.title}</span>
                 <span className="desktop__status">
+                  {/* a schermo intero serve un modo per uscire anche dove non c'è Esc (iPhone) */}
+                  {full && (
+                    <button
+                      type="button"
+                      className="desktop__full"
+                      onClick={() => setFull(false)}
+                      aria-label={WORK.exitFullscreen}
+                    >
+                      <FullscreenIcon exit />
+                    </button>
+                  )}
                   <Clock />
-                  <button
-                    type="button"
-                    className="desktop__full"
-                    onClick={() => setFull(!full)}
-                    aria-label={full ? WORK.exitFullscreen : WORK.fullscreen}
-                    aria-pressed={full}
-                  >
-                    <FullscreenIcon exit={full} />
-                  </button>
                 </span>
               </div>
-
-              <AnimatePresence>
-                {!hasVisible && (
-                  <m.div
-                    key="empty"
-                    className="desktop__empty"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <p className="desktop__empty-title">{WORK.emptyTitle}</p>
-                    <p>{WORK.emptyText}</p>
-                  </m.div>
-                )}
-              </AnimatePresence>
 
               {/*
                 le finestre restano sempre nello stesso ordine nella pagina e il primo piano lo decide lo z-index:
@@ -94,21 +80,6 @@ export default function Laptop({ projects }) {
                     act={actAndExplore}
                   />
                 ))}
-              </AnimatePresence>
-
-              <AnimatePresence>
-                {!explored && (
-                  <m.p
-                    className="dock-hint"
-                    aria-hidden="true"
-                    initial={{ opacity: 0, y: 6 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 6 }}
-                    transition={{ duration: 0.4, ease: EASE, delay: 0.2 }}
-                  >
-                    {WORK.hint}
-                  </m.p>
-                )}
               </AnimatePresence>
 
               <nav className="dock" aria-label={WORK.switcher}>

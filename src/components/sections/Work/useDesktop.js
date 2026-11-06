@@ -85,8 +85,7 @@ export function useDesktop(initial) {
   const act = useCallback((type, id, extra) => dispatch({ type, id, ...extra }), [])
 
   // la finestra in primo piano è l'ultima non ridotta nel dock
-  const visible = state.order.filter((id) => !state.windows[id].min)
-  const focused = visible.at(-1) ?? null
+  const focused = state.order.findLast((id) => !state.windows[id].min) ?? null
 
-  return { ...state, focused, hasVisible: visible.length > 0, act }
+  return { ...state, focused, act }
 }
