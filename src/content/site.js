@@ -3,7 +3,7 @@
 export const SITE = {
   name: 'OMAR',
   fullName: 'Omar Bayadi',
-  role: 'Creative Developer',
+  role: 'Full Stack Developer',
   email: 'omar.bayadi.lavoro@gmail.com',
   year: '2026',
   /** Dominio pubblico, senza barra finale. Si cambia con NEXT_PUBLIC_SITE_URL senza toccare il codice. */
@@ -32,7 +32,7 @@ export const PROFILES = [
 /** Competenze dichiarate nei dati strutturati (knowsAbout). */
 export const SKILLS = [
   'Sviluppo web',
-  'Creative development',
+  'Sviluppo full stack',
   'Animazioni web',
   'React',
   'Next.js',

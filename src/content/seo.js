@@ -7,11 +7,12 @@ import { PLACE, SITE } from './site'
  */
 export const SEO = {
   title: `${SITE.fullName} · ${SITE.role} a ${PLACE.city}`,
-  description: `${SITE.fullName}, creative developer a ${PLACE.city}: siti web creativi, applicazioni custom e web app su misura, con animazioni curate e codice veloce.`,
+  description: `${SITE.fullName}, full stack developer a ${PLACE.city}: siti web creativi, applicazioni custom e web app su misura, con animazioni curate e codice veloce.`,
   /** Chi è, in terza persona: è la frase che motori e assistenti AI possono citare così com'è. */
-  summary: `${SITE.fullName} è un creative developer con base a ${PLACE.city}, in ${PLACE.region}. Progetta e sviluppa siti web creativi, applicazioni custom e web app su misura, curando insieme design, animazioni e codice.`,
+  summary: `${SITE.fullName} è un full stack developer con base a ${PLACE.city}, in ${PLACE.region}. Progetta e sviluppa siti web creativi, applicazioni custom e web app su misura, curando insieme design, animazioni e codice.`,
   keywords: [
-    'creative developer',
+    'full stack developer',
+    'sviluppatore full stack',
     'sviluppatore web',
     'siti web creativi',
     'applicazioni custom',
