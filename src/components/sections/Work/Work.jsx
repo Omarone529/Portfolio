@@ -11,7 +11,8 @@ import Laptop from './Laptop'
 import SeeAll from './SeeAll'
 import './Work.css'
 
-const FEATURED = PROJECTS.slice(0, WORK.featured)
+/** Nel portatile solo i progetti con una demo da mostrare. */
+const FEATURED = PROJECTS.filter((p) => p.video)
 
 /**
  * Case study: a sinistra il titolo e la cartella "Guarda tutti"; a destra un

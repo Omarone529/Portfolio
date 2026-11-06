@@ -51,8 +51,8 @@ describe('projects', () => {
     for (const p of PROJECTS.filter((p) => p.href)) expect(p.href).toMatch(/^https:\/\//)
   })
 
-  it('features no more projects than exist', () => {
-    expect(WORK.featured).toBeLessThanOrEqual(PROJECTS.length)
+  it('puts at least one demo on the laptop', () => {
+    expect(PROJECTS.some((p) => p.video && p.poster)).toBe(true)
   })
 })
 

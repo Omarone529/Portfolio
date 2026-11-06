@@ -2,7 +2,8 @@
  * I case study. Ogni progetto ha una `description` di una frase (mostrata nella
  * vista "Guarda tutti" e nei dati strutturati), `logo` su un fondo `tint` (scalato di
  * `logoScale`), che è ciò che mostra la pila. Chi ha una demo registrata ha
- * anche `video` e `poster`, mostrati nella vista "Guarda tutti".
+ * anche `video` e `poster`: solo questi finiscono nel portatile, mentre la
+ * vista "Guarda tutti" li mostra tutti.
  * Un `href` esterno apre il sito pubblicato in una nuova scheda. `logoSize` e
  * `DEMO_SIZE` sono le misure reali dei file, che il browser usa per riservare
  * lo spazio prima che arrivino (i test controllano che coincidano).
@@ -58,8 +59,6 @@ export const WORK = {
   label: 'Case study',
   meta: '2025 · 2026',
   title: ['Case', 'study'],
-  /** Quanti progetti mostra la pila prima di "Guarda tutti". */
-  featured: 4,
   visit: 'Visita il sito',
   /** Testi del portatile. */
   switcher: 'Scegli il progetto',
