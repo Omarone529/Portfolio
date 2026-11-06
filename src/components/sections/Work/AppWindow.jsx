@@ -4,53 +4,65 @@ import { useState } from 'react'
 import { m } from 'framer-motion'
 import { WORK } from '@/content'
 import { EASE } from '@/lib/motion'
-import { ProjectDemo } from './ProjectMedia'
+import { startPointerDrag } from './desktop/pointer'
 
-/** Cosa mostra la barra della finestra: il dominio del sito pubblicato, altrimenti il nome del progetto. */
-const windowAddress = (project) => (project.href ? new URL(project.href).hostname.replace(/^www\./, '') : project.title)
+/** Il dominio del sito pubblicato, da mostrare nella barra della finestra. */
+const hostOf = (href) => new URL(href).hostname.replace(/^www\./, '')
 
-/** Ingrandita, la finestra copre tutto il desktop sotto la barra dei menu. */
-const MAXIMIZED = { left: 0, top: 'var(--menubar)', width: '100%', height: 'calc(100% - var(--menubar))' }
+/** Ingrandita, la finestra copre tutto il desktop sotto la barra dei menu; agganciata, la metà di un lato. */
+const FILL = { top: 'var(--menubar)', height: 'calc(100% - var(--menubar))' }
+const BOXES = {
+  max: { ...FILL, left: 0, width: '100%' },
+  left: { ...FILL, left: 0, width: '50%' },
+  right: { ...FILL, left: '50%', width: '50%' },
+}
 
-/**
- * Segue il puntatore dal pointerdown al pointerup e passa a `onMove` lo
- * spostamento in percentuale del display; alla fine chiama `onEnd`. Il
- * bersaglio cattura il puntatore, così il trascinamento continua anche
- * uscendo dalla finestra. Restituisce false se non è il tasto principale.
- */
-function startPointerDrag(event, screen, onMove, onEnd) {
-  if (event.button !== 0) return false
-  event.preventDefault()
-  const target = event.currentTarget
-  target.setPointerCapture(event.pointerId)
-  const rect = screen.getBoundingClientRect()
-  const { clientX, clientY } = event
-  const move = (e) => onMove(((e.clientX - clientX) / rect.width) * 100, ((e.clientY - clientY) / rect.height) * 100)
-  const end = () => {
-    target.removeEventListener('pointermove', move)
-    target.removeEventListener('pointerup', end)
-    target.removeEventListener('pointercancel', end)
-    onEnd()
-  }
-  target.addEventListener('pointermove', move)
-  target.addEventListener('pointerup', end)
-  target.addEventListener('pointercancel', end)
-  return true
+/** I bordi e gli angoli da cui si ridimensiona: ogni lettera è un lato che si muove. */
+const EDGES = ['n', 'e', 's', 'w', 'ne', 'se', 'sw', 'nw']
+
+/** Quanti pixel dal bordo del display fanno scattare l'aggancio. */
+const SNAP_ZONE = 14
+
+function snapAt(e, screen) {
+  const box = screen.getBoundingClientRect()
+  if (e.clientX - box.left < SNAP_ZONE) return 'left'
+  if (box.right - e.clientX < SNAP_ZONE) return 'right'
+  if (e.clientY - box.top < SNAP_ZONE) return 'max'
+  return null
 }
 
 /**
- * La finestra di un progetto nel finto desktop. Si sposta trascinando la
- * barra del titolo (anche da ingrandita: torna alla sua misura), si
- * ridimensiona dal bordo destro, da quello in basso e dall'angolo, e si porta
- * in primo piano al clic. I tre pallini chiudono, riducono nel dock e
- * ingrandiscono; il doppio clic sulla barra ingrandisce anche lui. Aprirla,
- * ridurla e riaprirla passa dall'effetto genio (vedi genie.js).
+ * La finestra di un'app nel finto desktop. Si sposta trascinando la barra del
+ * titolo (anche da ingrandita o affiancata: torna alla sua misura), si
+ * ridimensiona da tutti i bordi e gli angoli, e si porta in primo piano al
+ * clic. Portata contro un lato si affianca, contro l'alto si ingrandisce. I
+ * tre pallini chiudono, riducono nel dock e ingrandiscono. Riaprirla da ridotta
+ * passa dall'effetto genio (vedi genie.js). In Mission Control diventa una
+ * miniatura: `overview` dice dove sta, il clic la sceglie.
  */
-export default function AppWindow({ project, win, z, focused, screenRef, act, onMinimize, id }) {
+export default function AppWindow({
+  app,
+  win,
+  z,
+  focused,
+  screenRef,
+  act,
+  onMinimize,
+  onSnapHint,
+  onContextMenu,
+  overview,
+  onPick,
+  children,
+}) {
+  const { id, project } = app
   // mentre si trascina le transizioni sono spente, così la finestra segue il puntatore senza ritardo
   const [dragging, setDragging] = useState(false)
-  const drag = (e, onMove) => {
-    if (startPointerDrag(e, screenRef.current, onMove, () => setDragging(false))) setDragging(true)
+  const drag = (e, onMove, onEnd) => {
+    const done = () => {
+      setDragging(false)
+      onEnd?.()
+    }
+    if (startPointerDrag(e, screenRef.current, onMove, done)) setDragging(true)
   }
 
   const menubarPercent = () => {
@@ -60,99 +72,136 @@ export default function AppWindow({ project, win, z, focused, screenRef, act, on
   }
 
   const onBarDown = (e) => {
-    if (e.target.closest('button')) return
+    if (e.target.closest('button, a')) return
     const top = menubarPercent()
     let { x, y } = win
-    if (win.max) {
-      // da ingrandita torna alla sua misura, tenendo il punto afferrato sotto il puntatore
+    let detached = !(win.max || win.snap)
+    if (!detached) {
+      // da agganciata torna alla sua misura, tenendo il punto afferrato sotto il puntatore
       const screen = screenRef.current.getBoundingClientRect()
       const bar = e.currentTarget.getBoundingClientRect()
       const grabbed = (e.clientX - bar.left) / bar.width
       x = Math.min(100 - win.w, Math.max(0, ((e.clientX - screen.left) / screen.width) * 100 - grabbed * win.w))
       y = top
-      act('restoreAt', id, { x, y })
     }
-    drag(e, (dx, dy) => act('move', id, { x: x + dx, y: y + dy, top }))
+    let hint = null
+    drag(
+      e,
+      (dx, dy, moveEvent) => {
+        // solo al primo movimento: un clic o un doppio clic sulla barra non la staccano
+        if (!detached) {
+          detached = true
+          act('restoreAt', id, { x, y })
+        }
+        act('move', id, { x: x + dx, y: y + dy, top })
+        hint = snapAt(moveEvent, screenRef.current)
+        onSnapHint(hint)
+      },
+      () => {
+        onSnapHint(null)
+        if (hint === 'max') act('maximize', id)
+        else if (hint) act('snap', id, { side: hint })
+      },
+    )
   }
 
-  /** Il bordo afferrato dice cosa cambia (data-axes): 'x' la larghezza, 'y' l'altezza, 'xy' entrambe. */
+  /** Il bordo afferrato dice cosa cambia: 'e' e 's' tirano, 'w' e 'n' muovono anche l'origine. */
   const onResizeDown = (e) => {
-    const axes = e.currentTarget.dataset.axes
-    const { w, h } = win
-    drag(e, (dx, dy) => act('resize', id, { w: axes.includes('x') ? w + dx : w, h: axes.includes('y') ? h + dy : h }))
+    const edge = e.currentTarget.dataset.edge
+    const { x, y, w, h } = win
+    const top = menubarPercent()
+    drag(e, (dx, dy) =>
+      act('resize', id, {
+        ...(edge.includes('e') && { w: w + dx }),
+        ...(edge.includes('s') && { h: h + dy }),
+        ...(edge.includes('w') && { x: x + dx }),
+        ...(edge.includes('n') && { y: y + dy, top }),
+      }),
+    )
   }
 
-  const box = win.max ? MAXIMIZED : { left: `${win.x}%`, top: `${win.y}%`, width: `${win.w}%`, height: `${win.h}%` }
+  const docked = win.max ? 'max' : win.snap
+  const box = docked
+    ? BOXES[docked]
+    : { left: `${win.x}%`, top: `${win.y}%`, width: `${win.w}%`, height: `${win.h}%` }
+  const thumbnail = overview?.[id]
+  const place = thumbnail ? { translate: `${thumbnail.x}px ${thumbnail.y}px`, scale: thumbnail.s } : null
 
   return (
     <m.div
-      className={`app-window ${focused ? 'is-focused' : ''} ${dragging ? 'is-dragging' : ''} ${win.max ? 'is-max' : ''}`}
-      style={{ ...box, zIndex: z }}
+      className={[
+        'app-window',
+        focused ? 'is-focused' : '',
+        dragging ? 'is-dragging' : '',
+        win.max ? 'is-max' : '',
+        thumbnail ? 'is-thumbnail' : '',
+      ].join(' ')}
+      style={{ ...box, ...place, zIndex: z }}
       onPointerDownCapture={() => act('focus', id)}
-      initial={{ opacity: 0 }}
-      // aprire, ridurre e riaprire li anima l'effetto genio sul canvas: qui la finestra sparisce e riappare di colpo
-      animate={{ opacity: win.min ? 0 : 1 }}
-      exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.18 } }}
-      transition={{ duration: 0.45, ease: EASE, opacity: { duration: win.min ? 0 : 0.12 } }}
+      onClick={thumbnail ? () => onPick(id) : undefined}
+      initial={{ opacity: 0, y: 8 }}
+      // aprirla è un attimo; ridurla e riaprirla li anima l'effetto genio, qui la finestra sparisce e riappare di colpo
+      animate={{ opacity: win.min ? 0 : 1, y: 0 }}
+      exit={{ opacity: 0, transition: { duration: 0.16 } }}
+      transition={{ duration: 0.28, ease: EASE, opacity: { duration: win.min ? 0 : 0.14 } }}
       data-window={id}
       inert={win.min}
       role="dialog"
-      aria-label={project.title}
+      aria-label={app.title}
     >
       <div className="window">
-        <div className="window__bar" onPointerDown={onBarDown} onDoubleClick={() => act('maximize', id)}>
+        <div
+          className="window__bar"
+          onPointerDown={onBarDown}
+          onDoubleClick={(e) => !e.target.closest('button, a') && act('maximize', id)}
+          onContextMenu={(e) => onContextMenu(e, id)}
+        >
           <span className="window__dots">
             <button
               type="button"
               className="window__dot window__dot--close"
               onClick={() => act('close', id)}
-              aria-label={`${WORK.windowClose} ${project.title}`}
+              aria-label={`${WORK.windowClose} ${app.title}`}
             />
             <button
               type="button"
               className="window__dot window__dot--min"
               onClick={() => onMinimize(id)}
-              aria-label={`${WORK.windowMinimize} ${project.title}`}
+              aria-label={`${WORK.windowMinimize} ${app.title}`}
             />
             <button
               type="button"
               className="window__dot window__dot--max"
               onClick={() => act('maximize', id)}
-              aria-label={`${WORK.windowMaximize} ${project.title}`}
+              aria-label={`${WORK.windowMaximize} ${app.title}`}
               aria-pressed={win.max}
             />
           </span>
-          <span className="window__address" aria-hidden="true">
-            {windowAddress(project)}
-          </span>
+          {project?.href ? (
+            <a className="window__address" href={project.href} target="_blank" rel="noreferrer">
+              {hostOf(project.href)}
+            </a>
+          ) : (
+            <span className="window__address" aria-hidden="true">
+              {app.title}
+            </span>
+          )}
         </div>
-        <div className="window__screen" style={{ background: project.tint }}>
-          <ProjectDemo project={project} playing={!win.min} />
+        <div className="window__screen" style={project ? { background: project.tint } : undefined}>
+          {children}
         </div>
       </div>
-      {!win.max && (
-        <>
+      {!docked &&
+        EDGES.map((edge) => (
           <span
-            className="window__edge window__edge--right"
-            data-axes="x"
+            key={edge}
+            className={`window__edge window__edge--${edge}`}
+            data-edge={edge}
             onPointerDown={onResizeDown}
             aria-hidden="true"
           />
-          <span
-            className="window__edge window__edge--bottom"
-            data-axes="y"
-            onPointerDown={onResizeDown}
-            aria-hidden="true"
-          />
-          <span
-            className="window__edge window__edge--corner"
-            data-axes="xy"
-            onPointerDown={onResizeDown}
-            aria-hidden="true"
-            title={WORK.windowResize}
-          />
-        </>
-      )}
+        ))}
+      {thumbnail && <span className="window__caption">{app.title}</span>}
     </m.div>
   )
 }

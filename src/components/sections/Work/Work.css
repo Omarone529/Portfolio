@@ -67,6 +67,10 @@
   overflow: hidden;
   container-type: inline-size;
   border-radius: 4px;
+}
+
+/* lo sfondo di partenza; gli altri sono in Desktop.css */
+.laptop__screen.wall-0 {
   background:
     radial-gradient(110% 80% at 15% 0%, #9fd0ee, transparent 60%),
     radial-gradient(90% 90% at 95% 100%, var(--glow), transparent 65%), #4c8db5;
@@ -131,36 +135,18 @@
   font-variant-numeric: tabular-nums;
 }
 
-.desktop__full {
-  display: grid;
-  place-items: center;
-  height: 100%;
-  aspect-ratio: 1.4;
-  border-radius: 4px;
-  color: inherit;
-  transition: background 0.2s;
-}
-
-.desktop__full svg {
-  width: 62%;
-  height: 62%;
-}
-
-.desktop__full:hover {
-  background: rgba(255, 255, 255, 0.45);
-}
-
 /* ---------- finestre ---------- */
 
 /* posizione e misure arrivano in percentuale dallo stato; ingrandire e ripristinare scorrono */
 .app-window {
   position: absolute;
-  transform-origin: 50% 100%;
   transition:
     left 0.45s var(--ease),
     top 0.45s var(--ease),
     width 0.45s var(--ease),
-    height 0.45s var(--ease);
+    height 0.45s var(--ease),
+    translate 0.4s var(--ease),
+    scale 0.4s var(--ease);
 }
 
 .app-window.is-dragging {
@@ -174,7 +160,8 @@
   height: 100%;
   overflow: hidden;
   border-radius: clamp(5px, 1cqw, 10px);
-  background: var(--tile);
+  background: var(--os-surface);
+  color: var(--os-text);
   box-shadow: 0 1.2cqw 3cqw -1.2cqw rgba(0, 0, 0, 0.4);
   transition: box-shadow 0.3s;
 }
@@ -191,7 +178,7 @@
   align-items: center;
   height: clamp(14px, 3.2cqw, 30px);
   padding: 0 1.4cqw;
-  border-bottom: 1px solid var(--ink-line);
+  border-bottom: 1px solid var(--os-line);
   cursor: grab;
   user-select: none;
   touch-action: none;
@@ -275,9 +262,9 @@
   overflow: hidden;
   padding: 0.3cqw 1.4cqw;
   border-radius: 0.6cqw;
-  background: var(--white);
+  background: var(--os-raised);
   font-size: clamp(7px, 1.2cqw, 12px);
-  color: var(--ink-muted);
+  color: var(--os-muted);
   text-overflow: ellipsis;
   white-space: nowrap;
   transform: translateX(-50%);
@@ -286,44 +273,15 @@
 .window__screen {
   flex: 1;
   display: grid;
-  place-items: center;
+  place-items: stretch;
   min-height: 0;
   overflow: hidden;
+  background: var(--os-surface);
 }
 
 /* a schermo intero la demo si vede tutta, anche se la finestra ha un'altra forma */
 .laptop__screen.is-full .project-video {
   object-fit: contain;
-}
-
-/* i bordi destro e inferiore e l'angolo ridimensionano: fasce sottili, invisibili */
-.window__edge {
-  position: absolute;
-  touch-action: none;
-}
-
-.window__edge--right {
-  top: 0;
-  right: -4px;
-  bottom: 0;
-  width: 8px;
-  cursor: ew-resize;
-}
-
-.window__edge--bottom {
-  left: 0;
-  right: 0;
-  bottom: -4px;
-  height: 8px;
-  cursor: ns-resize;
-}
-
-.window__edge--corner {
-  right: -4px;
-  bottom: -4px;
-  width: clamp(14px, 2.2cqw, 24px);
-  aspect-ratio: 1;
-  cursor: nwse-resize;
 }
 
 /* il canvas dell'effetto genio: sopra le finestre, sotto il dock, così la finestra entra nell'icona */
@@ -334,125 +292,6 @@
   width: 100%;
   height: 100%;
   pointer-events: none;
-}
-
-/* ---------- dock ---------- */
-
-.dock {
-  position: absolute;
-  left: 50%;
-  bottom: 1.4cqw;
-  z-index: 50;
-  display: flex;
-  gap: 1.2cqw;
-  transform: translateX(-50%);
-}
-
-/* almeno 24px: il minimo per un bersaglio da toccare */
-/* --mag la scrive la lente del dock: 1 a riposo, di più vicino al puntatore */
-.dock__item {
-  --mag: 1;
-  position: relative;
-  display: grid;
-  place-items: center;
-  width: clamp(24px, 5.6cqw, 52px);
-  aspect-ratio: 1;
-  border-radius: 22%;
-  transform-origin: 50% 100%;
-  transform: translateY(calc((var(--mag) - 1) * -30%)) scale(var(--mag));
-  transition: transform 0.18s ease-out;
-}
-
-/* a schermo intero sul telefono c'è spazio per icone più comode */
-.laptop__screen.is-full .dock__item {
-  width: clamp(40px, 5.6cqw, 60px);
-}
-
-.dock__item img {
-  width: 68%;
-  height: 68%;
-  object-fit: contain;
-}
-
-.dock__item:focus-visible {
-  --mag: 1.18;
-}
-
-/* l'icona rimbalza mentre la sua app si apre */
-.dock__item.is-launching {
-  animation: dock-launch 0.9s var(--ease);
-}
-
-@keyframes dock-launch {
-  0%,
-  50%,
-  100% {
-    translate: 0 0;
-  }
-  22%,
-  72% {
-    translate: 0 -45%;
-  }
-}
-
-/* il nome del progetto, sopra l'icona, come nei dock veri */
-.dock__label {
-  position: absolute;
-  bottom: calc(100% + 1.2cqw);
-  left: 50%;
-  padding: 0.4cqw 1cqw;
-  border-radius: 0.6cqw;
-  background: rgba(30, 30, 30, 0.82);
-  font-size: clamp(8px, 1.2cqw, 12px);
-  color: var(--white);
-  white-space: nowrap;
-  opacity: 0;
-  transform: translate(-50%, 4px);
-  transition:
-    opacity 0.2s,
-    transform 0.3s var(--ease);
-  pointer-events: none;
-}
-
-.dock__item:hover .dock__label,
-.dock__item:focus-visible .dock__label {
-  opacity: 1;
-  transform: translate(-50%, 0);
-}
-
-/* il puntino sotto le app aperte */
-.dock__item.is-open::after {
-  content: '';
-  position: absolute;
-  bottom: -0.55cqw;
-  width: 3px;
-  height: 3px;
-  border-radius: 50%;
-  background: rgba(0, 0, 0, 0.7);
-}
-
-/* finché non si prova il dock, le icone pulsano piano per farsi notare (con translate, così l'hover resta libero) */
-.laptop__screen.is-new .dock__item:not(.is-open) {
-  animation: dock-call 2.4s var(--ease) infinite;
-}
-
-.laptop__screen.is-new .dock__item:nth-child(3) {
-  animation-delay: 0.15s;
-}
-
-.laptop__screen.is-new .dock__item:nth-child(4) {
-  animation-delay: 0.3s;
-}
-
-@keyframes dock-call {
-  0%,
-  60%,
-  100% {
-    translate: 0 0;
-  }
-  20% {
-    translate: 0 -14%;
-  }
 }
 
 /* ---------- schermo intero ---------- */
@@ -654,13 +493,6 @@
 @media (prefers-reduced-motion: reduce) {
   .folder__card,
   .folder__front {
-    transition: none;
-  }
-  .laptop__screen.is-new .dock__item,
-  .dock__item.is-launching {
-    animation: none;
-  }
-  .dock__item {
     transition: none;
   }
   .app-window {

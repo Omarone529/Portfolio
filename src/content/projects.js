@@ -67,7 +67,6 @@ export const WORK = {
   windowClose: 'Chiudi',
   windowMinimize: 'Riduci nel dock',
   windowMaximize: 'Ingrandisci',
-  windowResize: 'Ridimensiona',
   seeAll: 'Guarda tutti',
   showLess: 'Mostra meno',
   allTitle: 'Tutti i progetti',

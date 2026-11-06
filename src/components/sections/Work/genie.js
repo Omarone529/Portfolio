@@ -113,7 +113,8 @@ export function snapshotWindow(windowEl, screenEl) {
   const screen = frame.querySelector('.window__screen')
   const screenBox = local(screen)
   fill(ctx, getComputedStyle(screen).backgroundColor, screenBox)
-  const media = screen.querySelector('video, img')
+  // solo la demo di un progetto: le app di sistema hanno immagini loro, che qui non c'entrano
+  const media = screen.querySelector(':scope > video, :scope > img')
   if (media) {
     const box = local(media)
     const fit = getComputedStyle(media).objectFit

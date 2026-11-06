@@ -1,0 +1,1245 @@
+/* I colori del sistema: chiaro di base, scuro con is-dark. */
+.laptop__screen {
+  --os-surface: #f6f6f7;
+  --os-raised: #fff;
+  --os-text: rgba(0, 0, 0, 0.85);
+  --os-muted: rgba(0, 0, 0, 0.55);
+  --os-line: rgba(0, 0, 0, 0.12);
+  --os-glass: rgba(246, 246, 248, 0.82);
+  --os-accent: #2f7fdc;
+  --os-font: clamp(8px, 1.3cqw, 13px);
+  --os-font-small: clamp(7px, 1.1cqw, 11px);
+}
+
+.laptop__screen.is-dark {
+  --os-surface: #2a2a2d;
+  --os-raised: #3a3a3e;
+  --os-text: rgba(255, 255, 255, 0.92);
+  --os-muted: rgba(255, 255, 255, 0.58);
+  --os-line: rgba(255, 255, 255, 0.14);
+  --os-glass: rgba(44, 44, 48, 0.82);
+}
+
+.laptop__screen.is-dark .desktop__menubar {
+  background: rgba(20, 20, 22, 0.45);
+  color: rgba(255, 255, 255, 0.92);
+}
+
+/* gli sfondi sono solo sfumature: pesano zero */
+.wall-1 {
+  background:
+    radial-gradient(100% 80% at 80% 10%, #ffd28a, transparent 60%),
+    radial-gradient(90% 90% at 10% 100%, #a53f6f, transparent 65%), #e0765a;
+}
+
+.wall-2 {
+  background:
+    radial-gradient(100% 80% at 20% 10%, #b9d8a5, transparent 60%),
+    radial-gradient(90% 90% at 90% 100%, #1f4d3a, transparent 65%), #4f8a64;
+}
+
+.wall-3 {
+  background:
+    radial-gradient(100% 80% at 80% 0%, #4a4f9c, transparent 60%),
+    radial-gradient(90% 90% at 10% 100%, #16172e, transparent 65%), #24264d;
+}
+
+/* ---------- barra dei menu ---------- */
+
+.desktop__menus {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.desktop__menu {
+  height: 100%;
+  padding-inline: 0.8cqw;
+  border-radius: 3px;
+}
+
+.desktop__menu.is-active,
+.desktop__glyph.is-active {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.desktop__mark {
+  display: block;
+  width: 1.1em;
+  aspect-ratio: 1;
+  border: 0.2em solid currentcolor;
+  border-radius: 50%;
+}
+
+.desktop__mark--large {
+  width: 44px;
+}
+
+.desktop__glyph {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  aspect-ratio: 1.3;
+  border-radius: 3px;
+}
+
+.desktop__glyph svg {
+  width: 1.1em;
+  fill: none;
+  stroke: currentcolor;
+  stroke-width: 1.5;
+}
+
+.desktop__menubar .desktop__app {
+  margin-right: auto;
+  padding-left: 0.6cqw;
+  order: -1;
+}
+
+.desktop__menus {
+  order: -2;
+}
+
+/* l'ordine è: marchio, nome dell'app, poi gli altri menu */
+.desktop__menus .desktop__menu:not(.desktop__menu--mark) {
+  font-weight: 400;
+}
+
+.desktop__clock {
+  white-space: nowrap;
+}
+
+/* su display piccoli restano il marchio, il nome dell'app e l'ora */
+@container (width < 420px) {
+  .desktop__menu:not(.desktop__menu--mark) {
+    display: none;
+  }
+}
+
+/* ---------- menu a tendina ---------- */
+
+.pop-menu {
+  position: absolute;
+  z-index: 80;
+  min-width: 15em;
+  padding: 0.35em;
+  border: 1px solid var(--os-line);
+  border-radius: 7px;
+  background: var(--os-glass);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 10px 28px -8px rgba(0, 0, 0, 0.45);
+  color: var(--os-text);
+  font-size: var(--os-font);
+  outline: none;
+}
+
+.pop-menu button {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0.28em 0.6em 0.28em 0.2em;
+  border-radius: 4px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.pop-menu__check {
+  flex: none;
+  width: 1.3em;
+  text-align: center;
+}
+
+.pop-menu kbd {
+  margin-left: auto;
+  padding-left: 2em;
+  font: inherit;
+  opacity: 0.6;
+}
+
+.pop-menu button:disabled {
+  color: var(--os-muted);
+}
+
+.pop-menu button:not(:disabled):hover,
+.pop-menu button:not(:disabled):focus-visible {
+  background: var(--os-accent);
+  color: #fff;
+  outline: none;
+}
+
+.pop-menu hr {
+  margin: 0.3em 0.5em;
+  border: 0;
+  border-top: 1px solid var(--os-line);
+}
+
+/* ---------- centro di controllo ---------- */
+
+.control-center {
+  position: absolute;
+  top: calc(var(--menubar) + 4px);
+  right: 1cqw;
+  z-index: 80;
+  display: grid;
+  gap: 0.6em;
+  width: 18em;
+  padding: 0.8em;
+  border: 1px solid var(--os-line);
+  border-radius: 10px;
+  background: var(--os-glass);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 10px 28px -8px rgba(0, 0, 0, 0.45);
+  color: var(--os-text);
+  font-size: var(--os-font);
+}
+
+.control-center label,
+.settings label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1em;
+}
+
+.control-center__range {
+  flex-wrap: wrap;
+}
+
+.control-center input[type='range'] {
+  width: 100%;
+}
+
+.laptop__screen input[type='checkbox'],
+.laptop__screen input[type='range'] {
+  accent-color: var(--os-accent);
+}
+
+/* ---------- scrivania ---------- */
+
+.desktop__surface {
+  position: absolute;
+  inset: 0;
+  touch-action: none;
+}
+
+.desktop-icon {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2em;
+  width: 7.5cqw;
+  min-width: 42px;
+  font-size: var(--os-font-small);
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+  touch-action: none;
+  user-select: none;
+}
+
+.desktop-icon svg {
+  width: 62%;
+  border-radius: 4px;
+}
+
+.desktop-icon span {
+  padding: 0 0.4em;
+  border-radius: 3px;
+}
+
+.desktop-icon.is-selected svg {
+  background: rgba(0, 0, 0, 0.22);
+}
+
+.desktop-icon.is-selected span {
+  background: var(--os-accent);
+  text-shadow: none;
+}
+
+.desktop__band {
+  position: absolute;
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  background: rgba(255, 255, 255, 0.18);
+  pointer-events: none;
+}
+
+/* l'anteprima di dove si aggancerà la finestra */
+.desktop__snap {
+  position: absolute;
+  top: calc(var(--menubar) + 4px);
+  bottom: 4px;
+  z-index: 40;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(6px);
+  pointer-events: none;
+}
+
+.desktop__snap--left {
+  left: 4px;
+  right: calc(50% + 2px);
+}
+
+.desktop__snap--right {
+  left: calc(50% + 2px);
+  right: 4px;
+}
+
+.desktop__snap--max {
+  left: 4px;
+  right: 4px;
+}
+
+/* la luminosità: un velo nero sopra tutto, che non intercetta niente */
+.desktop__dim {
+  position: absolute;
+  inset: 0;
+  z-index: 90;
+  background: #000;
+  pointer-events: none;
+}
+
+/* ---------- bordi delle finestre: da qui si ridimensiona ---------- */
+
+.window__edge {
+  position: absolute;
+  touch-action: none;
+}
+
+.window__edge--n,
+.window__edge--s {
+  left: 6px;
+  right: 6px;
+  height: 8px;
+  cursor: ns-resize;
+}
+
+.window__edge--e,
+.window__edge--w {
+  top: 6px;
+  bottom: 6px;
+  width: 8px;
+  cursor: ew-resize;
+}
+
+.window__edge--n {
+  top: -4px;
+}
+
+.window__edge--s {
+  bottom: -4px;
+}
+
+.window__edge--e {
+  right: -4px;
+}
+
+.window__edge--w {
+  left: -4px;
+}
+
+.window__edge--ne,
+.window__edge--se,
+.window__edge--sw,
+.window__edge--nw {
+  width: 14px;
+  height: 14px;
+}
+
+.window__edge--ne {
+  top: -4px;
+  right: -4px;
+  cursor: nesw-resize;
+}
+
+.window__edge--se {
+  right: -4px;
+  bottom: -4px;
+  cursor: nwse-resize;
+}
+
+.window__edge--sw {
+  bottom: -4px;
+  left: -4px;
+  cursor: nesw-resize;
+}
+
+.window__edge--nw {
+  top: -4px;
+  left: -4px;
+  cursor: nwse-resize;
+}
+
+.window__address {
+  text-decoration: none;
+}
+
+a.window__address:hover {
+  color: var(--os-text);
+}
+
+/* ---------- mission control ---------- */
+
+.is-overview .app-window {
+  transform-origin: 0 0;
+}
+
+.app-window.is-thumbnail {
+  cursor: pointer;
+}
+
+.app-window.is-thumbnail .window {
+  pointer-events: none;
+}
+
+.app-window.is-thumbnail:hover .window {
+  outline: 3px solid var(--os-accent);
+}
+
+.is-thumbnail .window__edge {
+  display: none;
+}
+
+/* il titolo sotto la miniatura; la finestra è rimpicciolita, quindi il testo è più grande */
+.window__caption {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  color: #fff;
+  font-size: 22px;
+  text-align: center;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+/* copre la scrivania ma resta sotto le miniature, che hanno lo z-index del loro ordine */
+.desktop__exit {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(4px);
+}
+
+/* ---------- dock ---------- */
+
+.dock {
+  --icon: clamp(20px, 4.6cqw, 48px);
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0.8cqw;
+  z-index: 50;
+  display: flex;
+  align-items: flex-end;
+  gap: clamp(2px, 0.5cqw, 5px);
+  width: fit-content;
+  max-width: 100%;
+  margin-inline: auto;
+  padding: clamp(2px, 0.5cqw, 5px);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: clamp(8px, 1.5cqw, 16px);
+  background: rgba(255, 255, 255, 0.32);
+  backdrop-filter: blur(16px) saturate(1.4);
+  box-shadow: 0 1cqw 2.6cqw -1cqw rgba(0, 0, 0, 0.4);
+}
+
+.laptop__screen.is-dark .dock {
+  border-color: rgba(255, 255, 255, 0.16);
+  background: rgba(30, 30, 32, 0.5);
+}
+
+/* a schermo intero sul telefono c'è spazio per icone più comode */
+.laptop__screen.is-full .dock {
+  --icon: clamp(30px, 4.6cqw, 56px);
+}
+
+.dock.is-autohide {
+  translate: 0 calc(100% + 2cqw);
+  transition: translate 0.32s var(--ease);
+}
+
+/* una fascia invisibile sotto il dock nascosto, per richiamarlo */
+.dock.is-autohide::before {
+  content: '';
+  position: absolute;
+  inset: -2.6cqw 0 auto;
+  height: 2.6cqw;
+}
+
+.dock.is-autohide:hover,
+.dock.is-autohide:focus-within {
+  translate: 0 0;
+}
+
+.dock__slot {
+  display: flex;
+  align-items: flex-end;
+  gap: inherit;
+}
+
+.dock__sep {
+  flex: none;
+  align-self: stretch;
+  width: 1px;
+  margin-inline: clamp(1px, 0.3cqw, 3px);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+/* --mag la scrive la lente: la larghezza cambia davvero e spinge le icone vicine */
+.dock__item {
+  --mag: 1;
+  position: relative;
+  display: block;
+  flex: none;
+  width: calc(var(--icon) * var(--mag));
+  aspect-ratio: 1;
+}
+
+.dock__item:focus-visible {
+  --mag: 1.18;
+  outline: none;
+}
+
+.dock__item:focus-visible .dock__icon {
+  outline: 2px solid var(--os-accent);
+  outline-offset: 1px;
+}
+
+.dock__icon {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 22%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.dock__icon svg,
+.spotlight__icon svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.app-icon {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.app-icon img {
+  width: 68%;
+  height: 68%;
+  object-fit: contain;
+}
+
+/* premendo, l'icona si scurisce */
+.dock__item:active .dock__icon {
+  filter: brightness(0.68);
+}
+
+/* su e giù come una palla: sale frenando e ricade accelerando, ogni volta un po' più basso */
+.dock__item.is-launching .dock__icon {
+  animation: dock-bounce 0.9s linear;
+}
+
+@keyframes dock-bounce {
+  0% {
+    translate: 0 0;
+    animation-timing-function: cubic-bezier(0.2, 0.7, 0.4, 1);
+  }
+  24% {
+    translate: 0 -62%;
+    animation-timing-function: cubic-bezier(0.6, 0, 0.8, 0.3);
+  }
+  47% {
+    translate: 0 0;
+    animation-timing-function: cubic-bezier(0.2, 0.7, 0.4, 1);
+  }
+  68% {
+    translate: 0 -34%;
+    animation-timing-function: cubic-bezier(0.6, 0, 0.8, 0.3);
+  }
+  88%,
+  100% {
+    translate: 0 0;
+  }
+}
+
+/* finché non si prova il dock, ogni tanto un'icona chiede attenzione come una notifica */
+.dock__item.is-calling .dock__icon {
+  animation: dock-call 5s linear 2s infinite;
+}
+
+@keyframes dock-call {
+  0% {
+    translate: 0 0;
+    animation-timing-function: cubic-bezier(0.2, 0.7, 0.4, 1);
+  }
+  5% {
+    translate: 0 -38%;
+    animation-timing-function: cubic-bezier(0.6, 0, 0.8, 0.3);
+  }
+  10% {
+    translate: 0 0;
+    animation-timing-function: cubic-bezier(0.2, 0.7, 0.4, 1);
+  }
+  14% {
+    translate: 0 -20%;
+    animation-timing-function: cubic-bezier(0.6, 0, 0.8, 0.3);
+  }
+  18%,
+  100% {
+    translate: 0 0;
+  }
+}
+
+/* il nome dell'app, sopra l'icona */
+.dock__label {
+  position: absolute;
+  bottom: calc(100% + 1cqw);
+  left: 50%;
+  padding: 0.3cqw 0.9cqw;
+  border-radius: 0.6cqw;
+  background: rgba(30, 30, 30, 0.82);
+  font-size: var(--os-font-small);
+  color: #fff;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translate(-50%, 3px);
+  transition:
+    opacity 0.12s,
+    transform 0.2s var(--ease);
+  pointer-events: none;
+}
+
+@media (hover: hover) {
+  .dock__item:hover .dock__label {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+.dock__item:focus-visible .dock__label {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* il puntino sotto le app aperte: resta sul ripiano, non cresce con l'icona */
+.dock__item.is-open::after {
+  content: '';
+  position: absolute;
+  bottom: clamp(-3px, -0.4cqw, -2px);
+  left: 50%;
+  width: 3px;
+  height: 3px;
+  margin-left: -1.5px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.72);
+}
+
+.laptop__screen.is-dark .dock__item.is-open::after {
+  background: rgba(255, 255, 255, 0.85);
+}
+
+/* ---------- spotlight ---------- */
+
+.spotlight {
+  position: absolute;
+  inset: 0;
+  z-index: 70;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 14%;
+}
+
+.spotlight__panel {
+  width: min(60%, 560px);
+  min-width: 220px;
+  overflow: hidden;
+  border: 1px solid var(--os-line);
+  border-radius: 12px;
+  background: var(--os-glass);
+  backdrop-filter: blur(24px);
+  box-shadow: 0 16px 44px -12px rgba(0, 0, 0, 0.55);
+  color: var(--os-text);
+}
+
+.spotlight input {
+  width: 100%;
+  padding: 0.5em 0.7em;
+  border: 0;
+  background: none;
+  color: inherit;
+  font-size: clamp(12px, 2cqw, 20px);
+  outline: none;
+}
+
+.spotlight ul {
+  margin: 0;
+  padding: 0.3em;
+  border-top: 1px solid var(--os-line);
+  font-size: var(--os-font);
+  list-style: none;
+}
+
+.spotlight li button {
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  width: 100%;
+  padding: 0.3em 0.5em;
+  border-radius: 6px;
+  text-align: left;
+}
+
+.spotlight li button.is-active {
+  background: var(--os-accent);
+  color: #fff;
+}
+
+.spotlight small {
+  margin-left: auto;
+  opacity: 0.65;
+}
+
+.spotlight__icon {
+  flex: none;
+  width: 1.8em;
+  height: 1.8em;
+  overflow: hidden;
+  border-radius: 22%;
+}
+
+.spotlight__empty {
+  padding: 0.4em 0.6em;
+  color: var(--os-muted);
+}
+
+/* ---------- stop, blocco, spegnimento ---------- */
+
+.power {
+  position: absolute;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.6cqw;
+  width: 100%;
+  color: #fff;
+}
+
+.power--dark {
+  background: #000;
+}
+
+.power--locked {
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(22px);
+}
+
+.power__name {
+  font-size: clamp(14px, 2.4cqw, 26px);
+  font-weight: 500;
+}
+
+.power--locked button {
+  padding: 0.35em 1.2em;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 99px;
+  font-size: var(--os-font);
+}
+
+.power__hint {
+  font-size: var(--os-font);
+  opacity: 0.55;
+}
+
+.power__bar {
+  position: relative;
+  width: min(30%, 200px);
+  height: 4px;
+  overflow: hidden;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.power__bar::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: #fff;
+  transform-origin: 0 50%;
+  animation: power-boot 1.8s var(--ease) both;
+}
+
+@keyframes power-boot {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* ---------- app di sistema ---------- */
+
+.finder,
+.notes,
+.mail,
+.terminal,
+.calculator,
+.settings,
+.about-pc,
+.trash {
+  container-type: inline-size;
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+  font-size: var(--os-font);
+  color: var(--os-text);
+  text-align: left;
+}
+
+.finder {
+  display: flex;
+}
+
+.finder__side,
+.notes aside {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 24%;
+  min-width: 70px;
+  padding: 0.7em 0.5em;
+  overflow-y: auto;
+  border-right: 1px solid var(--os-line);
+}
+
+.finder__side small {
+  padding-inline: 0.5em;
+  color: var(--os-muted);
+}
+
+.finder__side button,
+.notes aside button {
+  flex: none;
+  padding: 0.25em 0.5em;
+  overflow: hidden;
+  border-radius: 5px;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.finder__side button[aria-pressed='true'],
+.notes aside button[aria-pressed='true'],
+.finder__tools button[aria-pressed='true'] {
+  background: var(--os-line);
+}
+
+.finder__main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.finder__tools {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.4em 0.7em;
+  border-bottom: 1px solid var(--os-line);
+  color: var(--os-muted);
+}
+
+.finder__tools button {
+  padding: 0.1em 0.5em;
+  border-radius: 4px;
+  color: var(--os-text);
+}
+
+.finder__items {
+  flex: 1;
+  align-content: start;
+  padding: 0.7em;
+  overflow-y: auto;
+}
+
+.finder__items--icons {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(5.4em, 1fr));
+  gap: 0.5em;
+}
+
+.finder__items--icons > button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3em;
+  padding: 0.4em;
+  border-radius: 6px;
+  text-align: center;
+}
+
+.finder__items--list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.finder__items--list > button {
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  padding: 0.2em 0.4em;
+  border-radius: 5px;
+}
+
+.finder__items--list .finder__icon {
+  width: 1.6em;
+}
+
+.finder__items--list small {
+  margin-left: auto;
+  color: var(--os-muted);
+}
+
+.finder__items button[aria-pressed='true'] {
+  background: var(--os-accent);
+  color: #fff;
+}
+
+.finder__items button[aria-pressed='true'] small {
+  color: inherit;
+}
+
+.finder__icon {
+  display: block;
+  width: 3.4em;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 22%;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.finder__icon--large {
+  width: 5em;
+}
+
+.finder__preview {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35em;
+  width: 32%;
+  padding: 0.8em;
+  overflow-y: auto;
+  border-left: 1px solid var(--os-line);
+  color: var(--os-text);
+}
+
+.finder__preview small {
+  color: var(--os-muted);
+}
+
+.finder__preview p {
+  margin: 0.2em 0;
+}
+
+.finder__preview button,
+.mail footer button {
+  padding: 0.2em 0.8em;
+  border-radius: 6px;
+  background: var(--os-accent);
+  color: #fff;
+}
+
+.finder__preview a,
+.finder__list a {
+  color: var(--os-accent);
+}
+
+.finder__list {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  padding: 1em;
+}
+
+@container (width < 340px) {
+  .finder__preview {
+    display: none;
+  }
+}
+
+.notes {
+  display: flex;
+}
+
+.notes aside {
+  background: var(--os-surface);
+}
+
+.notes__new {
+  color: var(--os-accent);
+}
+
+.notes textarea,
+.mail textarea {
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  padding: 0.9em;
+  border: 0;
+  background: var(--os-raised);
+  color: inherit;
+  font: inherit;
+  line-height: 1.45;
+  outline: none;
+  resize: none;
+}
+
+.mail {
+  display: flex;
+  flex-direction: column;
+}
+
+.mail p,
+.mail label {
+  display: flex;
+  gap: 0.6em;
+  margin: 0;
+  padding: 0.45em 0.9em;
+  border-bottom: 1px solid var(--os-line);
+}
+
+.mail p span,
+.mail label span {
+  color: var(--os-muted);
+}
+
+.mail input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  outline: none;
+}
+
+.mail footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1em;
+  padding: 0.5em 0.9em;
+  border-top: 1px solid var(--os-line);
+}
+
+.mail small {
+  color: var(--os-muted);
+}
+
+.terminal {
+  padding: 0.7em;
+  overflow-y: auto;
+  background: #16161a;
+  color: #e8e8e8;
+  font-family: ui-monospace, Menlo, monospace;
+  cursor: text;
+}
+
+.terminal pre {
+  margin: 0;
+  font: inherit;
+  white-space: pre-wrap;
+}
+
+.terminal form {
+  display: flex;
+  gap: 0.6em;
+}
+
+.terminal form span {
+  flex: none;
+}
+
+.terminal input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  outline: none;
+}
+
+.calculator {
+  display: flex;
+  flex-direction: column;
+  background: #2b2b2e;
+  color: #fff;
+  outline: none;
+}
+
+.calculator output {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  min-height: 2em;
+  padding: 0.2em 0.5em;
+  overflow: hidden;
+  font-size: clamp(16px, 4cqw, 32px);
+  font-variant-numeric: tabular-nums;
+}
+
+.calculator div {
+  flex: 3;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 1fr;
+  gap: 1px;
+  background: #1c1c1e;
+}
+
+.calculator button {
+  background: #48484c;
+  font-size: var(--os-font);
+}
+
+.calculator button:hover {
+  background: #5c5c61;
+}
+
+.calculator button:active {
+  background: #77777c;
+}
+
+.calculator .is-op {
+  background: #f59e2b;
+}
+
+.calculator .is-op:hover {
+  background: #ffb54d;
+}
+
+.calculator .is-wide {
+  grid-column: span 2;
+}
+
+.settings {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6em;
+  padding: 1em;
+  overflow-y: auto;
+}
+
+.settings h4 {
+  margin: 0.5em 0 0;
+  font-size: inherit;
+  font-weight: 600;
+}
+
+.settings__walls {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.6em;
+}
+
+.settings__walls button {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25em;
+  font-size: var(--os-font-small);
+}
+
+.settings__walls span {
+  display: block;
+  aspect-ratio: 16 / 10;
+  border-radius: 5px;
+  outline: 1px solid var(--os-line);
+}
+
+.settings__walls .wall-0 {
+  background:
+    radial-gradient(110% 80% at 15% 0%, #9fd0ee, transparent 60%),
+    radial-gradient(90% 90% at 95% 100%, var(--glow), transparent 65%), #4c8db5;
+}
+
+.settings__walls button[aria-pressed='true'] span {
+  outline: 2px solid var(--os-accent);
+  outline-offset: 1px;
+}
+
+.about-pc {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3em;
+  padding: 1em;
+  overflow-y: auto;
+  text-align: center;
+}
+
+.about-pc__icon {
+  width: 4em;
+  overflow: hidden;
+  border-radius: 22%;
+}
+
+.about-pc small {
+  color: var(--os-muted);
+}
+
+.about-pc dl {
+  width: 100%;
+  margin: 0.7em 0 0;
+}
+
+.about-pc dl div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1em;
+  padding: 0.15em 0;
+}
+
+.about-pc dt {
+  color: var(--os-muted);
+}
+
+.about-pc dd {
+  margin: 0;
+}
+
+.trash {
+  display: grid;
+  place-items: center;
+  color: var(--os-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dock__item.is-launching .dock__icon,
+  .dock__item.is-calling .dock__icon,
+  .power__bar::after {
+    animation: none;
+  }
+  .dock.is-autohide {
+    transition: none;
+  }
+}
