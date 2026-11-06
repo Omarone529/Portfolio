@@ -52,7 +52,6 @@ export const SECTION = {
   top: 'top',
   about: 'about',
   work: 'work',
-  services: 'services',
   contact: 'contact',
 }
 
@@ -63,6 +62,5 @@ export const NAV = [
   { label: 'Home', href: anchor(SECTION.top) },
   { label: 'About', href: anchor(SECTION.about) },
   { label: 'Progetti', href: anchor(SECTION.work) },
-  { label: 'Servizi', href: anchor(SECTION.services) },
   { label: 'Contatti', href: anchor(SECTION.contact) },
 ]

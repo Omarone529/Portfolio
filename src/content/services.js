@@ -22,10 +22,3 @@ export const SERVICES = [
     tint: '#EAF1F5',
   },
 ]
-
-export const SERVICES_INTRO = {
-  label: 'Servizi',
-  meta: SERVICES.map((s) => s.title).join(' · '),
-  statement:
-    "Dal primo schizzo al rilascio: progetto l'interfaccia, scrivo il codice e curo ogni animazione, un dettaglio alla volta.",
-}

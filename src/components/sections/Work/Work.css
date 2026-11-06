@@ -1,4 +1,4 @@
-/* lo spazio in fondo lascia passare il bordo obliquo dei Servizi senza toccare il portatile */
+/* lo spazio in fondo lascia passare il bordo obliquo del footer senza toccare il portatile */
 .work {
   padding-bottom: calc(var(--edge-rise) + 80px);
 }

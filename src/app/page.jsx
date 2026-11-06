@@ -4,7 +4,6 @@ import { JsonLd } from '@/components/layout/JsonLd'
 import Hero from '@/components/sections/Hero/Hero'
 import About from '@/components/sections/About/About'
 import Work from '@/components/sections/Work/Work'
-import Services from '@/components/sections/Services/Services'
 import Footer from '@/components/sections/Footer/Footer'
 
 /**
@@ -21,10 +20,9 @@ export default function HomePage() {
         <div className="page__content">
           <About />
           <Work />
-          <Services />
         </div>
       </main>
-      <Footer edgeTone="dark" />
+      <Footer edgeTone="light" />
     </>
   )
 }
