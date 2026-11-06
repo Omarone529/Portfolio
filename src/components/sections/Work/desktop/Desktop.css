@@ -517,6 +517,7 @@ a.window__address:hover {
 }
 
 .dock__icon svg,
+.finder__icon svg,
 .spotlight__icon svg {
   display: block;
   width: 100%;
@@ -843,7 +844,7 @@ a.window__address:hover {
 
 .finder__side button[aria-pressed='true'],
 .notes aside button[aria-pressed='true'],
-.finder__tools button[aria-pressed='true'] {
+.finder__views button[aria-pressed='true'] {
   background: var(--os-line);
 }
 
@@ -856,22 +857,70 @@ a.window__address:hover {
 
 .finder__tools {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 0.4em 0.7em;
+  gap: 0.7em;
+  padding: 0.35em 0.7em;
   border-bottom: 1px solid var(--os-line);
-  color: var(--os-muted);
 }
 
-.finder__tools button {
+.finder__nav {
+  display: flex;
+}
+
+.finder__nav button {
+  width: 1.5em;
+  border-radius: 4px;
+  font-size: 1.25em;
+  line-height: 1.1;
+}
+
+.finder__nav button:disabled {
+  opacity: 0.3;
+}
+
+.finder__tools strong {
+  overflow: hidden;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.finder__views {
+  display: flex;
+  margin-left: auto;
+}
+
+.finder__views button {
   padding: 0.1em 0.5em;
   border-radius: 4px;
-  color: var(--os-text);
+}
+
+.finder__tools input {
+  flex: 0 1 8em;
+  min-width: 0;
+  padding: 0.1em 0.5em;
+  border: 1px solid var(--os-line);
+  border-radius: 5px;
+  background: var(--os-raised);
+  color: inherit;
+  font: inherit;
+  outline: none;
+}
+
+.finder__tools input:focus {
+  border-color: var(--os-accent);
+}
+
+.finder__body {
+  flex: 1;
+  display: flex;
+  min-height: 0;
 }
 
 .finder__items {
   flex: 1;
   align-content: start;
+  min-width: 0;
   padding: 0.7em;
   overflow-y: auto;
 }
@@ -887,9 +936,16 @@ a.window__address:hover {
   flex-direction: column;
   align-items: center;
   gap: 0.3em;
+  min-width: 0;
   padding: 0.4em;
   border-radius: 6px;
   text-align: center;
+}
+
+.finder__name {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .finder__items--list {
@@ -904,9 +960,48 @@ a.window__address:hover {
   gap: 0.6em;
   padding: 0.2em 0.4em;
   border-radius: 5px;
+  text-align: left;
 }
 
 .finder__items--list .finder__icon {
+  flex: none;
+  width: 1.6em;
+}
+
+.finder__items--list .finder__name {
+  white-space: nowrap;
+}
+
+.finder__items--list small {
+  flex: none;
+  margin-left: auto;
+  color: var(--os-muted);
+}
+
+.finder__items button[aria-pressed='true'] {
+  background: var(--os-accent);
+  color: #fff;
+}
+
+.finder__items button[aria-pressed='true'] small {
+  color: inherit;
+}
+
+.finder__empty {
+  grid-column: 1 / -1;
+  margin: 2em 0;
+  color: var(--os-muted);
+  text-align: center;
+}
+
+.finder__status {
+  padding: 0.2em 0.8em;
+  border-top: 1px solid var(--os-line);
+  color: var(--os-muted);
+  font-size: var(--os-font-small);
+}
+
+.finder__icon {
   width: 1.6em;
 }
 
@@ -926,6 +1021,7 @@ a.window__address:hover {
 
 .finder__icon {
   display: block;
+  flex: none;
   width: 3.4em;
   aspect-ratio: 1;
   overflow: hidden;
@@ -966,21 +1062,13 @@ a.window__address:hover {
   color: #fff;
 }
 
-.finder__preview a,
-.finder__list a {
+.finder__preview a {
   color: var(--os-accent);
 }
 
-.finder__list {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5em;
-  padding: 1em;
-}
-
 @container (width < 340px) {
-  .finder__preview {
+  .finder__preview,
+  .finder__views {
     display: none;
   }
 }

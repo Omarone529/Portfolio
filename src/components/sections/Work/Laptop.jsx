@@ -51,6 +51,7 @@ export default function Laptop({ projects }) {
   const [full, setFull] = useFullscreen(screenRef)
   const [settings, setSettings] = useState(START_SETTINGS)
   const [notes, setNotes] = useState(startingNotes)
+  const [noteId, setNoteId] = useState(null)
   const [power, setPowerState] = useState('on')
   const [menu, setMenu] = useState(null)
   const [controlOpen, setControlOpen] = useState(false)
@@ -161,6 +162,8 @@ export default function Laptop({ projects }) {
     set: (key, value) => setSettings((s) => ({ ...s, [key]: value })),
     notes,
     setNotes,
+    noteId,
+    setNoteId,
     focusedApp,
     focusedWin: focused === null ? null : windows[focused],
     parked,

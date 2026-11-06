@@ -86,8 +86,8 @@ function useLens(enabled) {
 }
 
 /**
- * Il dock: le app sul ripiano di vetro, il puntino sotto quelle aperte e il
- * Cestino oltre la riga. L'icona rimbalza da sola, dentro un bottone che resta
+ * Il dock: le app sul ripiano di vetro, il puntino sotto quelle aperte (il
+ * Finder lo è sempre, come sul Mac) e il Cestino oltre la riga. L'icona rimbalza da sola, dentro un bottone che resta
  * fermo: il bersaglio del clic non scappa da sotto il puntatore.
  */
 export default function Dock({ apps, windows, focused, launching, calling, lens, hidden, onOpen, onContextMenu }) {
@@ -103,7 +103,7 @@ export default function Dock({ apps, windows, focused, launching, calling, lens,
             data-app={app.id}
             className={[
               'dock__item',
-              windows[app.id] ? 'is-open' : '',
+              windows[app.id] || app.id === 'finder' ? 'is-open' : '',
               launching === app.id ? 'is-launching' : '',
               calling === app.id ? 'is-calling' : '',
             ].join(' ')}

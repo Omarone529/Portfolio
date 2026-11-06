@@ -4,7 +4,7 @@ const N = DESKTOP.appNames
 
 /** Le misure con cui si apre ogni app di sistema, in percentuale del display. */
 const SIZES = {
-  finder: { w: 66, h: 62 },
+  finder: { w: 70, h: 66 },
   notes: { w: 58, h: 60 },
   mail: { w: 50, h: 60 },
   terminal: { w: 56, h: 52 },
@@ -36,6 +36,9 @@ export function buildApps(projects) {
 }
 
 export const ABOUT_APP = system('about', DESKTOP.settings.aboutTitle)
+
+/** Il titolo di una nota: quello fisso se ce l'ha, altrimenti la prima riga scritta. */
+export const noteTitle = (note) => note.title ?? (note.body.trim().split('\n')[0] || DESKTOP.notes.untitled)
 
 /* Le icone di sistema sono disegni originali: un fondo e un simbolo semplice. */
 const ICONS = {

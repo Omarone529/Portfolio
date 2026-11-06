@@ -1,107 +1,11 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { DESKTOP, PROFILES, PROJECTS, SITE } from '@/content'
+import { DESKTOP, PROFILES, SITE } from '@/content'
+import { noteTitle, SystemIcon } from './apps'
 import { CALC_START, pressKey } from './calculator'
-import { AppIcon, SystemIcon } from './apps'
+import Finder from './Finder'
 import { runCommand } from './terminal'
-
-const F = DESKTOP.finder
-
-/** I progetti del Finder sono tutti, anche quelli senza demo nel dock. */
-function Finder({ os }) {
-  const [place, setPlace] = useState('projects')
-  const [view, setView] = useState('icons')
-  const [selected, setSelected] = useState(null)
-
-  const openProject = (project) => {
-    const app = os.apps.find((a) => a.project === project)
-    if (app) os.openApp(app.id)
-    else if (project.href) os.openUrl(project.href)
-  }
-
-  return (
-    <div className="finder">
-      <aside className="finder__side">
-        <small>{F.sidebar}</small>
-        {['projects', 'links'].map((key) => (
-          <button key={key} type="button" aria-pressed={place === key} onClick={() => setPlace(key)}>
-            {F[key]}
-          </button>
-        ))}
-      </aside>
-
-      {place === 'links' ? (
-        <div className="finder__list">
-          {PROFILES.map((p) => (
-            <a key={p.href} href={p.href} target="_blank" rel="noreferrer">
-              {p.label}
-            </a>
-          ))}
-        </div>
-      ) : (
-        <>
-          <div className="finder__main">
-            <div className="finder__tools">
-              <span>
-                {PROJECTS.length} {F.count}
-              </span>
-              <span>
-                {['icons', 'list'].map((key) => (
-                  <button key={key} type="button" aria-pressed={view === key} onClick={() => setView(key)}>
-                    {F[key]}
-                  </button>
-                ))}
-              </span>
-            </div>
-            <div className={`finder__items finder__items--${view}`} onPointerDown={(e) => e.target === e.currentTarget && setSelected(null)}>
-              {PROJECTS.map((project) => (
-                <button
-                  key={project.title}
-                  type="button"
-                  aria-pressed={selected === project}
-                  onClick={() => setSelected(project)}
-                  onDoubleClick={() => openProject(project)}
-                >
-                  <span className="finder__icon">
-                    <AppIcon app={{ kind: 'project', project }} />
-                  </span>
-                  <span>{project.title}</span>
-                  {view === 'list' && <small>{project.tag}</small>}
-                </button>
-              ))}
-            </div>
-          </div>
-          <aside className="finder__preview">
-            {selected ? (
-              <>
-                <span className="finder__icon finder__icon--large">
-                  <AppIcon app={{ kind: 'project', project: selected }} />
-                </span>
-                <strong>{selected.title}</strong>
-                <small>{selected.tag}</small>
-                <p>{selected.description}</p>
-                {selected.video && (
-                  <button type="button" onClick={() => openProject(selected)}>
-                    {F.openDemo}
-                  </button>
-                )}
-                {selected.href && (
-                  <a href={selected.href} target="_blank" rel="noreferrer">
-                    {F.visit}
-                  </a>
-                )}
-                {!selected.video && !selected.href && <small>{F.private}</small>}
-              </>
-            ) : (
-              <small>{F.hint}</small>
-            )}
-          </aside>
-        </>
-      )}
-    </div>
-  )
-}
 
 /** Si parte da un foglio bianco, più i contatti. Senza un titolo fisso, il titolo è la prima riga scritta. */
 export const startingNotes = () => [
@@ -113,23 +17,20 @@ export const startingNotes = () => [
   },
 ]
 
-const noteTitle = (note) => note.title ?? (note.body.trim().split('\n')[0] || DESKTOP.notes.untitled)
-
 function Notes({ os }) {
-  const { notes, setNotes } = os
-  const [current, setCurrent] = useState(notes[0].id)
+  const { notes, setNotes, noteId, setNoteId } = os
   const textRef = useRef(null)
-  const note = notes.find((n) => n.id === current) ?? notes[0]
+  const note = notes.find((n) => n.id === noteId) ?? notes[0]
 
   // si apre pronta per scrivere, anche passando a un'altra nota
   useEffect(() => {
     textRef.current?.focus({ preventScroll: true })
-  }, [current])
+  }, [note.id])
 
   const add = () => {
     const id = `note-${Date.now()}`
     setNotes((list) => [{ id, body: '' }, ...list])
-    setCurrent(id)
+    setNoteId(id)
   }
 
   return (
@@ -139,7 +40,7 @@ function Notes({ os }) {
           {DESKTOP.notes.newNote}
         </button>
         {notes.map((n) => (
-          <button key={n.id} type="button" aria-pressed={n.id === note.id} onClick={() => setCurrent(n.id)}>
+          <button key={n.id} type="button" aria-pressed={n.id === note.id} onClick={() => setNoteId(n.id)}>
             {noteTitle(n)}
           </button>
         ))}
