@@ -21,23 +21,32 @@ src/
   app/                  layout, pagina, 404 e i file speciali di Next:
                         robots.js, sitemap.js, manifest.js, llms.txt/, icone, anteprima social
   content/              tutti i testi e i dati, nessun testo nei componenti
-    site.js             nome, dominio, luogo, profili, competenze, sezioni, menu
+    site.js             nome, logo, dominio, luogo, profili, competenze, sezioni, menu
     seo.js              titolo, descrizione e sintesi per motori e assistenti AI
-    hero.js about.js projects.js services.js footer.js notFound.js
+    desktop.js          i testi del portatile: app, menu, Spotlight, sfondi, terminale
+    services.js         i servizi, letti solo da dati strutturati e llms.txt
+    hero.js about.js projects.js footer.js notFound.js legal.js
   components/
     primitives/         i mattoncini animati riusati ovunque (+ primitives.css)
-    layout/             Section, Container, Portal, JsonLd
+    layout/             Section, Container, Portal, JsonLd, Logo, LegalPage
     sections/<Nome>/    una cartella per sezione, ognuna con il suo CSS
+    sections/Work/      la sezione Case study: Laptop.jsx è il portatile, ProjectMedia le demo
+      desktop/          il sistema operativo del portatile (vedi "Il portatile" più sotto)
   hooks/                logica riusabile (hover, conteggi, video, misure)
   providers/            scroll fluido, link interni e tutto ciò che vive solo nel browser
   lib/                  animazioni, formattazione, scroll, SEO (JSON-LD) e llms.txt
   styles/               token di design, base e struttura della pagina
+public/
+  images/               foto della hero, logo.webp e wallpapers/ del portatile
+  projects/             loghi, demo e poster dei progetti
 docs/PERFORMANCE.md     la checklist di performance, con misure e motivazioni
 ```
 
 ## Come si fa
 
-- **Aggiungere un progetto:** una voce in `PROJECTS` (`content/projects.js`) con `tag`, `description`, `logo` e `tint`. Con `video` e `poster` la demo compare in "Guarda tutti". Pila, dati strutturati, sitemap e `llms.txt` si aggiornano da soli, e i test controllano che i file esistano.
+- **Aggiungere un progetto:** una voce in `PROJECTS` (`content/projects.js`) con `tag`, `description`, `logo` e `tint`. Compare nella cartella Progetti del portatile; con `video` e `poster` ha anche la sua app nel dock. Dati strutturati, sitemap e `llms.txt` si aggiornano da soli, e i test controllano che i file esistano.
+- **Cambiare il logo:** un webp nero su trasparente in `public/images/logo.webp`, con le misure in `SITE.logo`. Il sito lo usa come maschera, quindi prende il colore del testo. Favicon (`app/favicon.ico`), `app/icon.png` e `app/apple-icon.png` vanno rigenerati dal logo, perché Next accetta solo `.ico`, `.png`, `.jpg` e `.svg` per le icone.
+- **Cambiare la foto della hero:** `public/images/hero.webp` (1920×1080) con misure e testo alternativo in `content/hero.js`; la stessa foto fa da ritratto nell'About.
 - **Aggiungere una sezione:** un id in `SECTION` (`content/site.js`), un componente in `components/sections/`, una riga in `app/page.jsx`. Per il bordo obliquo usa `<Section edge>`.
 - **Cambiare colori, font e misure:** `styles/tokens.css`. La pendenza dei bordi obliqui è `--edge-angle`.
 - **Pagine legali:** i testi sono in `content/legal.js` (`PRIVACY`, `COOKIES`), resi da `LegalPage`. Se il sito comincia a usare cookie, statistiche o contenuti di terzi, queste pagine vanno aggiornate prima di pubblicare, insieme alla CSP.
@@ -47,13 +56,24 @@ docs/PERFORMANCE.md     la checklist di performance, con misure e motivazioni
 
 - **HTML prerenderizzato:** ogni testo è nell'HTML statico, quindi crawler e anteprime non devono eseguire JavaScript. Senza JS una regola `<noscript>` mostra anche i contenuti che entrano animati.
 - **Metadati:** title e description entro i limiti dei risultati di ricerca (lo verificano i test), canonical, Open Graph `profile`, Twitter large card, robots con anteprime grandi.
-- **Dati strutturati (`lib/seo.js`):** un unico `@graph` schema.org con Person, WebSite, ProfilePage e ItemList dei progetti, legati per `@id`. Person ha indirizzo, competenze, servizi offerti e `sameAs` verso i profili pubblici. È serializzato con escape contro le iniezioni.
+- **Dati strutturati (`lib/seo.js`):** un unico `@graph` schema.org con Person, WebSite, ProfilePage e ItemList dei progetti, legati per `@id`. Person ha indirizzo, competenze, servizi offerti, il logo come `brand` e `sameAs` verso i profili pubblici. È serializzato con escape contro le iniezioni.
 - **`/llms.txt`:** il sito in Markdown per gli assistenti AI (llmstxt.org), generato dagli stessi contenuti.
 - **`robots.txt`:** autorizza tutti i crawler e nomina esplicitamente quelli degli assistenti AI (GPTBot, ClaudeBot, PerplexityBot, Google-Extended...). Per escluderne uno basta modificare `app/robots.js`.
-- **Titoli:** un `h1`, poi un `h2` per sezione e un `h3` per ogni servizio.
-- **Anteprima social:** `app/opengraph-image.jpg` (1200×630, sotto i 100KB perché WhatsApp scarta le immagini pesanti). Se cambiano nome o foto va rifatta.
+- **Titoli:** un `h1`, poi un `h2` per sezione e un `h3` per il progetto mostrato sotto il portatile.
+- **Anteprima social:** `app/opengraph-image.jpg` (1200×630, sotto i 100KB perché WhatsApp scarta le immagini pesanti): la foto della hero con logo, nome e ruolo. Se cambiano nome, ruolo, logo o foto va rifatta.
 
 Lighthouse (mobile): SEO, accessibilità, best practices e agentic browsing a 100. LCP 1.94s su telefono simulato lento (CPU 4x, 4G lento). La checklist di performance di roadmap.sh, voce per voce, è in [`docs/PERFORMANCE.md`](docs/PERFORMANCE.md).
+
+## Il portatile
+
+La sezione Case study è un piccolo sistema operativo dentro un portatile. `Laptop.jsx` tiene lo stato e compone i pezzi di `Work/desktop/`:
+
+- **Stato delle finestre:** `useDesktop.js`, un reducer puro (apri, chiudi, riduci, ingrandisci, affianca, ridimensiona) con i suoi test. Posizioni e misure sono in percentuale del display, così valgono anche a schermo intero.
+- **Finestre e dock:** `AppWindow.jsx` (trascinamento, ridimensionamento da tutti i lati, aggancio ai bordi) e `Dock.jsx` (lente che allarga davvero le icone, rimbalzo all'apertura). `genie.js` disegna l'effetto genio su un canvas.
+- **Sistema:** `MenuBar.jsx`, `PopMenu.jsx` (menu e tasto destro), `Spotlight.jsx`, `PowerScreen.jsx` (stop, blocco, riavvio), `DesktopIcons.jsx`, `overview.js` (Mission Control).
+- **App:** `apps.jsx` elenca le app del dock e ne disegna le icone; `Finder.jsx` e `SystemApps.jsx` (Note, Mail, Terminale, Calcolatrice, Impostazioni) le rendono. La logica pura di calcolatrice e terminale sta in `calculator.js` e `terminal.js`, con i test.
+
+Per aggiungere uno sfondo basta un webp 1920×1200 in `public/images/wallpapers/` e una voce in `DESKTOP.settings.wallpapers`; un test controlla file e misure. Le scorciatoie usano ⌥ e si attivano solo dopo aver cliccato il portatile, perché ⌘W, ⌘M e ⌘Q appartengono al browser.
 
 ## Deploy (Netlify)
 
