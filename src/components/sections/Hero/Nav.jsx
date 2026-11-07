@@ -1,7 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useState } from 'react'
-import { AnimatePresence, m } from 'framer-motion'
+import { AnimatePresence, m, useReducedMotion } from 'framer-motion'
 import { NAV, SECTION, anchor } from '@/content'
 import { Logo } from '@/components/layout/Logo'
 import { Portal } from '@/components/layout/Portal'
@@ -15,9 +15,17 @@ const introDelay = (seconds) => ({ '--delay': `${seconds}s` })
 /** Barra in alto della hero: logo, link e, sul telefono, il menu a tutto schermo. */
 export default function Nav() {
   const [open, setOpen] = useState(false)
+  // da dove parte il cerchio che apre il menu: il punto toccato, o il centro del bottone da tastiera
+  const [origin, setOrigin] = useState({ x: 0, y: 0 })
   const { lock, unlock } = useSmoothScroll()
 
-  const openMenu = () => {
+  const openMenu = (e) => {
+    const box = e.currentTarget.getBoundingClientRect()
+    const fromPointer = e.clientX > 0 || e.clientY > 0
+    setOrigin({
+      x: fromPointer ? e.clientX : box.left + box.width / 2,
+      y: fromPointer ? e.clientY : box.top + box.height / 2,
+    })
     lock()
     setOpen(true)
   }
@@ -45,13 +53,26 @@ export default function Nav() {
 
       {/* fuori dalla hero, che è sotto al resto della pagina: il menu deve coprire tutto */}
       <Portal>
-        <AnimatePresence>{open && <Menu onClose={closeMenu} />}</AnimatePresence>
+        <AnimatePresence>{open && <Menu origin={origin} onClose={closeMenu} />}</AnimatePresence>
       </Portal>
     </header>
   )
 }
 
-function Menu({ onClose }) {
+/** Il cerchio chiuso nel punto d'origine, e aperto abbastanza da coprire l'angolo più lontano dello schermo. */
+function circles({ x, y }) {
+  const radius = Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y))
+  return {
+    closed: `circle(0px at ${x}px ${y}px)`,
+    open: `circle(${Math.ceil(radius)}px at ${x}px ${y}px)`,
+  }
+}
+
+/** Il menu a tutto schermo: si apre a cerchio dal punto toccato e ci si richiude. */
+function Menu({ origin, onClose }) {
+  const [shape] = useState(() => circles(origin))
+  const reduced = useReducedMotion()
+
   useEffect(() => {
     const onKey = (e) => e.key === 'Escape' && onClose()
     window.addEventListener('keydown', onKey)
@@ -64,10 +85,10 @@ function Menu({ onClose }) {
       role="dialog"
       aria-modal="true"
       aria-label="Menu"
-      initial={{ clipPath: 'inset(0 0 100% 0)' }}
-      animate={{ clipPath: 'inset(0 0 0% 0)' }}
-      exit={{ clipPath: 'inset(0 0 100% 0)' }}
-      transition={{ duration: 0.8, ease: EASE }}
+      initial={{ clipPath: shape.closed }}
+      animate={{ clipPath: shape.open }}
+      exit={{ clipPath: shape.closed }}
+      transition={{ duration: reduced ? 0 : 0.8, ease: EASE }}
     >
       <button type="button" className="menu__close" onClick={onClose} autoFocus>
         Chiudi
