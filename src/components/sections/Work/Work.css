@@ -31,9 +31,10 @@
   margin-inline: auto;
 }
 
+/* sul telefono il coperchio è quasi largo quanto la base: lo schermo è già piccolo */
 .laptop__lid {
   position: relative;
-  width: 86%;
+  width: 94%;
   margin-inline: auto;
   padding: 1.6% 1.6% 2.2%;
   border-radius: 16px 16px 0 0;
@@ -356,6 +357,21 @@
 }
 
 /* in verticale la finestra si accorcia attorno alla demo, invece di lasciarle fasce vuote sopra e sotto */
+/*
+ * telefono a schermo intero (is-phone): ogni finestra riempie lo spazio tra la barra in alto e il dock,
+ * come le app su iPhone; il dock è più grande, a misura di dito
+ */
+.laptop__screen.is-phone .dock {
+  /* tutte le icone (--count lo scrive il dock) più i margini devono stare anche su un telefono da 360px */
+  --icon: min(34px, calc((100cqw - 84px) / var(--count)));
+  gap: 4px;
+  padding: 5px;
+}
+
+.laptop__screen.is-phone .app-window.is-max {
+  height: calc(100% - var(--menubar) - 60px) !important;
+}
+
 @media (orientation: portrait) {
   .laptop__screen.is-full .app-window:not(.is-max) {
     height: auto !important;
@@ -463,6 +479,9 @@
 }
 
 @media (width >= 48rem) {
+  .laptop__lid {
+    width: 86%;
+  }
   .work__layout {
     grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
     gap: 48px;

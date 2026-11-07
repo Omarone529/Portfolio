@@ -83,9 +83,12 @@
   display: none;
 }
 
+/* alti quanto un dito anche su tablet, con lo stesso margine negativo del logo e di "Menu" */
 .nav__link {
   display: inline-flex;
-  padding-block: 4px;
+  align-items: center;
+  min-height: var(--tap);
+  margin-block: calc((var(--tap) - 1.25em) / -2);
 }
 
 .menu-btn {

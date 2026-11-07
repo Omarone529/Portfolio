@@ -94,7 +94,12 @@ export default function Dock({ apps, windows, focused, launching, calling, lens,
   const handlers = useLens(lens)
 
   return (
-    <nav className={`dock ${hidden ? 'is-autohide' : ''}`} aria-label={WORK.switcher} {...handlers}>
+    <nav
+      className={`dock ${hidden ? 'is-autohide' : ''}`}
+      style={{ '--count': apps.length }}
+      aria-label={WORK.switcher}
+      {...handlers}
+    >
       {apps.map((app) => (
         <span key={app.id} className="dock__slot" data-trailing={app.id === 'trash' || undefined}>
           {app.id === 'trash' && <span className="dock__sep" aria-hidden="true" />}

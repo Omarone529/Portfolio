@@ -1,5 +1,6 @@
-/* I colori del sistema: chiaro di base, scuro con is-dark. */
+/* I colori del sistema: chiaro di base, scuro con is-dark. Niente riquadro grigio del browser al tocco. */
 .laptop__screen {
+  -webkit-tap-highlight-color: transparent;
   --os-surface: #f6f6f7;
   --os-raised: #fff;
   --os-text: rgba(0, 0, 0, 0.85);
@@ -1220,8 +1221,17 @@ a.window__address:hover {
   transition: background 0.2s;
 }
 
-.calculator__keys button:hover {
-  background: #4b4b4f;
+/* l'hover solo col mouse: al tocco resterebbe acceso dopo aver alzato il dito */
+@media (hover: hover) {
+  .calculator__keys button:hover {
+    background: #4b4b4f;
+  }
+  .calculator__keys .is-fn:hover {
+    background: #828287;
+  }
+  .calculator__keys .is-op:hover {
+    background: #ffb04d;
+  }
 }
 
 .calculator__keys button:active,
@@ -1234,10 +1244,6 @@ a.window__address:hover {
   background: #6f6f74;
 }
 
-.calculator__keys .is-fn:hover {
-  background: #828287;
-}
-
 .calculator__keys .is-fn:active,
 .calculator__keys .is-fn.is-pressed {
   background: #a0a0a5;
@@ -1245,10 +1251,6 @@ a.window__address:hover {
 
 .calculator__keys .is-op {
   background: #f59e2b;
-}
-
-.calculator__keys .is-op:hover {
-  background: #ffb04d;
 }
 
 .calculator__keys .is-op:active,

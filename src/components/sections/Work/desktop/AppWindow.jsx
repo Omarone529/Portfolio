@@ -52,6 +52,7 @@ export default function AppWindow({
   onContextMenu,
   overview,
   onPick,
+  fill = false,
   children,
 }) {
   const { id, project } = app
@@ -72,7 +73,8 @@ export default function AppWindow({
   }
 
   const onBarDown = (e) => {
-    if (e.target.closest('button, a')) return
+    // sul telefono la finestra riempie lo schermo e non si sposta: trascinare la barra non fa niente
+    if (fill || e.target.closest('button, a')) return
     const top = menubarPercent()
     let { x, y } = win
     let detached = !(win.max || win.snap)
@@ -120,7 +122,7 @@ export default function AppWindow({
     )
   }
 
-  const docked = win.max ? 'max' : win.snap
+  const docked = win.max || fill ? 'max' : win.snap
   const box = docked ? BOXES[docked] : { left: `${win.x}%`, top: `${win.y}%`, width: `${win.w}%`, height: `${win.h}%` }
   const thumbnail = overview?.[id]
   const place = thumbnail ? { translate: `${thumbnail.x}px ${thumbnail.y}px`, scale: thumbnail.s } : null
@@ -131,7 +133,7 @@ export default function AppWindow({
         'app-window',
         focused ? 'is-focused' : '',
         dragging ? 'is-dragging' : '',
-        win.max ? 'is-max' : '',
+        docked === 'max' ? 'is-max' : '',
         thumbnail ? 'is-thumbnail' : '',
       ].join(' ')}
       style={{ ...box, ...place, zIndex: z }}
@@ -151,7 +153,7 @@ export default function AppWindow({
         <div
           className="window__bar"
           onPointerDown={onBarDown}
-          onDoubleClick={(e) => !e.target.closest('button, a') && act('maximize', id)}
+          onDoubleClick={(e) => !fill && !e.target.closest('button, a') && act('maximize', id)}
           onContextMenu={(e) => onContextMenu(e, id)}
         >
           <span className="window__dots">

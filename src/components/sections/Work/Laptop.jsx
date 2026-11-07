@@ -50,7 +50,11 @@ export default function Laptop({ projects }) {
   const [explored, setExplored] = useState(false)
   const [full, setFull] = useFullscreen(screenRef)
   const slotRef = useRef(null)
-  const compact = useCompact(slotRef) && !full
+  const slot = useSize(slotRef)
+  const screen = useSize(screenRef)
+  const compact = slot.width > 0 && slot.width < COMPACT_WIDTH && !full
+  // a schermo intero su un telefono, in verticale o in orizzontale, ogni app occupa tutto lo schermo come su iPhone
+  const phone = full && (screen.width < PHONE_WIDTH || screen.height < PHONE_HEIGHT)
   const [settings, setSettings] = useState(START_SETTINGS)
   const [notes, setNotes] = useState(startingNotes)
   const [noteId, setNoteId] = useState(null)
@@ -258,6 +262,7 @@ export default function Laptop({ projects }) {
     settings.dark ? 'is-dark' : '',
     overview ? 'is-overview' : '',
     compact ? 'is-compact' : '',
+    phone ? 'is-phone' : '',
   ].join(' ')
 
   return (
@@ -311,6 +316,7 @@ export default function Laptop({ projects }) {
                         onContextMenu={windowMenu}
                         overview={overview}
                         onPick={openApp}
+                        fill={phone}
                       >
                         {app.project ? (
                           <ProjectDemo project={app.project} playing={!windows[id].min && power === 'on'} />
@@ -539,18 +545,21 @@ function useGenie(screenRef) {
  */
 /** Sotto questa larghezza (in px) il display è un'anteprima: niente comandi da toccare, solo il tocco che lo apre. */
 const COMPACT_WIDTH = 560
+/** Sotto questa larghezza o questa altezza (in px) il display a schermo intero è un telefono: le finestre lo riempiono. */
+const PHONE_WIDTH = 600
+const PHONE_HEIGHT = 500
 
-/** Se il display, misurato dal posto che occupa nel portatile, è troppo stretto per usarlo dentro la pagina. */
-function useCompact(ref) {
-  const [compact, setCompact] = useState(false)
+/** Larghezza e altezza di un elemento in px, aggiornate a ogni ridimensionamento (0 prima di misurarlo). */
+function useSize(ref) {
+  const [size, setSize] = useState({ width: 0, height: 0 })
   useEffect(() => {
     const el = ref.current
     if (!el) return
-    const observer = new ResizeObserver(() => setCompact(el.offsetWidth < COMPACT_WIDTH))
+    const observer = new ResizeObserver(() => setSize({ width: el.offsetWidth, height: el.offsetHeight }))
     observer.observe(el)
     return () => observer.disconnect()
   }, [ref])
-  return compact
+  return size
 }
 
 function useFullscreen(ref) {
