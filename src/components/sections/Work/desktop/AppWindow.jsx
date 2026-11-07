@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { m } from 'framer-motion'
 import { WORK } from '@/content'
 import { EASE } from '@/lib/motion'
-import { startPointerDrag } from './desktop/pointer'
+import { startPointerDrag } from './pointer'
 
 /** Il dominio del sito pubblicato, da mostrare nella barra della finestra. */
 const hostOf = (href) => new URL(href).hostname.replace(/^www\./, '')
