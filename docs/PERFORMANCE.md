@@ -4,20 +4,20 @@ Lo stato del sito rispetto alla checklist [Frontend Performance Best Practices](
 
 ## Misure (home, build di produzione)
 
-| Misura                                                     | Prima | Ora     | Soglia della checklist |
-| ---------------------------------------------------------- | ----- | ------- | ---------------------- |
-| Richieste al primo caricamento                             | 19    | 15      | il meno possibile      |
-| Peso trasferito                                            | 387KB | 344KB   | < 1500KB               |
-| CSS che blocca il primo disegno                            | 4     | 0       | nessuno                |
-| JavaScript (brotli)                                        | 210KB | 202KB   |                        |
-| LCP su telefono lento simulato (CPU 4x, 4G lento)          | 5.7s  | 1.94s   | < 2.5s ("buono")       |
-| CLS                                                        | 0     | 0.0002  | < 0.1                  |
-| Font scaricati                                             |       | 2, 77KB | < 300KB                |
-| Cookie / dati salvati nel browser                          |       | 0 / 0   | < 20, < 4096 byte      |
-| Risposte 4xx/5xx                                           |       | 0       | nessuna                |
-| Lighthouse mobile (accessibilità, best practices, SEO, AI) |       | 100 ×4  |                        |
+| Misura                                                   | Prima | Ora     | Soglia della checklist |
+| -------------------------------------------------------- | ----- | ------- | ---------------------- |
+| Richieste al primo caricamento                           | 19    | 17      | il meno possibile      |
+| Peso trasferito                                          | 387KB | 330KB   | < 1500KB               |
+| CSS che blocca il primo disegno                          | 4     | 0       | nessuno                |
+| JavaScript (brotli)                                      | 210KB | 181KB   |                        |
+| LCP su telefono lento simulato (CPU 4x, 4G lento)        | 5.7s  | 1.90s   | < 2.5s ("buono")       |
+| CLS (telefono e desktop)                                 | 0     | 0       | < 0.1                  |
+| Font scaricati                                           |       | 2, 76KB | < 300KB                |
+| Cookie / dati salvati nel browser                        |       | 0 / 0   | < 20, < 4096 byte      |
+| Risposte 4xx/5xx                                         |       | 0       | nessuna                |
+| Lighthouse mobile e desktop (accessibilità, BP, SEO, AI) |       | 100 ×4  |                        |
 
-Misurate in locale servendo `out/` con la CSP di produzione. TTFB e compressione reali dipendono dal CDN (Netlify).
+Misurate il 7 novembre 2026 in locale servendo `out/`, dopo l'arrivo del portatile. TTFB e compressione reali dipendono dal CDN (Netlify).
 
 ## Voce per voce
 
@@ -48,7 +48,7 @@ Misurate in locale servendo `out/` con la CSP di produzione. TTFB e compressione
 - **Choose image format appropriately / Compress your images:** sì. Webp ovunque. Il logo di JoeDesign è stato ripulito e salvato lossless (da 31.9 a 7.8KB), quelli di ApexGPS e MBM ridimensionati.
 - **Serve exact size images:** sì, al doppio della misura massima a cui compaiono, per gli schermi retina. La foto della hero resta 1920px perché sul telefono viene tagliata in verticale e serve tutta la sua altezza.
 - **Set width and height attributes on images:** sì, su ogni immagine e video. Un test legge l'intestazione di ogni webp e fallisce se le misure dichiarate non coincidono con il file.
-- **Load offscreen images lazily:** sì (`loading="lazy"`, `decoding="async"`). Solo la foto della hero arriva subito, con `fetchpriority="high"`. Le demo video hanno `preload="none"` e partono solo quando sono a schermo.
+- **Load offscreen images lazily:** sì (`loading="lazy"`, `decoding="async"`). Solo la foto della hero arriva subito, con `fetchpriority="high"`. Le demo video hanno `preload="none"` e partono solo quando sono a schermo. Lo sfondo del portatile e le anteprime che servono all'effetto genio arrivano quando il portatile è a meno di uno schermo, non al primo caricamento.
 - **Prefer vector images:** dove c'è un originale vettoriale. Il logo, le icone (ricavate dal logo) e le foto sono raster perché lo sono gli originali.
 - **Avoid base64 images:** sì, nessuna.
 
@@ -56,7 +56,7 @@ Misurate in locale servendo `out/` con la CSP di produzione. TTFB e compressione
 
 - **Use WOFF2 font format:** sì (next/font).
 - **Keep web font size under 300KB:** sì. Al caricamento si scaricano 2 file per 77KB, gli altri solo se servono i loro caratteri.
-- **Prevent flash or invisible text:** sì. `font-display: swap` e un font di riserva con le stesse metriche, generato da next/font (CLS 0.0002).
+- **Prevent flash or invisible text:** sì. `font-display: swap` e un font di riserva con le stesse metriche, generato da next/font. Il footer fisso resta invisibile finché è coperto dalla pagina: altrimenti il passaggio a fisso conterebbe come salto (CLS) e il suo nome grande diventerebbe l'LCP a caricamento finito.
 - **Use preconnect to load your fonts:** non serve. I font sono serviti dal dominio stesso, quindi non c'è un'altra origine a cui collegarsi.
 
 ### Rete e server

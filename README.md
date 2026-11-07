@@ -62,7 +62,7 @@ docs/PERFORMANCE.md     la checklist di performance, con misure e motivazioni
 - **Titoli:** un `h1`, poi un `h2` per sezione e un `h3` per il progetto mostrato sotto il portatile.
 - **Anteprima social:** `app/opengraph-image.jpg` (1200×630, sotto i 100KB perché WhatsApp scarta le immagini pesanti): la foto della hero con logo, nome e ruolo. Se cambiano nome, ruolo, logo o foto va rifatta.
 
-Lighthouse (mobile): SEO, accessibilità, best practices e agentic browsing a 100. LCP 1.94s su telefono simulato lento (CPU 4x, 4G lento). La checklist di performance di roadmap.sh, voce per voce, è in [`docs/PERFORMANCE.md`](docs/PERFORMANCE.md).
+Lighthouse (mobile e desktop): SEO, accessibilità, best practices e agentic browsing a 100. LCP 1.90s su telefono simulato lento (CPU 4x, 4G lento), CLS 0. Misurato il 7 novembre 2026. La checklist di performance di roadmap.sh, voce per voce, è in [`docs/PERFORMANCE.md`](docs/PERFORMANCE.md).
 
 ## Il portatile
 
@@ -72,6 +72,8 @@ La sezione Case study è un piccolo sistema operativo dentro un portatile. `Lapt
 - **Finestre e dock:** `AppWindow.jsx` (trascinamento, ridimensionamento da tutti i lati, aggancio ai bordi) e `Dock.jsx` (lente che allarga davvero le icone, rimbalzo all'apertura). `genie.js` disegna l'effetto genio su un canvas.
 - **Sistema:** `MenuBar.jsx`, `PopMenu.jsx` (menu e tasto destro), `Spotlight.jsx`, `PowerScreen.jsx` (stop, blocco, riavvio), `DesktopIcons.jsx`, `overview.js` (Mission Control).
 - **App:** `apps.jsx` elenca le app del dock e ne disegna le icone; `Finder.jsx` e `SystemApps.jsx` (Note, Mail, Terminale, Calcolatrice, Impostazioni) le rendono. La logica pura di calcolatrice e terminale sta in `calculator.js` e `terminal.js`, con i test.
+
+Sotto i 560px di larghezza (telefoni e tablet) il display è un'anteprima: i comandi sono fermi (`inert`) perché sarebbero troppo piccoli da toccare, e un tocco lo apre a schermo intero. Da desktop i pallini e i menu hanno un'area cliccabile di almeno 24px.
 
 Per aggiungere uno sfondo basta un webp 1920×1200 in `public/images/wallpapers/` e una voce in `DESKTOP.settings.wallpapers`; un test controlla file e misure. Le scorciatoie usano ⌥ e si attivano solo dopo aver cliccato il portatile, perché ⌘W, ⌘M e ⌘Q appartengono al browser.
 
