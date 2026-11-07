@@ -50,6 +50,7 @@ docs/PERFORMANCE.md     la checklist di performance, con misure e motivazioni
 - **Aggiungere una sezione:** un id in `SECTION` (`content/site.js`), un componente in `components/sections/`, una riga in `app/page.jsx`. Per il bordo obliquo usa `<Section edge>`.
 - **Cambiare colori, font e misure:** `styles/tokens.css`. La pendenza dei bordi obliqui è `--edge-angle`.
 - **Pagine legali:** i testi sono in `content/legal.js` (`PRIVACY`, `COOKIES`), resi da `LegalPage`. Se il sito comincia a usare cookie, statistiche o contenuti di terzi, queste pagine vanno aggiornate prima di pubblicare, insieme alla CSP.
+- **Email:** ogni link all'indirizzo (footer, pagine legali, app Mail del portatile) apre direttamente un nuovo messaggio in Gmail con `gmailCompose` (`lib/mail.js`). Solo i dati strutturati e `llms.txt` usano `mailto:`, che è lo standard per le macchine.
 - **Cambiare dominio:** `NEXT_PUBLIC_SITE_URL` (default `https://omarbayadi.com`). Canonical, sitemap, robots, JSON-LD e `llms.txt` lo seguono.
 
 ## SEO, GEO e AEO
@@ -73,7 +74,7 @@ La sezione Case study è un piccolo sistema operativo dentro un portatile. `Lapt
 - **Sistema:** `MenuBar.jsx`, `PopMenu.jsx` (menu e tasto destro), `Spotlight.jsx`, `PowerScreen.jsx` (stop, blocco, riavvio), `DesktopIcons.jsx`, `overview.js` (Mission Control).
 - **App:** `apps.jsx` elenca le app del dock e ne disegna le icone; `Finder.jsx` e `SystemApps.jsx` (Note, Mail, Terminale, Calcolatrice, Impostazioni) le rendono. La logica pura di calcolatrice e terminale sta in `calculator.js` e `terminal.js`, con i test.
 
-Sotto i 560px di larghezza (telefoni e tablet) il display è un'anteprima: i comandi sono fermi (`inert`) perché sarebbero troppo piccoli da toccare, e un tocco lo apre a schermo intero. Da desktop i pallini e i menu hanno un'area cliccabile di almeno 24px.
+Sotto i 560px di larghezza (telefoni e tablet) il display è un'anteprima: i comandi sono fermi (`inert`) perché sarebbero troppo piccoli da toccare, e un tocco lo apre a schermo intero. Lì, se lo schermo è più stretto di 600px o più basso di 500px (un telefono, in verticale o in orizzontale), ogni app riempie lo spazio tra barra e dock come su iPhone, e il dock ridimensiona le icone sul numero di app. Da desktop i pallini e i menu hanno un'area cliccabile di almeno 24px.
 
 Per aggiungere uno sfondo basta un webp 1920×1200 in `public/images/wallpapers/` e una voce in `DESKTOP.settings.wallpapers`; un test controlla file e misure. Le scorciatoie usano ⌥ e si attivano solo dopo aver cliccato il portatile, perché ⌘W, ⌘M e ⌘Q appartengono al browser.
 
