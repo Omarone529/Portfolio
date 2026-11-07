@@ -67,12 +67,24 @@ Lighthouse (mobile e desktop): SEO, accessibilità, best practices e agentic bro
 
 ## Il portatile
 
-La sezione Case study è un piccolo sistema operativo dentro un portatile. `Laptop.jsx` tiene lo stato e compone i pezzi di `Work/desktop/`:
+La sezione Case study è un piccolo sistema operativo dentro un portatile. `Laptop.jsx` tiene lo stato e compone i pezzi; sotto il portatile `LaptopControls.jsx` e `LaptopCaption.jsx` mostrano i comandi e il progetto in primo piano.
 
-- **Stato delle finestre:** `useDesktop.js`, un reducer puro (apri, chiudi, riduci, ingrandisci, affianca, ridimensiona) con i suoi test. Posizioni e misure sono in percentuale del display, così valgono anche a schermo intero.
-- **Finestre e dock:** `AppWindow.jsx` (trascinamento, ridimensionamento da tutti i lati, aggancio ai bordi) e `Dock.jsx` (lente che allarga davvero le icone, rimbalzo all'apertura). `genie.js` disegna l'effetto genio su un canvas.
-- **Sistema:** `MenuBar.jsx`, `PopMenu.jsx` (menu e tasto destro), `Spotlight.jsx`, `PowerScreen.jsx` (stop, blocco, riavvio), `DesktopIcons.jsx`, `overview.js` (Mission Control).
-- **App:** `apps.jsx` elenca le app del dock e ne disegna le icone; `Finder.jsx` e `SystemApps.jsx` (Note, Mail, Terminale, Calcolatrice, Impostazioni) le rendono. La logica pura di calcolatrice e terminale sta in `calculator.js` e `terminal.js`, con i test.
+```
+Work/desktop/
+  useDesktop.js         stato delle finestre: un reducer puro con i suoi test
+  hooks.js              rimbalzo, scorciatoie, effetto genio, misure, schermo intero, dati da ricordare
+  registry.jsx          le app del dock e le loro icone
+  AppWindow.jsx         finestra: trascinamento, ridimensionamento da tutti i lati, aggancio ai bordi
+  Dock.jsx (+ .css)     lente che allarga davvero le icone, rimbalzo all'apertura
+  MenuBar.jsx PopMenu.jsx Spotlight.jsx PowerScreen.jsx DesktopIcons.jsx
+  genie.js overview.js pointer.js   effetto genio, Mission Control, trascinamento
+  Desktop.css           colori del sistema, barra e menu, scrivania, bordi, Mission Control
+  apps/                 un file per app (Finder, Note, Mail, Terminale, Calcolatrice, Impostazioni,
+                        Informazioni, Cestino), ognuno col suo CSS; calculator.js e terminal.js
+                        sono la logica pura, con i test; apps.css le regole comuni
+```
+
+Sfondo, aspetto e note restano nel browser di chi visita (`usePersistentState` in `hooks.js`, `localStorage`), e non arrivano mai al server.
 
 Sotto i 560px di larghezza (telefoni e tablet) il display è un'anteprima: i comandi sono fermi (`inert`) perché sarebbero troppo piccoli da toccare, e un tocco lo apre a schermo intero. Lì, se lo schermo è più stretto di 600px o più basso di 500px (un telefono, in verticale o in orizzontale), ogni app riempie lo spazio tra barra e dock come su iPhone, e il dock ridimensiona le icone sul numero di app. Da desktop i pallini e i menu hanno un'area cliccabile di almeno 24px.
 
