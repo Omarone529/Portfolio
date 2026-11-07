@@ -1,3 +1,4 @@
+import { gmailCompose } from '@/lib/mail'
 import { PLACE, SITE } from './site'
 
 /**
@@ -19,7 +20,7 @@ import { PLACE, SITE } from './site'
 
 const HOST = new URL(SITE.url).host
 
-const CONTACT = { label: SITE.email, href: `mailto:${SITE.email}` }
+const CONTACT = { label: SITE.email, href: gmailCompose(SITE.email) }
 
 export const PRIVACY = {
   path: '/privacy/',

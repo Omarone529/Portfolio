@@ -6,16 +6,20 @@ import {
   COOKIES,
   DESKTOP,
   FOOTER,
+  FOOTER_NAV,
   HERO,
   NAV,
   PRIVACY,
+  PROFILES,
   PROJECTS,
   SECTION,
   SEO,
   SERVICES,
   SITE,
   WORK,
+  anchor,
 } from '@/content'
+import { gmailCompose } from '@/lib/mail'
 
 const publicFile = (path) => existsSync(join(process.cwd(), 'public', path))
 
@@ -70,6 +74,17 @@ describe('projects', () => {
   })
 })
 
+describe('footer', () => {
+  it('lists the email and Instagram as contacts', () => {
+    expect(FOOTER.instagram.href).toBe(PROFILES.find((p) => p.label === 'Instagram').href)
+    expect(FOOTER.instagram.handle).toMatch(/^@/)
+  })
+
+  it('does not link to the contact section it is part of', () => {
+    expect(FOOTER_NAV.map((item) => item.href)).not.toContain(anchor(SECTION.contact))
+  })
+})
+
 describe('logo', () => {
   it('ships at its declared size', () => {
     expect(publicFile(SITE.logo.src)).toBe(true)
@@ -108,9 +123,9 @@ describe('legal documents', () => {
     }
   })
 
-  it('give a way to reach the controller', () => {
-    expect(JSON.stringify(PRIVACY)).toContain(`mailto:${SITE.email}`)
-    expect(JSON.stringify(COOKIES)).toContain(`mailto:${SITE.email}`)
+  it('give a way to reach the controller, straight in Gmail', () => {
+    expect(JSON.stringify(PRIVACY)).toContain(gmailCompose(SITE.email))
+    expect(JSON.stringify(COOKIES)).toContain(gmailCompose(SITE.email))
   })
 
   it('are linked from the footer', () => {

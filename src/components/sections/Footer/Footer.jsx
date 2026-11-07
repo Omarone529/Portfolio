@@ -2,7 +2,7 @@
 
 import { useRef } from 'react'
 import { m, useInView, useScroll, useTransform } from 'framer-motion'
-import { FOOTER, NAV, SECTION, SITE } from '@/content'
+import { FOOTER, FOOTER_NAV, SECTION, SITE } from '@/content'
 import { ArrowLink, DrawLine, EdgeWedge, MaskLines, RollText } from '@/components/primitives'
 import { useElementHeight } from '@/hooks/useElementHeight'
 import { useViewportHeight } from '@/hooks/useViewportHeight'
@@ -48,14 +48,16 @@ export default function Footer({ edgeTone }) {
           <div className="footer__grid">
             <div>
               <MaskLines as="h2" className="footer__title muted" lines={[FOOTER.title]} />
-              <a href={`mailto:${SITE.email}`} className="footer__mail">
-                <RollText>{SITE.email}</RollText>
+              <a href={FOOTER.email.href} target="_blank" rel="noreferrer" className="footer__mail">
+                <RollText>{FOOTER.email.label}</RollText>
               </a>
-              <ArrowLink href={`mailto:${SITE.email}`}>{FOOTER.cta}</ArrowLink>
+              <ArrowLink href={FOOTER.instagram.href} target="_blank" rel="noreferrer">
+                {`${FOOTER.instagram.label} ${FOOTER.instagram.handle}`}
+              </ArrowLink>
             </div>
 
             <nav className="footer__nav" aria-label="Footer">
-              {NAV.map((item, i) => (
+              {FOOTER_NAV.map((item, i) => (
                 <a key={item.href} href={item.href} className="footer__link">
                   <RollText>{item.label}</RollText>
                   <DrawLine delay={i * 0.06} />

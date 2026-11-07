@@ -109,7 +109,7 @@ export const DESKTOP = {
     subject: 'Oggetto',
     body: 'Messaggio',
     send: 'Invia',
-    hint: 'Si apre la tua app di posta, con il messaggio già pronto.',
+    hint: 'Si apre Gmail, con il messaggio già pronto.',
     defaultSubject: 'Un progetto da fare insieme',
   },
   /** Misure reali degli sfondi: i test controllano che coincidano. */

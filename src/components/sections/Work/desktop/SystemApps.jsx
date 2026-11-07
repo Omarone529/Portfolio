@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { DESKTOP, PROFILES, SITE } from '@/content'
+import { gmailCompose } from '@/lib/mail'
 import { noteTitle, SystemIcon } from './apps'
 import { CALC_START, displayText, pressKey } from './calculator'
 import Finder from './Finder'
@@ -59,7 +60,7 @@ function Notes({ os }) {
   )
 }
 
-/** Scrive il messaggio qui, poi lo passa all'app di posta di chi guarda. */
+/** Scrive il messaggio qui, poi lo apre in Gmail già pronto da inviare. */
 function Mail() {
   const T = DESKTOP.mail
   const [subject, setSubject] = useState(T.defaultSubject)
@@ -67,8 +68,7 @@ function Mail() {
 
   const send = (e) => {
     e.preventDefault()
-    const query = new URLSearchParams({ subject, body }).toString().replace(/\+/g, '%20')
-    window.location.href = `mailto:${SITE.email}?${query}`
+    window.open(gmailCompose(SITE.email, { subject, body }), '_blank', 'noreferrer')
   }
 
   return (
