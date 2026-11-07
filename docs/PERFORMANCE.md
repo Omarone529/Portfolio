@@ -49,7 +49,7 @@ Misurate in locale servendo `out/` con la CSP di produzione. TTFB e compressione
 - **Serve exact size images:** sì, al doppio della misura massima a cui compaiono, per gli schermi retina. La foto della hero resta 1920px perché sul telefono viene tagliata in verticale e serve tutta la sua altezza.
 - **Set width and height attributes on images:** sì, su ogni immagine e video. Un test legge l'intestazione di ogni webp e fallisce se le misure dichiarate non coincidono con il file.
 - **Load offscreen images lazily:** sì (`loading="lazy"`, `decoding="async"`). Solo la foto della hero arriva subito, con `fetchpriority="high"`. Le demo video hanno `preload="none"` e partono solo quando sono a schermo.
-- **Prefer vector images:** sì per le icone (`icon.svg`). Loghi e foto sono raster perché lo sono gli originali.
+- **Prefer vector images:** dove c'è un originale vettoriale. Il logo, le icone (ricavate dal logo) e le foto sono raster perché lo sono gli originali.
 - **Avoid base64 images:** sì, nessuna.
 
 ### Font

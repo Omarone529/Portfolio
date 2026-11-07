@@ -31,6 +31,8 @@ export function homeJsonLd() {
         description: SEO.summary,
         url: absoluteUrl('/'),
         image: absoluteUrl('/images/hero.webp'),
+        // il monogramma è il segno con cui firmo il lavoro: per i motori è il logo del marchio personale
+        brand: { '@type': 'Brand', name: SITE.fullName, logo: absoluteUrl(SITE.logo.src) },
         email: `mailto:${SITE.email}`,
         address: {
           '@type': 'PostalAddress',

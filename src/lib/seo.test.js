@@ -51,6 +51,10 @@ describe('homeJsonLd', () => {
     expect(byType('Person').sameAs).toEqual(PROFILES.map((p) => p.href))
   })
 
+  it('gives the site logo to search engines', () => {
+    expect(byType('Person').brand.logo).toBe(absoluteUrl(SITE.logo.src))
+  })
+
   it('uses absolute https urls only', () => {
     const urls = JSON.stringify(graph).match(/"(?:url|image|@id)":"([^"]+)"/g) ?? []
     for (const entry of urls) expect(entry).toMatch(/"https:\/\//)

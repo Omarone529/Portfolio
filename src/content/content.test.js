@@ -56,6 +56,13 @@ describe('projects', () => {
   })
 })
 
+describe('logo', () => {
+  it('ships at its declared size', () => {
+    expect(publicFile(SITE.logo.src)).toBe(true)
+    expect(webpSize(SITE.logo.src)).toEqual(SITE.logo.size)
+  })
+})
+
 describe('wallpapers', () => {
   it.each(DESKTOP.settings.wallpapers)('$name has a file of the declared size', (wall) => {
     expect(publicFile(wall.src)).toBe(true)

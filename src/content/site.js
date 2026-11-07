@@ -6,6 +6,8 @@ export const SITE = {
   role: 'Full Stack Developer',
   email: 'omar.bayadi.lavoro@gmail.com',
   year: '2026',
+  /** Il monogramma: nero su trasparente, il sito lo usa come maschera e lo colora col testo. */
+  logo: { src: '/images/logo.webp', size: [268, 160] },
   /** Dominio pubblico, senza barra finale. Si cambia con NEXT_PUBLIC_SITE_URL senza toccare il codice. */
   url: (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://omarbayadi.com').replace(/\/$/, ''),
   lang: 'it',
