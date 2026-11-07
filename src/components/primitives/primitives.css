@@ -195,7 +195,8 @@
   bottom: auto;
 }
 
-.reveal-img {
+.reveal-img__clip {
+  height: 100%;
   overflow: hidden;
   border-radius: var(--radius);
 }
