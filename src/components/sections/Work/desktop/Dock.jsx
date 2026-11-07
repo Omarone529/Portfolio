@@ -2,8 +2,9 @@
 
 import { useCallback, useEffect, useRef } from 'react'
 import { useReducedMotion } from 'framer-motion'
-import { WORK } from '@/content'
-import { AppIcon } from './apps'
+import { DESKTOP } from '@/content'
+import { AppIcon } from './registry'
+import './Dock.css'
 
 /** Quanto cresce l'icona sotto il puntatore, e fin dove arriva l'effetto (in icone). */
 const LENS = 0.32
@@ -97,7 +98,7 @@ export default function Dock({ apps, windows, focused, launching, calling, lens,
     <nav
       className={`dock ${hidden ? 'is-autohide' : ''}`}
       style={{ '--count': apps.length }}
-      aria-label={WORK.switcher}
+      aria-label={DESKTOP.dockLabel}
       {...handlers}
     >
       {apps.map((app) => (

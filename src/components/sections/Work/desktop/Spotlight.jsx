@@ -2,7 +2,8 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { DESKTOP, PROJECTS } from '@/content'
-import { AppIcon } from './apps'
+import { AppIcon } from './registry'
+import './Spotlight.css'
 
 const T = DESKTOP.spotlight
 

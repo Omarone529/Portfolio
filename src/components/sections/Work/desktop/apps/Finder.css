@@ -1,0 +1,214 @@
+/* Il Finder: barra laterale, strumenti, icone o elenco, dettagli e stato. */
+
+.finder {
+  display: flex;
+}
+
+.finder__side small {
+  padding-inline: 0.5em;
+  color: var(--os-muted);
+}
+
+.finder__main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.finder__tools {
+  display: flex;
+  align-items: center;
+  gap: 0.7em;
+  padding: 0.35em 0.7em;
+  border-bottom: 1px solid var(--os-line);
+}
+
+.finder__nav {
+  display: flex;
+}
+
+.finder__nav button {
+  width: 1.5em;
+  border-radius: 4px;
+  font-size: 1.25em;
+  line-height: 1.1;
+}
+
+.finder__nav button:disabled {
+  opacity: 0.3;
+}
+
+.finder__tools strong {
+  overflow: hidden;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.finder__views {
+  display: flex;
+  margin-left: auto;
+}
+
+.finder__views button {
+  padding: 0.1em 0.5em;
+  border-radius: 4px;
+}
+
+.finder__tools input {
+  flex: 0 1 8em;
+  min-width: 0;
+  padding: 0.1em 0.5em;
+  border: 1px solid var(--os-line);
+  border-radius: 5px;
+  background: var(--os-raised);
+  color: inherit;
+  font: inherit;
+  outline: none;
+}
+
+.finder__tools input:focus {
+  border-color: var(--os-accent);
+}
+
+.finder__body {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+}
+
+.finder__items {
+  flex: 1;
+  align-content: start;
+  min-width: 0;
+  padding: 0.7em;
+  overflow-y: auto;
+}
+
+.finder__items--icons {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(5.4em, 1fr));
+  gap: 0.5em;
+}
+
+.finder__items--icons > button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3em;
+  min-width: 0;
+  padding: 0.4em;
+  border-radius: 6px;
+  text-align: center;
+}
+
+.finder__name {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.finder__items--list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.finder__items--list > button {
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  padding: 0.2em 0.4em;
+  border-radius: 5px;
+  text-align: left;
+}
+
+.finder__items--list .finder__icon {
+  flex: none;
+  width: 1.6em;
+}
+
+.finder__items--list .finder__name {
+  white-space: nowrap;
+}
+
+.finder__items--list small {
+  flex: none;
+  margin-left: auto;
+  color: var(--os-muted);
+}
+
+.finder__items button[aria-pressed='true'] {
+  background: var(--os-accent);
+  color: #fff;
+}
+
+.finder__items button[aria-pressed='true'] small {
+  color: inherit;
+}
+
+.finder__empty {
+  grid-column: 1 / -1;
+  margin: 2em 0;
+  color: var(--os-muted);
+  text-align: center;
+}
+
+.finder__status {
+  padding: 0.2em 0.8em;
+  border-top: 1px solid var(--os-line);
+  color: var(--os-muted);
+  font-size: var(--os-font-small);
+}
+
+.finder__items--list small {
+  margin-left: auto;
+  color: var(--os-muted);
+}
+
+.finder__icon {
+  display: block;
+  flex: none;
+  width: 3.4em;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 22%;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.finder__icon--large {
+  width: 5em;
+}
+
+.finder__preview {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35em;
+  width: 32%;
+  padding: 0.8em;
+  overflow-y: auto;
+  border-left: 1px solid var(--os-line);
+  color: var(--os-text);
+}
+
+.finder__preview small {
+  color: var(--os-muted);
+}
+
+.finder__preview p {
+  margin: 0.2em 0;
+}
+
+.finder__preview a {
+  color: var(--os-accent);
+}
+
+@container (width < 340px) {
+  .finder__preview,
+  .finder__views {
+    display: none;
+  }
+}

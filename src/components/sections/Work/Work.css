@@ -357,16 +357,7 @@
 }
 
 /* in verticale la finestra si accorcia attorno alla demo, invece di lasciarle fasce vuote sopra e sotto */
-/*
- * telefono a schermo intero (is-phone): ogni finestra riempie lo spazio tra la barra in alto e il dock,
- * come le app su iPhone; il dock è più grande, a misura di dito
- */
-.laptop__screen.is-phone .dock {
-  /* tutte le icone (--count lo scrive il dock) più i margini devono stare anche su un telefono da 360px */
-  --icon: min(34px, calc((100cqw - 84px) / var(--count)));
-  gap: 4px;
-  padding: 5px;
-}
+/* telefono a schermo intero (is-phone): ogni finestra riempie lo spazio tra la barra in alto e il dock, come su iPhone */
 
 .laptop__screen.is-phone .app-window.is-max {
   height: calc(100% - var(--menubar) - 60px) !important;

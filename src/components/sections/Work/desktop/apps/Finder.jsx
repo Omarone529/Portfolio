@@ -2,7 +2,8 @@
 
 import { useMemo, useState } from 'react'
 import { DESKTOP, PROFILES, PROJECTS } from '@/content'
-import { AppIcon, noteTitle } from './apps'
+import { AppIcon, noteTitle } from '../registry'
+import './Finder.css'
 
 const F = DESKTOP.finder
 

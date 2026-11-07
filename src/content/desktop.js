@@ -1,5 +1,7 @@
 /** I testi del sistema operativo del portatile: app, menu, spotlight e schermate di blocco. */
 export const DESKTOP = {
+  /** Il nome del dock per i lettori di schermo: contiene progetti e app di sistema. */
+  dockLabel: 'Dock, app e progetti',
   appNames: {
     finder: 'Finder',
     notes: 'Note',

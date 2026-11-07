@@ -1,0 +1,13 @@
+/* Note: elenco a sinistra, testo a destra. */
+
+.notes {
+  display: flex;
+}
+
+.notes aside {
+  background: var(--os-surface);
+}
+
+.notes__new {
+  color: var(--os-accent);
+}

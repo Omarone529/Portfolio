@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react'
 import { DESKTOP, SITE } from '@/content'
+import './PowerScreen.css'
 
 const T = DESKTOP.power
 const BOOT_MS = 1800

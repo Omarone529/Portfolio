@@ -1,0 +1,43 @@
+/* Mail: destinatario, oggetto, messaggio e invio. */
+
+.mail {
+  display: flex;
+  flex-direction: column;
+}
+
+.mail p,
+.mail label {
+  display: flex;
+  gap: 0.6em;
+  margin: 0;
+  padding: 0.45em 0.9em;
+  border-bottom: 1px solid var(--os-line);
+}
+
+.mail p span,
+.mail label span {
+  color: var(--os-muted);
+}
+
+.mail input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  outline: none;
+}
+
+.mail footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1em;
+  padding: 0.5em 0.9em;
+  border-top: 1px solid var(--os-line);
+}
+
+.mail small {
+  color: var(--os-muted);
+}

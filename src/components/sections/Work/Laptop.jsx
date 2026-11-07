@@ -1,14 +1,10 @@
 'use client'
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { AnimatePresence, m, useInView, useReducedMotion } from 'framer-motion'
+import { AnimatePresence, useInView, useReducedMotion } from 'framer-motion'
 import { DESKTOP, WORK } from '@/content'
-import { ArrowLink } from '@/components/primitives'
-import { pad2 } from '@/lib/format'
-import { EASE } from '@/lib/motion'
-import { useSmoothScroll } from '@/hooks/useSmoothScroll'
 import AppWindow from './desktop/AppWindow'
-import { ABOUT_APP, buildApps } from './desktop/apps'
+import { ABOUT_APP, buildApps } from './desktop/registry'
 import DesktopIcons from './desktop/DesktopIcons'
 import Dock from './desktop/Dock'
 import MenuBar, { ControlCenter } from './desktop/MenuBar'
@@ -16,22 +12,27 @@ import { overviewLayout } from './desktop/overview'
 import PopMenu from './desktop/PopMenu'
 import PowerScreen from './desktop/PowerScreen'
 import Spotlight from './desktop/Spotlight'
-import SystemApp, { startingNotes } from './desktop/SystemApps'
+import SystemApp, { startingNotes } from './desktop/apps'
 import './desktop/Desktop.css'
-import { playGenie, preloadPosters, relativeRect, snapshotWindow } from './desktop/genie'
+import { preloadPosters, relativeRect } from './desktop/genie'
+import { useFullscreen, useGenie, useLaunch, usePersistentState, useShortcuts, useSize } from './desktop/hooks'
+import LaptopCaption from './LaptopCaption'
+import LaptopControls from './LaptopControls'
 import { ProjectDemo } from './ProjectMedia'
 import { useDesktop } from './desktop/useDesktop'
 
 const M = DESKTOP.menus
 
-/** Dopo quanto dal clic la finestra compare: al primo atterraggio dell'icona che rimbalza. */
-const LAUNCH_MS = 420
-const BOUNCE_MS = 900
-
 const START_SETTINGS = { wallpaper: 0, dark: false, lens: true, autohide: false, brightness: 100 }
 
 /** Da stop e blocco si torna al desktop; dallo spegnimento si riparte dall'avvio. */
 const NEXT_POWER = { sleep: 'locked', locked: 'on', off: 'boot', boot: 'on' }
+
+/** Sotto questa larghezza (in px) il display è un'anteprima: niente comandi da toccare, solo il tocco che lo apre. */
+const COMPACT_WIDTH = 560
+/** Sotto questa larghezza o questa altezza (in px) il display a schermo intero è un telefono: le finestre lo riempiono. */
+const PHONE_WIDTH = 600
+const PHONE_HEIGHT = 500
 
 /**
  * Un portatile da usare come un computer vero: dock con un'app per progetto e
@@ -55,8 +56,9 @@ export default function Laptop({ projects }) {
   const compact = slot.width > 0 && slot.width < COMPACT_WIDTH && !full
   // a schermo intero su un telefono, in verticale o in orizzontale, ogni app occupa tutto lo schermo come su iPhone
   const phone = full && (screen.width < PHONE_WIDTH || screen.height < PHONE_HEIGHT)
-  const [settings, setSettings] = useState(START_SETTINGS)
-  const [notes, setNotes] = useState(startingNotes)
+  // sfondo, aspetto e note restano a chi torna sul sito, solo nel suo browser
+  const [settings, setSettings] = usePersistentState('laptop:settings', START_SETTINGS)
+  const [notes, setNotes] = usePersistentState('laptop:notes', startingNotes)
   const [noteId, setNoteId] = useState(null)
   const [power, setPowerState] = useState('on')
   const [menu, setMenu] = useState(null)
@@ -378,232 +380,13 @@ export default function Laptop({ projects }) {
         <div className="laptop__base" aria-hidden="true" />
       </div>
 
-      <div className="laptop__controls">
-        {/* su telefono il dock è piccolo: qui gli stessi progetti, a misura di dito */}
-        <div className="laptop__switcher" role="group" aria-label={WORK.switcher}>
-          {apps
-            .filter((a) => a.project)
-            .map((a) => (
-              <button key={a.id} type="button" onClick={() => openApp(a.id)} aria-pressed={a.id === focused}>
-                {a.title}
-              </button>
-            ))}
-        </div>
-        <button type="button" className="laptop__full" onClick={() => setFull(!full)}>
-          <FullscreenIcon />
-          {WORK.fullscreen}
-        </button>
-      </div>
-
-      <div className="laptop__caption" aria-live="polite">
-        <AnimatePresence mode="wait" initial={false}>
-          {project && (
-            <m.div
-              key={project.title}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.3, ease: EASE }}
-            >
-              {/* il contatore sta fuori dal titolo: per motori e lettori di schermo il titolo è solo il progetto */}
-              <div className="laptop__heading">
-                <span className="laptop__count muted" aria-hidden="true">
-                  {pad2(projects.indexOf(project) + 1)} / {pad2(projects.length)}
-                </span>
-                <h3 className="laptop__title">
-                  {project.title} <span className="muted">· {project.tag}</span>
-                </h3>
-              </div>
-              <p className="laptop__description muted">{project.description}</p>
-              {project.href && (
-                <ArrowLink href={project.href} target="_blank" rel="noreferrer">
-                  {WORK.visit}
-                </ArrowLink>
-              )}
-            </m.div>
-          )}
-        </AnimatePresence>
-      </div>
+      <LaptopControls
+        apps={apps.filter((a) => a.project)}
+        focused={focused}
+        onOpen={openApp}
+        onFullscreen={() => setFull(!full)}
+      />
+      <LaptopCaption project={project} projects={projects} />
     </div>
-  )
-}
-
-/**
- * Il rimbalzo dell'icona mentre la sua app si apre: `launch(id, onReady)` lo
- * fa partire e chiama `onReady` quando l'icona tocca terra la prima volta.
- */
-function useLaunch() {
-  const [launching, setLaunching] = useState(null)
-  const timers = useRef([])
-  const launch = useCallback((id, onReady) => {
-    timers.current.forEach(clearTimeout)
-    setLaunching(id)
-    timers.current = [setTimeout(onReady, LAUNCH_MS), setTimeout(() => setLaunching(null), BOUNCE_MS)]
-  }, [])
-  useEffect(() => () => timers.current.forEach(clearTimeout), [])
-  return [launching, launch]
-}
-
-/**
- * Le scorciatoie del computer, attive solo dopo averlo cliccato: fuori dal
- * portatile la tastiera resta della pagina. Usano ⌥ perché ⌘W, ⌘M e ⌘Q
- * appartengono al browser e al sistema vero, e nessuna pagina può intercettarli.
- */
-function useShortcuts(screenRef, handlers) {
-  const latest = useRef(handlers)
-  useEffect(() => {
-    latest.current = handlers
-  })
-
-  useEffect(() => {
-    let active = false
-    const onPointerDown = (e) => {
-      active = Boolean(screenRef.current?.contains(e.target))
-    }
-    const onKey = (e) => {
-      if (!active) return
-      const on = latest.current
-      if (e.key === 'Escape') return on.close()
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
-        e.preventDefault()
-        return on.spotlight()
-      }
-      if (!e.altKey || e.target.closest?.('input, textarea')) return
-      const action = {
-        KeyW: on.closeWindow,
-        KeyM: on.minimize,
-        KeyF: on.zoom,
-        ArrowUp: on.overview,
-        ArrowLeft: () => on.snap('left'),
-        ArrowRight: () => on.snap('right'),
-      }[e.code]
-      if (!action) return
-      e.preventDefault()
-      action()
-    }
-    document.addEventListener('pointerdown', onPointerDown)
-    document.addEventListener('keydown', onKey)
-    return () => {
-      document.removeEventListener('pointerdown', onPointerDown)
-      document.removeEventListener('keydown', onKey)
-    }
-  }, [screenRef])
-}
-
-/**
- * L'effetto genio tra una finestra e la sua icona nel dock, disegnato su un
- * canvas grande quanto il display. `play(id, reverse, onDone)` copia la
- * finestra e la fa entrare nell'icona (o uscirne con `reverse`); restituisce
- * false, senza animare, con le animazioni ridotte o se un'altra è in corso.
- */
-function useGenie(screenRef) {
-  const canvasRef = useRef(null)
-  const running = useRef(false)
-  const reduced = useReducedMotion()
-
-  const play = useCallback(
-    (id, reverse, onDone) => {
-      const screen = screenRef.current
-      const canvas = canvasRef.current
-      const windowEl = screen?.querySelector(`[data-window="${id}"]`)
-      const icon = screen?.querySelector(`.dock__item[data-app="${id}"]`)
-      if (reduced || running.current || !canvas || !windowEl || !icon) return false
-
-      const { canvas: source, rect: from } = snapshotWindow(windowEl, screen)
-      const to = relativeRect(icon, screen.getBoundingClientRect())
-      const dpr = window.devicePixelRatio || 1
-      canvas.width = Math.round(screen.clientWidth * dpr)
-      canvas.height = Math.round(screen.clientHeight * dpr)
-
-      running.current = true
-      playGenie(canvas, {
-        source,
-        from,
-        to,
-        reverse,
-        onDone: () => {
-          onDone?.()
-          // l'ultimo fotogramma resta un istante, il tempo che la finestra vera riappaia
-          setTimeout(() => {
-            canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height)
-            running.current = false
-          }, 140)
-        },
-      })
-      return true
-    },
-    [screenRef, reduced],
-  )
-
-  return { canvasRef, play }
-}
-
-/**
- * Schermo intero per il display: usa quello del browser dove c'è, altrimenti
- * (iPhone) il display copre comunque la finestra. Esc ne esce in entrambi i
- * casi, e intanto la pagina sotto non scorre.
- */
-/** Sotto questa larghezza (in px) il display è un'anteprima: niente comandi da toccare, solo il tocco che lo apre. */
-const COMPACT_WIDTH = 560
-/** Sotto questa larghezza o questa altezza (in px) il display a schermo intero è un telefono: le finestre lo riempiono. */
-const PHONE_WIDTH = 600
-const PHONE_HEIGHT = 500
-
-/** Larghezza e altezza di un elemento in px, aggiornate a ogni ridimensionamento (0 prima di misurarlo). */
-function useSize(ref) {
-  const [size, setSize] = useState({ width: 0, height: 0 })
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    const observer = new ResizeObserver(() => setSize({ width: el.offsetWidth, height: el.offsetHeight }))
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [ref])
-  return size
-}
-
-function useFullscreen(ref) {
-  const [full, setFullState] = useState(false)
-  const { lock, unlock } = useSmoothScroll()
-
-  const setFull = useCallback(
-    (next) => {
-      if (next) {
-        ref.current.requestFullscreen?.().catch(() => {})
-        lock()
-      } else {
-        if (document.fullscreenElement) document.exitFullscreen().catch(() => {})
-        unlock()
-      }
-      setFullState(next)
-    },
-    [ref, lock, unlock],
-  )
-
-  useEffect(() => {
-    if (!full) return
-    // uscendo con Esc dallo schermo intero del browser, il display torna nel portatile
-    const onChange = () => {
-      if (!document.fullscreenElement) setFull(false)
-    }
-    const onKey = (e) => {
-      if (e.key === 'Escape') setFull(false)
-    }
-    document.addEventListener('fullscreenchange', onChange)
-    document.addEventListener('keydown', onKey)
-    return () => {
-      document.removeEventListener('fullscreenchange', onChange)
-      document.removeEventListener('keydown', onKey)
-    }
-  }, [full, setFull])
-
-  return [full, setFull]
-}
-
-function FullscreenIcon() {
-  return (
-    <svg viewBox="0 0 16 16" width="16" height="16" fill="none" aria-hidden="true">
-      <path d="M2 6V2h4M14 6V2h-4M2 10v4h4M14 10v4h-4" stroke="currentColor" strokeWidth="1.5" />
-    </svg>
   )
 }

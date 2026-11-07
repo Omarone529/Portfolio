@@ -2,7 +2,7 @@
 
 import { useRef, useState } from 'react'
 import { DESKTOP } from '@/content'
-import { SystemIcon } from './apps'
+import { SystemIcon } from './registry'
 import { startPointerDrag } from './pointer'
 
 /** Le icone della scrivania, in colonna a destra come su un computer appena acceso. */
