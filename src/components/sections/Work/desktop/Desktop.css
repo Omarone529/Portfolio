@@ -35,6 +35,7 @@
 }
 
 .desktop__menu {
+  min-width: 24px;
   height: 100%;
   padding-inline: 0.8cqw;
   border-radius: 3px;

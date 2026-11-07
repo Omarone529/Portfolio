@@ -93,7 +93,10 @@ export function snapshotWindow(windowEl, screenEl) {
   const barBox = local(bar)
   fill(ctx, getComputedStyle(bar).borderBottomColor, { x: 0, y: barBox.h - 1, w: rect.w, h: 1 })
   frame.querySelectorAll('.window__dot').forEach((dot) => {
-    const b = local(dot)
+    // il bottone è più grande del pallino: si disegna solo il pallino, centrato
+    const box = local(dot)
+    const size = parseFloat(getComputedStyle(dot, '::before').width) || box.w
+    const b = { x: box.x + (box.w - size) / 2, y: box.y + (box.h - size) / 2, w: size, h: size }
     const kind = Object.keys(DOT_COLORS).find((k) => dot.classList.contains(`window__dot--${k}`))
     fill(ctx, DOT_COLORS[kind], b, b.w / 2)
   })

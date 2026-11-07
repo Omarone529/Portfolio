@@ -61,7 +61,8 @@
 }
 
 .laptop__screen {
-  --menubar: clamp(14px, 3cqw, 28px);
+  /* almeno 24px: i menu sono bersagli da toccare; nell'anteprima piccola (is-compact) torna in proporzione */
+  --menubar: clamp(24px, 3cqw, 28px);
   position: absolute;
   inset: 0;
   overflow: hidden;
@@ -69,6 +70,29 @@
   border-radius: 4px;
   background-position: center;
   background-size: cover;
+}
+
+/* il contenuto del display: un livello solo, che nell'anteprima piccola diventa inerte */
+.desktop {
+  position: absolute;
+  inset: 0;
+}
+
+.laptop__screen.is-compact {
+  --menubar: clamp(14px, 3cqw, 28px);
+}
+
+/* nell'anteprima piccola tutto il display è un bottone che lo apre a schermo intero */
+.laptop__open {
+  position: absolute;
+  inset: 0;
+  z-index: 110;
+  cursor: zoom-in;
+}
+
+.laptop__open:focus-visible {
+  outline: 2px solid var(--fg);
+  outline-offset: 3px;
 }
 
 /* a schermo intero il display copre tutta la finestra del browser */
@@ -171,8 +195,8 @@
   flex: none;
   display: flex;
   align-items: center;
-  height: clamp(14px, 3.2cqw, 30px);
-  padding: 0 1.4cqw;
+  height: clamp(24px, 3.2cqw, 30px);
+  padding: 0 1.4cqw 0 calc(1.4cqw - 6px);
   border-bottom: 1px solid var(--os-line);
   cursor: grab;
   user-select: none;
@@ -187,43 +211,62 @@
   position: relative;
   z-index: 1;
   display: flex;
-  gap: clamp(3px, 0.7cqw, 7px);
 }
 
-/* i tre pallini: il bersaglio è più grande del pallino */
+/* nell'anteprima piccola barre e pallini tornano in proporzione al display */
+.laptop__screen.is-compact .window__bar {
+  height: clamp(14px, 3.2cqw, 30px);
+  padding-left: 1.4cqw;
+}
+
+/*
+ * i tre pallini: il bottone è largo almeno 24px, il minimo per un bersaglio da toccare, e il pallino
+ * visibile (::before) resta piccolo al centro. Nell'anteprima piccola i comandi sono fermi, quindi
+ * lì il bottone si stringe attorno al pallino.
+ */
 .window__dot {
-  position: relative;
-  width: clamp(6px, 1cqw, 12px);
-  height: clamp(6px, 1cqw, 12px);
-  border-radius: 50%;
-  background: #ff5f57;
+  --dot: clamp(6px, 1cqw, 12px);
+  --dot-color: #ff5f57;
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+}
+
+.laptop__screen.is-compact .window__dot {
+  width: calc(var(--dot) + 3px);
+  height: calc(var(--dot) + 3px);
 }
 
 .window__dot--min {
-  background: #febc2e;
+  --dot-color: #febc2e;
 }
 
 .window__dot--max {
-  background: #28c840;
+  --dot-color: #28c840;
 }
 
 /* nelle finestre in secondo piano i pallini sono grigi, come nei sistemi veri */
 .app-window:not(.is-focused) .window__dot {
-  background: #cfcfd1;
+  --dot-color: #cfcfd1;
+}
+
+.window__dot::before,
+.window__dot::after {
+  grid-area: 1 / 1;
 }
 
 .window__dot::before {
   content: '';
-  position: absolute;
-  inset: -6px -3px;
+  width: var(--dot);
+  height: var(--dot);
+  border-radius: 50%;
+  background: var(--dot-color);
 }
 
 /* i simboli compaiono passando sopra i pallini */
 .window__dot::after {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
   font-size: clamp(6px, 1cqw, 11px);
   font-weight: 600;
   line-height: 1;
@@ -305,8 +348,7 @@
 }
 
 .laptop__screen.is-full .window__dot {
-  width: 12px;
-  height: 12px;
+  --dot: 12px;
 }
 
 .laptop__screen.is-full .window__address {
@@ -377,8 +419,14 @@
   font-size: 15px;
 }
 
+.laptop__heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 12px;
+}
+
 .laptop__count {
-  margin-right: 12px;
   font-size: 15px;
   font-variant-numeric: tabular-nums;
 }

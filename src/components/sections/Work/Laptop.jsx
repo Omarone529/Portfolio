@@ -1,7 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { AnimatePresence, m, useReducedMotion } from 'framer-motion'
+import { AnimatePresence, m, useInView, useReducedMotion } from 'framer-motion'
 import { DESKTOP, WORK } from '@/content'
 import { ArrowLink } from '@/components/primitives'
 import { pad2 } from '@/lib/format'
@@ -49,6 +49,8 @@ export default function Laptop({ projects }) {
   const { windows, order, focused, act } = useDesktop(firstId)
   const [explored, setExplored] = useState(false)
   const [full, setFull] = useFullscreen(screenRef)
+  const slotRef = useRef(null)
+  const compact = useCompact(slotRef) && !full
   const [settings, setSettings] = useState(START_SETTINGS)
   const [notes, setNotes] = useState(startingNotes)
   const [noteId, setNoteId] = useState(null)
@@ -69,7 +71,11 @@ export default function Laptop({ projects }) {
   const [launching, launch] = useLaunch()
 
   // le anteprime servono al genio quando una demo non ha ancora caricato il primo fotogramma
-  useEffect(() => preloadPosters(projects.map((p) => p.poster).filter(Boolean)), [projects])
+  // sfondo e anteprime pesano: arrivano quando il portatile è a meno di uno schermo, non al primo caricamento
+  const near = useInView(slotRef, { once: true, margin: '0px 0px 100% 0px' })
+  useEffect(() => {
+    if (near) preloadPosters(projects.map((p) => p.poster).filter(Boolean))
+  }, [near, projects])
 
   const openApp = (id) => {
     setExplored(true)
@@ -251,6 +257,7 @@ export default function Laptop({ projects }) {
     full ? 'is-full' : '',
     settings.dark ? 'is-dark' : '',
     overview ? 'is-overview' : '',
+    compact ? 'is-compact' : '',
   ].join(' ')
 
   return (
@@ -258,98 +265,107 @@ export default function Laptop({ projects }) {
       <div className="laptop">
         <div className="laptop__lid">
           {/* lo spazio del display resta riservato anche quando lui va a schermo intero */}
-          <div className="laptop__slot">
+          <div ref={slotRef} className="laptop__slot">
             <div
               ref={screenRef}
               className={screenClass}
-              style={{ backgroundColor: wallpaper.color, backgroundImage: `url(${wallpaper.src})` }}
+              style={{ backgroundColor: wallpaper.color, backgroundImage: near ? `url(${wallpaper.src})` : undefined }}
             >
-              <MenuBar
-                os={os}
-                title={focusedApp?.title ?? DESKTOP.appNames.finder}
-                screenRef={screenRef}
-                active={menu?.key}
-                openMenu={setMenu}
-              />
+              {/* piccolo, il computer è un'anteprima: i suoi comandi sarebbero troppo piccoli da toccare, quindi
+                  restano fermi e un tocco lo apre a schermo intero, dove tutto ha la misura giusta */}
+              <div className="desktop" inert={compact}>
+                <MenuBar
+                  os={os}
+                  title={focusedApp?.title ?? DESKTOP.appNames.finder}
+                  screenRef={screenRef}
+                  active={menu?.key}
+                  openMenu={setMenu}
+                />
 
-              <DesktopIcons
-                key={tidied}
-                screenRef={screenRef}
-                onOpen={openApp}
-                onContextMenu={desktopMenu}
-                onClearFocus={() => setOverview(null)}
-              />
+                <DesktopIcons
+                  key={tidied}
+                  screenRef={screenRef}
+                  onOpen={openApp}
+                  onContextMenu={desktopMenu}
+                  onClearFocus={() => setOverview(null)}
+                />
 
-              {/*
+                {/*
                 le finestre restano sempre nello stesso ordine nella pagina e il primo piano lo decide lo z-index:
                 se React le spostasse al clic, il browser annullerebbe il clic stesso
               */}
-              <AnimatePresence>
-                {openIds.map((id) => {
-                  const app = allApps.find((a) => a.id === id)
-                  return (
-                    <AppWindow
-                      key={id}
-                      app={app}
-                      win={windows[id]}
-                      z={order.indexOf(id) + 1}
-                      focused={id === focused}
-                      screenRef={screenRef}
-                      act={actAndExplore}
-                      onMinimize={minimize}
-                      onSnapHint={setSnapHint}
-                      onContextMenu={windowMenu}
-                      overview={overview}
-                      onPick={openApp}
-                    >
-                      {app.project ? (
-                        <ProjectDemo project={app.project} playing={!windows[id].min && power === 'on'} />
-                      ) : (
-                        <SystemApp app={app} os={os} />
-                      )}
-                    </AppWindow>
-                  )
-                })}
-              </AnimatePresence>
+                <AnimatePresence>
+                  {openIds.map((id) => {
+                    const app = allApps.find((a) => a.id === id)
+                    return (
+                      <AppWindow
+                        key={id}
+                        app={app}
+                        win={windows[id]}
+                        z={order.indexOf(id) + 1}
+                        focused={id === focused}
+                        screenRef={screenRef}
+                        act={actAndExplore}
+                        onMinimize={minimize}
+                        onSnapHint={setSnapHint}
+                        onContextMenu={windowMenu}
+                        overview={overview}
+                        onPick={openApp}
+                      >
+                        {app.project ? (
+                          <ProjectDemo project={app.project} playing={!windows[id].min && power === 'on'} />
+                        ) : (
+                          <SystemApp app={app} os={os} />
+                        )}
+                      </AppWindow>
+                    )
+                  })}
+                </AnimatePresence>
 
-              {snapHint && <span className={`desktop__snap desktop__snap--${snapHint}`} aria-hidden="true" />}
-              {overview && (
-                <button
-                  type="button"
-                  className="desktop__exit"
-                  aria-label={M.missionControl}
-                  onClick={toggleOverview}
+                {snapHint && <span className={`desktop__snap desktop__snap--${snapHint}`} aria-hidden="true" />}
+                {overview && (
+                  <button
+                    type="button"
+                    className="desktop__exit"
+                    aria-label={M.missionControl}
+                    onClick={toggleOverview}
+                  />
+                )}
+
+                <canvas ref={genieRef} className="genie" aria-hidden="true" />
+
+                <Dock
+                  apps={apps}
+                  windows={windows}
+                  focused={focused}
+                  launching={launching}
+                  calling={calling}
+                  lens={settings.lens}
+                  hidden={settings.autohide}
+                  onOpen={openApp}
+                  onContextMenu={dockMenu}
                 />
+
+                {controlOpen && <ControlCenter os={os} onClose={() => setControlOpen(false)} />}
+                {spotlight && <Spotlight apps={apps} onPick={pickResult} onClose={() => setSpotlight(false)} />}
+                {menu && (
+                  <PopMenu
+                    key={`${menu.x}-${menu.y}`}
+                    x={menu.x}
+                    y={menu.y}
+                    items={menu.items}
+                    screenRef={screenRef}
+                    onClose={closeMenu}
+                  />
+                )}
+                <span className="desktop__dim" style={{ opacity: 1 - settings.brightness / 100 }} aria-hidden="true" />
+                {power !== 'on' && <PowerScreen power={power} onNext={advancePower} />}
+              </div>
+              {compact && (
+                <button type="button" className="laptop__open" onClick={() => setFull(true)}>
+                  <span className="sr-only">{WORK.fullscreen}</span>
+                </button>
               )}
-
-              <canvas ref={genieRef} className="genie" aria-hidden="true" />
-
-              <Dock
-                apps={apps}
-                windows={windows}
-                focused={focused}
-                launching={launching}
-                calling={calling}
-                lens={settings.lens}
-                hidden={settings.autohide}
-                onOpen={openApp}
-                onContextMenu={dockMenu}
-              />
-
-              {controlOpen && <ControlCenter os={os} onClose={() => setControlOpen(false)} />}
-              {spotlight && <Spotlight apps={apps} onPick={pickResult} onClose={() => setSpotlight(false)} />}
-              {menu && (
-                <PopMenu
-                  key={`${menu.x}-${menu.y}`}
-                  x={menu.x}
-                  y={menu.y}
-                  items={menu.items}
-                  screenRef={screenRef}
-                  onClose={closeMenu}
-                />
-              )}
-              <span className="desktop__dim" style={{ opacity: 1 - settings.brightness / 100 }} aria-hidden="true" />
-              {power !== 'on' && <PowerScreen power={power} onNext={advancePower} />}
             </div>
           </div>
         </div>
@@ -383,12 +399,15 @@ export default function Laptop({ projects }) {
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.3, ease: EASE }}
             >
-              <h3 className="laptop__title">
-                <span className="laptop__count muted">
+              {/* il contatore sta fuori dal titolo: per motori e lettori di schermo il titolo è solo il progetto */}
+              <div className="laptop__heading">
+                <span className="laptop__count muted" aria-hidden="true">
                   {pad2(projects.indexOf(project) + 1)} / {pad2(projects.length)}
                 </span>
-                {project.title} <span className="muted">· {project.tag}</span>
-              </h3>
+                <h3 className="laptop__title">
+                  {project.title} <span className="muted">· {project.tag}</span>
+                </h3>
+              </div>
               <p className="laptop__description muted">{project.description}</p>
               {project.href && (
                 <ArrowLink href={project.href} target="_blank" rel="noreferrer">
@@ -518,6 +537,22 @@ function useGenie(screenRef) {
  * (iPhone) il display copre comunque la finestra. Esc ne esce in entrambi i
  * casi, e intanto la pagina sotto non scorre.
  */
+/** Sotto questa larghezza (in px) il display è un'anteprima: niente comandi da toccare, solo il tocco che lo apre. */
+const COMPACT_WIDTH = 560
+
+/** Se il display, misurato dal posto che occupa nel portatile, è troppo stretto per usarlo dentro la pagina. */
+function useCompact(ref) {
+  const [compact, setCompact] = useState(false)
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const observer = new ResizeObserver(() => setCompact(el.offsetWidth < COMPACT_WIDTH))
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [ref])
+  return compact
+}
+
 function useFullscreen(ref) {
   const [full, setFullState] = useState(false)
   const { lock, unlock } = useSmoothScroll()
