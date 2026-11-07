@@ -96,6 +96,28 @@
   line-height: 1.32;
 }
 
+/* "su misura." entra tenue con le altre righe, poi si accende: è l'ultima parola, quella da ricordare */
+.hero__tagline .dim {
+  animation: tagline-light 1.2s var(--ease) 1.3s both;
+}
+
+@keyframes tagline-light {
+  from {
+    opacity: 0.5;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* senza animazioni la frase è subito tutta bianca */
+@media (prefers-reduced-motion: reduce) {
+  .hero__tagline .dim {
+    animation: none;
+    opacity: 1;
+  }
+}
+
 .hero__bottom {
   position: relative;
   display: flex;
