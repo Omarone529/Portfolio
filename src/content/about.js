@@ -4,7 +4,7 @@ export const ABOUT = {
   label: 'About',
   statement:
     'Sono Omar, sviluppatore full stack. Progetto e realizzo siti web creativi, applicazioni e web app su misura, mettendo al centro chi mi affida il proprio progetto.',
-  portrait: { src: '/images/hero.webp', size: [1920, 1080], alt: 'Ritratto di Omar' },
+  portrait: { src: '/images/about.webp', size: [1200, 1800], alt: 'Ritratto di Omar davanti al mare' },
   rows: [
     {
       label: 'Idea',

@@ -1,4 +1,4 @@
-import { COOKIES, PRIVACY, PROJECTS } from '@/content'
+import { ABOUT, COOKIES, HERO, PRIVACY, PROJECTS } from '@/content'
 import { absoluteUrl } from '@/lib/seo'
 
 // l'export statico scrive sitemap.xml solo se la route è dichiarata statica
@@ -12,7 +12,11 @@ export default function sitemap() {
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 1,
-      images: [absoluteUrl('/images/hero.webp'), ...PROJECTS.map((p) => absoluteUrl(p.poster ?? p.logo))],
+      images: [
+        absoluteUrl(HERO.photo.src),
+        absoluteUrl(ABOUT.portrait.src),
+        ...PROJECTS.map((p) => absoluteUrl(p.poster ?? p.logo)),
+      ],
     },
     ...[PRIVACY, COOKIES].map((doc) => ({
       url: absoluteUrl(doc.path),
