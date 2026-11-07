@@ -4,7 +4,7 @@ export const ABOUT = {
   label: 'About',
   statement:
     'Sono Omar, sviluppatore full stack. Progetto e realizzo siti web creativi, applicazioni e web app su misura, mettendo al centro chi mi affida il proprio progetto.',
-  portrait: { src: '/images/omar-bayadi-ritratto.webp', size: [1200, 1800], alt: 'Ritratto di Omar davanti al mare' },
+  portrait: { src: '/images/omar-bayadi-ritratto.webp', size: [1536, 2730], alt: 'Ritratto di Omar alla luce di una finestra' },
   rows: [
     {
       label: 'Idea',
