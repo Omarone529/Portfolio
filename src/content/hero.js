@@ -4,7 +4,7 @@ export const HERO = {
   photo: {
     src: '/images/hero.webp',
     size: [1920, 1080],
-    alt: 'Omar in piedi su una terrazza davanti al mare in tempesta',
+    alt: 'Omar in piedi su un belvedere sopra il mare, sotto un cielo in tempesta',
   },
   /** Righe della frase: l'ultima resta più tenue. */
   tagline: ['Full stack developer: progetto', 'e sviluppo esperienze digitali'],
