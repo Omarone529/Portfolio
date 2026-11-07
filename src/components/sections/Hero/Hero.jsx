@@ -1,5 +1,6 @@
 'use client'
 
+import { useSyncExternalStore } from 'react'
 import { m, useScroll, useTransform } from 'framer-motion'
 import { HERO, SITE } from '@/content'
 import { ArrowLink, IntroLines } from '@/components/primitives'
@@ -19,10 +20,11 @@ export default function Hero() {
   const { scrollY } = useScroll()
   const mediaScale = useTransform(scrollY, [0, 1000], [1, 1.12])
   const shade = useTransform(scrollY, [0, 900], [0, 0.55])
+  const native = useNativeScrollEffects()
 
   return (
-    <section className="hero">
-      <m.div className="hero__media" style={{ scale: mediaScale }}>
+    <section className={`hero ${native ? 'hero--native' : ''}`}>
+      <m.div className="hero__media" style={native ? undefined : { scale: mediaScale }}>
         <m.img
           src={HERO.photo.src}
           alt={HERO.photo.alt}
@@ -37,7 +39,7 @@ export default function Hero() {
         />
       </m.div>
       <div className="hero__grad" />
-      <m.div className="hero__shade" style={{ opacity: shade }} />
+      <m.div className="hero__shade" style={native ? undefined : { opacity: shade }} />
 
       <Nav />
 
@@ -80,5 +82,22 @@ export default function Hero() {
         />
       </div>
     </section>
+  )
+}
+
+const subscribeNothing = () => () => {}
+
+/**
+ * Se il browser sa legare un'animazione CSS allo scroll. In quel caso zoom e
+ * velo li fa lui (vedi .hero--native), sullo stesso canale dello scroll: su un
+ * telefono restano attaccati al dito, mentre calcolati in JavaScript arrivano
+ * un fotogramma dopo e scattano. Nel prerender vale false, come nei browser che
+ * non lo supportano, dove resta useScroll.
+ */
+function useNativeScrollEffects() {
+  return useSyncExternalStore(
+    subscribeNothing,
+    () => CSS.supports('animation-timeline: scroll()'),
+    () => false,
   )
 }

@@ -83,6 +83,29 @@
   --menubar: clamp(14px, 3cqw, 28px);
 }
 
+/*
+ * nell'anteprima piccola niente sfocature: sopra un video in riproduzione il browser le ricalcolerebbe a ogni
+ * fotogramma mentre si scorre la pagina, e a quella misura non si notano; basta un fondo un po' più coprente
+ */
+.laptop__screen.is-compact .desktop__menubar {
+  backdrop-filter: none;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.laptop__screen.is-compact .dock {
+  backdrop-filter: none;
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.laptop__screen.is-compact.is-dark .desktop__menubar,
+.laptop__screen.is-compact.is-dark-wall .desktop__menubar {
+  background: rgba(20, 20, 22, 0.6);
+}
+
+.laptop__screen.is-compact.is-dark .dock {
+  background: rgba(30, 30, 32, 0.7);
+}
+
 /* nell'anteprima piccola tutto il display è un bottone che lo apre a schermo intero */
 .laptop__open {
   position: absolute;

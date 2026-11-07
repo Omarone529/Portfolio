@@ -1,6 +1,5 @@
-/* I colori del sistema: chiaro di base, scuro con is-dark. Niente riquadro grigio del browser al tocco. */
+/* I colori del sistema: chiaro di base, scuro con is-dark. */
 .laptop__screen {
-  -webkit-tap-highlight-color: transparent;
   --os-surface: #f6f6f7;
   --os-raised: #fff;
   --os-text: rgba(0, 0, 0, 0.85);

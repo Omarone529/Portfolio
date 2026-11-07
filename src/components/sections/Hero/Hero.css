@@ -23,6 +23,50 @@
   inset: 0;
 }
 
+/*
+ * foto e velo cambiano a ogni fotogramma mentre si scorre: su livelli propri il browser li sposta
+ * e li sfuma senza ridisegnarli, che sui telefoni è la differenza tra uno scroll fluido e uno a scatti
+ */
+.hero__media {
+  will-change: transform;
+}
+
+.hero__shade {
+  will-change: opacity;
+}
+
+/* dove il browser sa legarle allo scroll, zoom e velo sono animazioni CSS: stessi valori di useScroll in Hero.jsx */
+@supports (animation-timeline: scroll()) {
+  .hero--native .hero__media {
+    animation: hero-zoom linear both;
+    animation-timeline: scroll(root);
+    animation-range: 0 1000px;
+  }
+  .hero--native .hero__shade {
+    animation: hero-shade linear both;
+    animation-timeline: scroll(root);
+    animation-range: 0 900px;
+  }
+}
+
+@keyframes hero-zoom {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.12);
+  }
+}
+
+@keyframes hero-shade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0.55;
+  }
+}
+
 .hero__media img {
   width: 100%;
   height: 100%;

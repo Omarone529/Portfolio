@@ -8,6 +8,8 @@
 
 html {
   background: var(--dark);
+  /* niente riquadro del browser al tocco: ogni elemento toccabile ha già il suo stato premuto o in hover */
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
