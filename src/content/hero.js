@@ -2,7 +2,7 @@ import { SECTION, anchor } from './site'
 
 export const HERO = {
   photo: {
-    src: '/images/hero.webp',
+    src: '/images/omar-bayadi-full-stack-developer.webp',
     size: [1920, 1080],
     alt: 'Omar in piedi su un belvedere sopra il mare, sotto un cielo in tempesta',
   },

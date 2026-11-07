@@ -1,4 +1,4 @@
-import { PLACE, PROFILES, PROJECTS, SEO, SERVICES, SITE, SKILLS } from '@/content'
+import { HERO, PLACE, PROFILES, PROJECTS, SEO, SERVICES, SITE, SKILLS } from '@/content'
 
 /** URL assoluto di un percorso del sito ("/" → "https://omarbayadi.com/"). */
 export function absoluteUrl(path = '/') {
@@ -30,7 +30,7 @@ export function homeJsonLd() {
         jobTitle: SITE.role,
         description: SEO.summary,
         url: absoluteUrl('/'),
-        image: absoluteUrl('/images/hero.webp'),
+        image: absoluteUrl(HERO.photo.src),
         // il monogramma è il segno con cui firmo il lavoro: per i motori è il logo del marchio personale
         brand: { '@type': 'Brand', name: SITE.fullName, logo: absoluteUrl(SITE.logo.src) },
         email: `mailto:${SITE.email}`,
@@ -72,7 +72,7 @@ export function homeJsonLd() {
         inLanguage: 'it-IT',
         isPartOf: { '@id': ID.website },
         mainEntity: { '@id': ID.person },
-        primaryImageOfPage: absoluteUrl('/images/hero.webp'),
+        primaryImageOfPage: absoluteUrl(HERO.photo.src),
         hasPart: { '@id': ID.work },
       },
       {

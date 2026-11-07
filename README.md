@@ -37,7 +37,7 @@ src/
   lib/                  animazioni, formattazione, scroll, SEO (JSON-LD) e llms.txt
   styles/               token di design, base e struttura della pagina
 public/
-  images/               foto della hero, logo.webp e wallpapers/ del portatile
+  images/               foto di hero e About, logo e wallpapers/ del portatile, con nomi descrittivi per Google Immagini
   projects/             loghi, demo e poster dei progetti
 docs/PERFORMANCE.md     la checklist di performance, con misure e motivazioni
 ```
@@ -45,8 +45,8 @@ docs/PERFORMANCE.md     la checklist di performance, con misure e motivazioni
 ## Come si fa
 
 - **Aggiungere un progetto:** una voce in `PROJECTS` (`content/projects.js`) con `tag`, `description`, `logo` e `tint`. Compare nella cartella Progetti del portatile; con `video` e `poster` ha anche la sua app nel dock. Dati strutturati, sitemap e `llms.txt` si aggiornano da soli, e i test controllano che i file esistano.
-- **Cambiare il logo:** un webp nero su trasparente in `public/images/logo.webp`, con le misure in `SITE.logo`. Il sito lo usa come maschera, quindi prende il colore del testo. Favicon (`app/favicon.ico`), `app/icon.png` e `app/apple-icon.png` vanno rigenerati dal logo, perché Next accetta solo `.ico`, `.png`, `.jpg` e `.svg` per le icone.
-- **Cambiare la foto della hero:** `public/images/hero.webp` (1920×1080) con misure e testo alternativo in `content/hero.js`; la stessa foto fa da ritratto nell'About.
+- **Cambiare il logo:** un webp nero su trasparente in `public/images/omar-bayadi-logo.webp`, con le misure in `SITE.logo`. Il sito lo usa come maschera, quindi prende il colore del testo. Favicon (`app/favicon.ico`), `app/icon.png` e `app/apple-icon.png` vanno rigenerati dal logo, perché Next accetta solo `.ico`, `.png`, `.jpg` e `.svg` per le icone.
+- **Cambiare la foto della hero:** `public/images/omar-bayadi-full-stack-developer.webp` (1920×1080) con misure e testo alternativo in `content/hero.js`. L'About ha il suo ritratto, `omar-bayadi-ritratto.webp`, in `content/about.js`.
 - **Aggiungere una sezione:** un id in `SECTION` (`content/site.js`), un componente in `components/sections/`, una riga in `app/page.jsx`. Per il bordo obliquo usa `<Section edge>`.
 - **Cambiare colori, font e misure:** `styles/tokens.css`. La pendenza dei bordi obliqui è `--edge-angle`.
 - **Pagine legali:** i testi sono in `content/legal.js` (`PRIVACY`, `COOKIES`), resi da `LegalPage`. Se il sito comincia a usare cookie, statistiche o contenuti di terzi, queste pagine vanno aggiornate prima di pubblicare, insieme alla CSP.
