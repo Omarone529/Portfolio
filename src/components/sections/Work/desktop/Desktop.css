@@ -1176,57 +1176,110 @@ a.window__address:hover {
   outline: none;
 }
 
+/* la calcolatrice è tutta scura, barra del titolo compresa */
+[data-window='calculator'] .window,
+[data-window='calculator'] .window__screen,
+[data-window='calculator'] .window__bar {
+  background: #1c1c1e;
+}
+
+[data-window='calculator'] .window__bar {
+  border-bottom-color: transparent;
+}
+
+[data-window='calculator'] .window__address {
+  background: none;
+  color: rgba(255, 255, 255, 0.55);
+}
+
 .calculator {
   display: flex;
   flex-direction: column;
-  background: #2b2b2e;
+  background: #1c1c1e;
   color: #fff;
   outline: none;
 }
 
+/* il testo si rimpicciolisce con la sua lunghezza, così non esce mai dal display */
 .calculator output {
   flex: 1;
   display: flex;
   align-items: flex-end;
   justify-content: flex-end;
-  min-height: 2em;
-  padding: 0.2em 0.5em;
+  min-height: 0;
+  padding: 0 7cqw 3cqw;
   overflow: hidden;
-  font-size: clamp(16px, 4cqw, 32px);
+  font-size: min(15cqw, calc(130cqw / var(--chars)));
+  font-weight: 300;
   font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+  white-space: nowrap;
 }
 
-.calculator div {
-  flex: 3;
+.calculator__keys {
+  flex: none;
+  height: 76%;
+  margin: 0 5cqw 5cqw;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-auto-rows: 1fr;
-  gap: 1px;
-  background: #1c1c1e;
+  gap: 2.6cqw;
 }
 
-.calculator button {
-  background: #48484c;
-  font-size: var(--os-font);
+.calculator__keys button {
+  display: grid;
+  place-items: center;
+  border-radius: 99px;
+  background: #3a3a3d;
+  color: #fff;
+  font-size: clamp(11px, 7.5cqw, 24px);
+  line-height: 1;
+  transition: background 0.2s;
 }
 
-.calculator button:hover {
-  background: #5c5c61;
+.calculator__keys button:hover {
+  background: #4b4b4f;
 }
 
-.calculator button:active {
-  background: #77777c;
+.calculator__keys button:active,
+.calculator__keys button.is-pressed {
+  background: #6b6b70;
+  transition: none;
 }
 
-.calculator .is-op {
+.calculator__keys .is-fn {
+  background: #6f6f74;
+}
+
+.calculator__keys .is-fn:hover {
+  background: #828287;
+}
+
+.calculator__keys .is-fn:active,
+.calculator__keys .is-fn.is-pressed {
+  background: #a0a0a5;
+}
+
+.calculator__keys .is-op {
   background: #f59e2b;
 }
 
-.calculator .is-op:hover {
-  background: #ffb54d;
+.calculator__keys .is-op:hover {
+  background: #ffb04d;
 }
 
-.calculator .is-wide {
+.calculator__keys .is-op:active,
+.calculator__keys .is-op.is-pressed {
+  background: #ffc985;
+}
+
+/* l'operazione scelta resta accesa finché non si scrive il numero dopo */
+.calculator__keys .is-op.is-armed {
+  background: #fff;
+  color: #f59e2b;
+}
+
+.calculator__keys .is-wide {
   grid-column: span 2;
 }
 

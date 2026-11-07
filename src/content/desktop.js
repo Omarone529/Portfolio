@@ -124,6 +124,7 @@ export const DESKTOP = {
       ['Finestre', 'Quante ne servono'],
     ],
   },
+  calculator: { clearAll: 'Cancella tutto' },
   trash: { empty: 'Il Cestino è vuoto' },
   terminal: {
     home: '/Users/omar',

@@ -8,7 +8,7 @@ const SIZES = {
   notes: { w: 58, h: 60 },
   mail: { w: 50, h: 60 },
   terminal: { w: 56, h: 52 },
-  calculator: { w: 30, h: 62 },
+  calculator: { w: 30, h: 72 },
   settings: { w: 54, h: 66 },
   about: { w: 36, h: 52 },
   trash: { w: 44, h: 44 },
