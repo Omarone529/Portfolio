@@ -145,7 +145,12 @@ export default function MenuBar({ os, title, screenRef, active, openMenu }) {
         </button>
         {/* a schermo intero serve un modo per uscire anche dove non c'è Esc (iPhone) */}
         {os.full && (
-          <button type="button" className="desktop__glyph" aria-label={WORK.exitFullscreen} onClick={() => os.setFull(false)}>
+          <button
+            type="button"
+            className="desktop__glyph"
+            aria-label={WORK.exitFullscreen}
+            onClick={() => os.setFull(false)}
+          >
             <svg viewBox="0 0 16 16" aria-hidden="true">
               <path d="M6 2v4H2M10 2v4h4M6 14v-4H2M10 14v-4h4" />
             </svg>
@@ -161,7 +166,12 @@ export default function MenuBar({ os, title, screenRef, active, openMenu }) {
 export function ControlCenter({ os, onClose }) {
   const { settings, set } = os
   return (
-    <div className="control-center" role="dialog" aria-label={S.control} onKeyDown={(e) => e.key === 'Escape' && onClose()}>
+    <div
+      className="control-center"
+      role="dialog"
+      aria-label={S.control}
+      onKeyDown={(e) => e.key === 'Escape' && onClose()}
+    >
       <label>
         {S.dark}
         <input type="checkbox" role="switch" checked={settings.dark} onChange={(e) => set('dark', e.target.checked)} />

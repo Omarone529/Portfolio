@@ -126,7 +126,10 @@ function Terminal({ os, id }) {
   }
 
   return (
-    <div className="terminal" onPointerUp={() => getSelection().isCollapsed && inputRef.current?.focus({ preventScroll: true })}>
+    <div
+      className="terminal"
+      onPointerUp={() => getSelection().isCollapsed && inputRef.current?.focus({ preventScroll: true })}
+    >
       {lines.map((line, i) => (
         <pre key={i}>{line}</pre>
       ))}
@@ -221,7 +224,12 @@ function Settings({ os }) {
       <h4>{T.wallpaper}</h4>
       <div className="settings__walls">
         {T.wallpapers.map((wall, i) => (
-          <button key={wall.name} type="button" aria-pressed={settings.wallpaper === i} onClick={() => set('wallpaper', i)}>
+          <button
+            key={wall.name}
+            type="button"
+            aria-pressed={settings.wallpaper === i}
+            onClick={() => set('wallpaper', i)}
+          >
             <img
               src={wall.src}
               alt=""
@@ -257,7 +265,12 @@ function Settings({ os }) {
       </label>
       <label>
         {DESKTOP.menus.hideDock}
-        <input type="checkbox" role="switch" checked={settings.autohide} onChange={(e) => set('autohide', e.target.checked)} />
+        <input
+          type="checkbox"
+          role="switch"
+          checked={settings.autohide}
+          onChange={(e) => set('autohide', e.target.checked)}
+        />
       </label>
     </div>
   )

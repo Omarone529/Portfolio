@@ -121,8 +121,18 @@ export default function Laptop({ projects }) {
       { label: M.minimize, hint: '⌥M', onSelect: () => minimize(id) },
       { label: M.zoom, hint: '⌥F', checked: win.max, onSelect: () => actAndExplore('maximize', id) },
       'sep',
-      { label: M.snapLeft, hint: '⌥←', checked: win.snap === 'left', onSelect: () => act('snap', id, { side: 'left' }) },
-      { label: M.snapRight, hint: '⌥→', checked: win.snap === 'right', onSelect: () => act('snap', id, { side: 'right' }) },
+      {
+        label: M.snapLeft,
+        hint: '⌥←',
+        checked: win.snap === 'left',
+        onSelect: () => act('snap', id, { side: 'left' }),
+      },
+      {
+        label: M.snapRight,
+        hint: '⌥→',
+        checked: win.snap === 'right',
+        onSelect: () => act('snap', id, { side: 'right' }),
+      },
     ]
   }
 
@@ -303,7 +313,14 @@ export default function Laptop({ projects }) {
               </AnimatePresence>
 
               {snapHint && <span className={`desktop__snap desktop__snap--${snapHint}`} aria-hidden="true" />}
-              {overview && <button type="button" className="desktop__exit" aria-label={M.missionControl} onClick={toggleOverview} />}
+              {overview && (
+                <button
+                  type="button"
+                  className="desktop__exit"
+                  aria-label={M.missionControl}
+                  onClick={toggleOverview}
+                />
+              )}
 
               <canvas ref={genieRef} className="genie" aria-hidden="true" />
 
@@ -321,7 +338,16 @@ export default function Laptop({ projects }) {
 
               {controlOpen && <ControlCenter os={os} onClose={() => setControlOpen(false)} />}
               {spotlight && <Spotlight apps={apps} onPick={pickResult} onClose={() => setSpotlight(false)} />}
-              {menu && <PopMenu key={`${menu.x}-${menu.y}`} x={menu.x} y={menu.y} items={menu.items} screenRef={screenRef} onClose={closeMenu} />}
+              {menu && (
+                <PopMenu
+                  key={`${menu.x}-${menu.y}`}
+                  x={menu.x}
+                  y={menu.y}
+                  items={menu.items}
+                  screenRef={screenRef}
+                  onClose={closeMenu}
+                />
+              )}
               <span className="desktop__dim" style={{ opacity: 1 - settings.brightness / 100 }} aria-hidden="true" />
               {power !== 'on' && <PowerScreen power={power} onNext={advancePower} />}
             </div>

@@ -87,10 +87,15 @@ export function reducer(state, action) {
       const win = windows[action.id]
       const right = win.x + win.w
       const bottom = win.y + win.h
-      const w = action.x === undefined ? clamp(action.w ?? win.w, MIN_SIZE.w, 100 - win.x) : clamp(right - action.x, MIN_SIZE.w, right)
+      const w =
+        action.x === undefined
+          ? clamp(action.w ?? win.w, MIN_SIZE.w, 100 - win.x)
+          : clamp(right - action.x, MIN_SIZE.w, right)
       const top = action.top ?? 0
       const h =
-        action.y === undefined ? clamp(action.h ?? win.h, MIN_SIZE.h, 100 - win.y) : clamp(bottom - action.y, MIN_SIZE.h, bottom - top)
+        action.y === undefined
+          ? clamp(action.h ?? win.h, MIN_SIZE.h, 100 - win.y)
+          : clamp(bottom - action.y, MIN_SIZE.h, bottom - top)
       return {
         ...state,
         windows: update(action.id, {

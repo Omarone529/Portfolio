@@ -109,7 +109,12 @@ export default function Finder({ os }) {
             <button type="button" aria-label={F.back} disabled={path.at === 0} onClick={() => step(-1)}>
               ‹
             </button>
-            <button type="button" aria-label={F.forward} disabled={path.at === path.list.length - 1} onClick={() => step(1)}>
+            <button
+              type="button"
+              aria-label={F.forward}
+              disabled={path.at === path.list.length - 1}
+              onClick={() => step(1)}
+            >
               ›
             </button>
           </span>

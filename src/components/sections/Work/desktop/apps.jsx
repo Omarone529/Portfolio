@@ -46,7 +46,13 @@ const ICONS = {
     <>
       <rect width="48" height="48" fill="url(#ic-sky)" />
       <path d="M26 0h22v48H22c3-8 4-14 4-20h-6c0-10 2-20 6-28z" fill="#fff" opacity=".85" />
-      <path d="M14 15v6M34 15v6M12 33c7 5 17 5 24 0" stroke="#10253f" strokeWidth="2.6" fill="none" strokeLinecap="round" />
+      <path
+        d="M14 15v6M34 15v6M12 33c7 5 17 5 24 0"
+        stroke="#10253f"
+        strokeWidth="2.6"
+        fill="none"
+        strokeLinecap="round"
+      />
     </>
   ),
   notes: (
@@ -66,7 +72,14 @@ const ICONS = {
   terminal: (
     <>
       <rect width="48" height="48" fill="#1c1c1f" />
-      <path d="M11 15l9 8-9 8M23 33h13" stroke="#e8e8e8" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+      <path
+        d="M11 15l9 8-9 8M23 33h13"
+        stroke="#e8e8e8"
+        strokeWidth="3"
+        fill="none"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </>
   ),
   calculator: (
@@ -75,7 +88,13 @@ const ICONS = {
       <rect x="10" y="9" width="28" height="9" rx="2" fill="#8f8f94" />
       {[0, 1, 2].flatMap((row) =>
         [0, 1, 2].map((col) => (
-          <circle key={`${row}${col}`} cx={14 + col * 10} cy={25 + row * 7.5} r="3" fill={col === 2 ? '#f59e2b' : '#d9d9dc'} />
+          <circle
+            key={`${row}${col}`}
+            cx={14 + col * 10}
+            cy={25 + row * 7.5}
+            r="3"
+            fill={col === 2 ? '#f59e2b' : '#d9d9dc'}
+          />
         )),
       )}
     </>
@@ -95,7 +114,13 @@ const ICONS = {
   trash: (
     <>
       <rect width="48" height="48" fill="#e7e8ea" />
-      <path d="M14 16h20l-2 23H16zM11 14h26M20 13c0-4 8-4 8 0" stroke="#7b7e85" strokeWidth="2.4" fill="none" strokeLinejoin="round" />
+      <path
+        d="M14 16h20l-2 23H16zM11 14h26M20 13c0-4 8-4 8 0"
+        stroke="#7b7e85"
+        strokeWidth="2.4"
+        fill="none"
+        strokeLinejoin="round"
+      />
       <path d="M20 21l1 13M24 21v13M28 21l-1 13" stroke="#a7aab0" strokeWidth="1.8" />
     </>
   ),
@@ -141,7 +166,14 @@ export function AppIcon({ app }) {
   const { project } = app
   return (
     <span className="app-icon" style={{ background: project.tint }}>
-      <img src={project.logo} alt="" width={project.logoSize[0]} height={project.logoSize[1]} loading="lazy" decoding="async" />
+      <img
+        src={project.logo}
+        alt=""
+        width={project.logoSize[0]}
+        height={project.logoSize[1]}
+        loading="lazy"
+        decoding="async"
+      />
     </span>
   )
 }

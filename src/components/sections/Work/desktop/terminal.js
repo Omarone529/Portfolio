@@ -32,7 +32,9 @@ export function runCommand(input, now = new Date()) {
     case 'cat': {
       const project = findProject(rest)
       if (!rest) return { lines: [T.catUsage] }
-      return { lines: project ? [`${project.title} · ${project.tag}`, project.description] : [`cat: ${rest}: ${T.notFound}`] }
+      return {
+        lines: project ? [`${project.title} · ${project.tag}`, project.description] : [`cat: ${rest}: ${T.notFound}`],
+      }
     }
     case 'open': {
       if (!rest) return { lines: [T.openUsage] }

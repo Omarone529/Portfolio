@@ -121,9 +121,7 @@ export default function AppWindow({
   }
 
   const docked = win.max ? 'max' : win.snap
-  const box = docked
-    ? BOXES[docked]
-    : { left: `${win.x}%`, top: `${win.y}%`, width: `${win.w}%`, height: `${win.h}%` }
+  const box = docked ? BOXES[docked] : { left: `${win.x}%`, top: `${win.y}%`, width: `${win.w}%`, height: `${win.h}%` }
   const thumbnail = overview?.[id]
   const place = thumbnail ? { translate: `${thumbnail.x}px ${thumbnail.y}px`, scale: thumbnail.s } : null
 
