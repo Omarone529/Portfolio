@@ -7,6 +7,10 @@ export default defineConfig([
     rules: {
       // le immagini sono già ottimizzate e l'export statico non ha l'ottimizzatore di next/image
       '@next/next/no-img-element': 'off',
+      // import e variabili rimasti senza uso: in JavaScript nessun compilatore li segnala
+      'no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^_', ignoreRestSiblings: true }],
+      // i componenti usati solo in JSX contano come usati
+      'react/jsx-uses-vars': 'error',
     },
   },
   globalIgnores(['.next/**', 'out/**', 'next-env.d.ts']),

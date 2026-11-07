@@ -16,7 +16,6 @@ import {
   SEO,
   SERVICES,
   SITE,
-  WORK,
   anchor,
 } from '@/content'
 import { gmailCompose } from '@/lib/mail'

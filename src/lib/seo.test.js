@@ -42,7 +42,7 @@ describe('homeJsonLd', () => {
     }
   })
 
-  it('lists every project and every service the page shows', () => {
+  it('lists every project and every service offered', () => {
     expect(byType('ItemList').itemListElement).toHaveLength(PROJECTS.length)
     expect(byType('Person').makesOffer).toHaveLength(SERVICES.length)
   })
