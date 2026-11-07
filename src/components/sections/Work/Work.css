@@ -394,102 +394,7 @@
   padding: 6px 0 14px;
 }
 
-/* ---------- guarda tutti ---------- */
-
-.folder {
-  --folder: #3d8fe0;
-  --folder-front-top: #6db6f7;
-  --folder-front-bottom: #4a9cec;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 14px;
-  font-size: 17px;
-  text-align: left;
-}
-
-/* fondo, card e pannello davanti condividono la stessa scatola */
-.folder__body {
-  position: relative;
-  display: block;
-  width: 168px;
-  height: 128px;
-  perspective: 600px;
-}
-
-/* il fondo della cartella con la linguetta in alto a sinistra */
-.folder__back {
-  position: absolute;
-  inset: 12px 0 0;
-  border-radius: 4px 10px 10px 10px;
-  background: var(--folder);
-}
-
-.folder__back::before {
-  content: '';
-  position: absolute;
-  bottom: 100%;
-  left: 0;
-  width: 42%;
-  height: 13px;
-  border-radius: 8px 10px 0 0;
-  background: var(--folder);
-}
-
-/* le card stanno dentro la cartella: ne spunta solo la parte alta */
-.folder__card {
-  position: absolute;
-  left: 50%;
-  bottom: 22px;
-  width: 112px;
-  height: 80px;
-  display: flex;
-  justify-content: center;
-  padding-top: 9px;
-  margin-left: -56px;
-  border-radius: 5px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
-  transform: translateY(calc(var(--depth) * -5px)) rotate(calc(var(--i) * 4deg));
-  transition: transform 0.6s var(--ease);
-}
-
-/* il logo sta in cima alla card, nella parte che esce dalla cartella */
-.folder__card img {
-  width: 60%;
-  height: 26px;
-  object-fit: contain;
-}
-
-/* il pannello davanti, un po' più chiaro, che si apre ruotando sul bordo in basso */
-.folder__front {
-  position: absolute;
-  inset: 34px 0 0;
-  border-radius: 10px;
-  background: linear-gradient(var(--folder-front-top), var(--folder-front-bottom));
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
-  transform-origin: 50% 100%;
-  transition: transform 0.6s var(--ease);
-}
-
-.folder:hover .folder__front,
-.folder:focus-visible .folder__front {
-  transform: rotateX(-28deg);
-}
-
-.folder:hover .folder__card,
-.folder:focus-visible .folder__card {
-  transform: translate(calc(var(--i) * 30px), calc(-24px - var(--depth) * 7px)) rotate(calc(var(--i) * 11deg));
-}
-
-.folder__label {
-  white-space: nowrap;
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .folder__card,
-  .folder__front {
-    transition: none;
-  }
   .app-window {
     transition: none;
   }
@@ -511,78 +416,12 @@
   transition: transform 1.2s var(--ease);
 }
 
-/* ---------- vista "guarda tutti" ---------- */
-
-.all-projects {
-  position: fixed;
-  inset: 0;
-  z-index: 60;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  padding: 0 var(--gutter) 80px;
-}
-
-.all-projects__head {
-  position: sticky;
-  top: 0;
-  z-index: 1;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  max-width: var(--max-width);
-  margin: 0 auto;
-  padding: 12px 0;
-  font-size: 17px;
-  background: var(--white);
-  border-bottom: 1px solid var(--line);
-}
-
-.all-projects__close {
-  min-height: var(--tap);
-  padding-inline: 8px;
-  margin-inline-end: -8px;
-}
-
-.all-projects__grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 40px;
-  max-width: var(--max-width);
-  margin: 40px auto 0;
-}
-
-.tile {
-  display: block;
-}
-
-.tile__media {
-  display: grid;
-  place-items: center;
-  aspect-ratio: 16 / 9;
-  overflow: hidden;
-  border-radius: var(--radius);
-}
-
-.tile__description {
-  max-width: 46ch;
-  padding-top: 12px;
-  font-size: 15px;
-}
-
-.tile:hover .project-video,
-.tile:hover .project-logo {
-  transform: scale(1.03);
-}
-
 @media (width >= 48rem) {
   .work__layout {
     grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
     gap: 48px;
   }
-  /* titolo in alto e cartella in basso, alti quanto il portatile accanto */
   .work__side {
-    align-self: stretch;
-    justify-content: space-between;
     padding: 24px 0 40px;
   }
   .laptop__caption {
@@ -591,13 +430,6 @@
   /* da tablet in su il dock è abbastanza grande */
   .laptop__switcher {
     display: none;
-  }
-  .all-projects__head {
-    padding: 14px 0;
-  }
-  .all-projects__grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 56px 24px;
   }
 }
 

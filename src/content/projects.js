@@ -1,9 +1,9 @@
 /**
- * I case study. Ogni progetto ha una `description` di una frase (mostrata nella
- * vista "Guarda tutti" e nei dati strutturati), `logo` su un fondo `tint` (scalato di
- * `logoScale`), che è ciò che mostra la pila. Chi ha una demo registrata ha
- * anche `video` e `poster`: solo questi finiscono nel portatile, mentre la
- * vista "Guarda tutti" li mostra tutti.
+ * I case study. Ogni progetto ha una `description` di una frase (mostrata nel
+ * Finder del portatile e nei dati strutturati) e un `logo` su un fondo `tint`
+ * (scalato di `logoScale`), che fa da icona. Chi ha una demo registrata ha
+ * anche `video` e `poster`: solo questi hanno un'app nel dock, mentre la
+ * cartella Progetti sulla scrivania li contiene tutti.
  * Un `href` esterno apre il sito pubblicato in una nuova scheda. `logoSize` e
  * `DEMO_SIZE` sono le misure reali dei file, che il browser usa per riservare
  * lo spazio prima che arrivino (i test controllano che coincidano).
@@ -67,7 +67,4 @@ export const WORK = {
   windowClose: 'Chiudi',
   windowMinimize: 'Riduci nel dock',
   windowMaximize: 'Ingrandisci',
-  seeAll: 'Guarda tutti',
-  showLess: 'Mostra meno',
-  allTitle: 'Tutti i progetti',
 }
