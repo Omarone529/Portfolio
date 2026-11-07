@@ -85,8 +85,9 @@ describe('wallpapers', () => {
 })
 
 describe('services', () => {
-  it.each(SERVICES)('$title has a picture on disk', (service) => {
-    expect(publicFile(service.image)).toBe(true)
+  it.each(SERVICES)('$title has what search engines and llms.txt need', (service) => {
+    expect(service.kicker).toBeTruthy()
+    expect(service.text).toBeTruthy()
   })
 })
 
@@ -123,7 +124,6 @@ describe('image sizes', () => {
   const images = [
     [HERO.photo.src, HERO.photo.size],
     [ABOUT.portrait.src, ABOUT.portrait.size],
-    ...SERVICES.map((s) => [s.image, s.imageSize]),
     ...PROJECTS.map((p) => [p.logo, p.logoSize]),
   ]
 
