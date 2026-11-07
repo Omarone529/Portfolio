@@ -17,6 +17,11 @@
   background: var(--footer);
 }
 
+/* vedi Footer.jsx: invisibile finché non sa dove stare e, da fisso, finché è coperto (senza JavaScript lo riapre layout.jsx) */
+.footer--pending {
+  visibility: hidden;
+}
+
 .footer--reveal {
   position: fixed;
   left: 0;

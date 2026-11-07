@@ -1,7 +1,7 @@
 'use client'
 
 import { useRef } from 'react'
-import { m, useScroll, useTransform } from 'framer-motion'
+import { m, useInView, useScroll, useTransform } from 'framer-motion'
 import { FOOTER, NAV, SECTION, SITE } from '@/content'
 import { ArrowLink, DrawLine, EdgeWedge, MaskLines, RollText } from '@/components/primitives'
 import { useElementHeight } from '@/hooks/useElementHeight'
@@ -23,6 +23,12 @@ export default function Footer({ edgeTone }) {
   const height = useElementHeight(footerRef)
   const viewportHeight = useViewportHeight()
   const reveal = height > 0 && height <= viewportHeight
+  // lo slot è a meno di uno schermo: il footer sta per essere scoperto
+  const near = useInView(slotRef, { margin: '0px 0px 100% 0px' })
+  // il footer resta invisibile finché non si sa se starà fisso o nel flusso, e da fisso finché lo slot è lontano.
+  // Coperto dalla pagina non si vedrebbe comunque, ma per il browser conterebbe: passare a fisso sarebbe un salto
+  // (CLS) e il suo nome grande diventerebbe l'elemento più grande dello schermo (LCP) a caricamento finito
+  const hidden = height === 0 || viewportHeight === 0 || (reveal && !near)
 
   const { scrollYProgress } = useScroll({ target: slotRef, offset: ['start end', 'end end'] })
   // dritto un po' prima della fine: uno scroll che si ferma a una frazione di pixel non lascia una scheggia
@@ -33,7 +39,10 @@ export default function Footer({ edgeTone }) {
     <div id={SECTION.contact} ref={slotRef} className="footer-slot" style={reveal ? { height } : undefined}>
       {reveal && <EdgeWedge tone={edgeTone} side="bottom" scale={edgeScale} />}
 
-      <footer ref={footerRef} className={`footer tone-dark ${reveal ? 'footer--reveal' : ''}`}>
+      <footer
+        ref={footerRef}
+        className={`footer tone-dark ${reveal ? 'footer--reveal' : ''} ${hidden ? 'footer--pending' : ''}`}
+      >
         <m.div className="footer__inner" style={reveal ? { y: innerY } : undefined}>
           <span className="footer__rule" />
           <div className="footer__grid">

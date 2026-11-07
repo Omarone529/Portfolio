@@ -7,7 +7,8 @@ import Providers from '@/providers/Providers'
 import { geist, inter } from './fonts'
 
 const NO_SCRIPT_CSS = `.page *, .footer * { opacity: 1 !important; transform: none !important; clip-path: none !important; }
-.edge { display: none !important; }`
+.edge { display: none !important; }
+.footer--pending { visibility: visible !important; }`
 
 export const metadata = {
   metadataBase: new URL(`${SITE.url}/`),
