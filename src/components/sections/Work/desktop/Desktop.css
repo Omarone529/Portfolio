@@ -20,28 +20,10 @@
   --os-glass: rgba(44, 44, 48, 0.82);
 }
 
-.laptop__screen.is-dark .desktop__menubar {
+.laptop__screen.is-dark .desktop__menubar,
+.laptop__screen.is-dark-wall .desktop__menubar {
   background: rgba(20, 20, 22, 0.45);
   color: rgba(255, 255, 255, 0.92);
-}
-
-/* gli sfondi sono solo sfumature: pesano zero */
-.wall-1 {
-  background:
-    radial-gradient(100% 80% at 80% 10%, #ffd28a, transparent 60%),
-    radial-gradient(90% 90% at 10% 100%, #a53f6f, transparent 65%), #e0765a;
-}
-
-.wall-2 {
-  background:
-    radial-gradient(100% 80% at 20% 10%, #b9d8a5, transparent 60%),
-    radial-gradient(90% 90% at 90% 100%, #1f4d3a, transparent 65%), #4f8a64;
-}
-
-.wall-3 {
-  background:
-    radial-gradient(100% 80% at 80% 0%, #4a4f9c, transparent 60%),
-    radial-gradient(90% 90% at 10% 100%, #16172e, transparent 65%), #24264d;
 }
 
 /* ---------- barra dei menu ---------- */
@@ -1310,20 +1292,17 @@ a.window__address:hover {
   font-size: var(--os-font-small);
 }
 
-.settings__walls span {
+.settings__walls img {
   display: block;
+  width: 100%;
+  height: auto;
   aspect-ratio: 16 / 10;
+  object-fit: cover;
   border-radius: 5px;
   outline: 1px solid var(--os-line);
 }
 
-.settings__walls .wall-0 {
-  background:
-    radial-gradient(110% 80% at 15% 0%, #9fd0ee, transparent 60%),
-    radial-gradient(90% 90% at 95% 100%, var(--glow), transparent 65%), #4c8db5;
-}
-
-.settings__walls button[aria-pressed='true'] span {
+.settings__walls button[aria-pressed='true'] img {
   outline: 2px solid var(--os-accent);
   outline-offset: 1px;
 }

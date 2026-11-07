@@ -1,7 +1,7 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
-import { ABOUT, COOKIES, FOOTER, HERO, NAV, PRIVACY, PROJECTS, SECTION, SEO, SERVICES, SITE, WORK } from '@/content'
+import { ABOUT, COOKIES, DESKTOP, FOOTER, HERO, NAV, PRIVACY, PROJECTS, SECTION, SEO, SERVICES, SITE, WORK } from '@/content'
 
 const publicFile = (path) => existsSync(join(process.cwd(), 'public', path))
 
@@ -53,6 +53,13 @@ describe('projects', () => {
 
   it('puts at least one demo on the laptop', () => {
     expect(PROJECTS.some((p) => p.video && p.poster)).toBe(true)
+  })
+})
+
+describe('wallpapers', () => {
+  it.each(DESKTOP.settings.wallpapers)('$name has a file of the declared size', (wall) => {
+    expect(publicFile(wall.src)).toBe(true)
+    expect(webpSize(wall.src)).toEqual(DESKTOP.wallpaperSize)
   })
 })
 

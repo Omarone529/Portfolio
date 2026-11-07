@@ -67,13 +67,8 @@
   overflow: hidden;
   container-type: inline-size;
   border-radius: 4px;
-}
-
-/* lo sfondo di partenza; gli altri sono in Desktop.css */
-.laptop__screen.wall-0 {
-  background:
-    radial-gradient(110% 80% at 15% 0%, #9fd0ee, transparent 60%),
-    radial-gradient(90% 90% at 95% 100%, var(--glow), transparent 65%), #4c8db5;
+  background-position: center;
+  background-size: cover;
 }
 
 /* a schermo intero il display copre tutta la finestra del browser */

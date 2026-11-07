@@ -112,9 +112,17 @@ export const DESKTOP = {
     hint: 'Si apre la tua app di posta, con il messaggio già pronto.',
     defaultSubject: 'Un progetto da fare insieme',
   },
+  /** Misure reali degli sfondi: i test controllano che coincidano. */
+  wallpaperSize: [1920, 1200],
   settings: {
     wallpaper: 'Sfondo',
-    wallpapers: ['Costa', 'Tramonto', 'Bosco', 'Notte'],
+    /** `color` si vede mentre l'immagine arriva; `dark` dice che sopra serve la barra dei menu chiara. */
+    wallpapers: [
+      { name: 'Costa', src: '/images/wallpapers/costa.webp', color: '#534648' },
+      { name: 'Aurora', src: '/images/wallpapers/aurora.webp', color: '#073144', dark: true },
+      { name: 'Città', src: '/images/wallpapers/citta.webp', color: '#131411', dark: true },
+      { name: 'Montagna', src: '/images/wallpapers/montagna.webp', color: '#726e54' },
+    ],
     appearance: 'Aspetto',
     dock: 'Dock',
     aboutTitle: 'Questo computer',

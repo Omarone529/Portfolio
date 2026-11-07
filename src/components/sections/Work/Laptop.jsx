@@ -234,9 +234,10 @@ export default function Laptop({ projects }) {
 
   const openIds = allApps.map((a) => a.id).filter((id) => windows[id])
   const calling = explored ? null : apps.find((a) => a.project && !windows[a.id])?.id
+  const wallpaper = DESKTOP.settings.wallpapers[settings.wallpaper]
   const screenClass = [
     'laptop__screen',
-    `wall-${settings.wallpaper}`,
+    wallpaper.dark ? 'is-dark-wall' : '',
     full ? 'is-full' : '',
     settings.dark ? 'is-dark' : '',
     overview ? 'is-overview' : '',
@@ -248,7 +249,11 @@ export default function Laptop({ projects }) {
         <div className="laptop__lid">
           {/* lo spazio del display resta riservato anche quando lui va a schermo intero */}
           <div className="laptop__slot">
-            <div ref={screenRef} className={screenClass}>
+            <div
+              ref={screenRef}
+              className={screenClass}
+              style={{ backgroundColor: wallpaper.color, backgroundImage: `url(${wallpaper.src})` }}
+            >
               <MenuBar
                 os={os}
                 title={focusedApp?.title ?? DESKTOP.appNames.finder}

@@ -220,10 +220,18 @@ function Settings({ os }) {
     <div className="settings">
       <h4>{T.wallpaper}</h4>
       <div className="settings__walls">
-        {T.wallpapers.map((name, i) => (
-          <button key={name} type="button" aria-pressed={settings.wallpaper === i} onClick={() => set('wallpaper', i)}>
-            <span className={`wall-${i}`} />
-            {name}
+        {T.wallpapers.map((wall, i) => (
+          <button key={wall.name} type="button" aria-pressed={settings.wallpaper === i} onClick={() => set('wallpaper', i)}>
+            <img
+              src={wall.src}
+              alt=""
+              width={DESKTOP.wallpaperSize[0]}
+              height={DESKTOP.wallpaperSize[1]}
+              loading="lazy"
+              decoding="async"
+              style={{ background: wall.color }}
+            />
+            {wall.name}
           </button>
         ))}
       </div>
