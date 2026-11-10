@@ -137,6 +137,7 @@ describe('image sizes', () => {
   // le misure dichiarate riservano lo spazio prima che il file arrivi: se non coincidono la pagina salta
   const images = [
     [HERO.photo.src, HERO.photo.size],
+    [HERO.photo.wide.src, HERO.photo.wide.size],
     [ABOUT.portrait.src, ABOUT.portrait.size],
     ...PROJECTS.map((p) => [p.logo, p.logoSize]),
   ]

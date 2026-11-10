@@ -1,6 +1,6 @@
 'use client'
 
-import { useSyncExternalStore } from 'react'
+import { useRef, useSyncExternalStore } from 'react'
 import { m, useScroll, useTransform } from 'framer-motion'
 import { HERO, SITE } from '@/content'
 import { ArrowLink, IntroLines } from '@/components/primitives'
@@ -16,7 +16,8 @@ import './Hero.css'
  * schermo viene trattata come sfondo. Solo lo zoom della foto aspetta che sia scaricata.
  */
 export default function Hero() {
-  const photoReady = useImageReady(HERO.photo.src)
+  const photoRef = useRef(null)
+  const photoReady = useImageReady(photoRef)
   const { scrollY } = useScroll()
   const mediaScale = useTransform(scrollY, [0, 1000], [1, 1.12])
   const shade = useTransform(scrollY, [0, 900], [0, 0.55])
@@ -25,18 +26,28 @@ export default function Hero() {
   return (
     <section className={`hero ${native ? 'hero--native' : ''}`}>
       <m.div className="hero__media" style={native ? undefined : { scale: mediaScale }}>
-        <m.img
-          src={HERO.photo.src}
-          alt={HERO.photo.alt}
-          width={HERO.photo.size[0]}
-          height={HERO.photo.size[1]}
-          fetchPriority="high"
-          // visibile da subito (solo lo zoom aspetta): è l'elemento più grande, e il browser misura
-          // il caricamento (LCP) da quando compare, non da quando finisce di animarsi
-          initial={{ scale: 1.25 }}
-          animate={photoReady ? { scale: 1 } : {}}
-          transition={{ duration: 2, ease: EASE }}
-        />
+        <picture>
+          {/* su schermi larghi il taglio 16:9 lascia aria intorno alla figura; in verticale resta il 2:3 */}
+          <source
+            media="(min-aspect-ratio: 1/1)"
+            srcSet={HERO.photo.wide.src}
+            width={HERO.photo.wide.size[0]}
+            height={HERO.photo.wide.size[1]}
+          />
+          <m.img
+            ref={photoRef}
+            src={HERO.photo.src}
+            alt={HERO.photo.alt}
+            width={HERO.photo.size[0]}
+            height={HERO.photo.size[1]}
+            fetchPriority="high"
+            // visibile da subito (solo lo zoom aspetta): è l'elemento più grande, e il browser misura
+            // il caricamento (LCP) da quando compare, non da quando finisce di animarsi
+            initial={{ scale: 1.25 }}
+            animate={photoReady ? { scale: 1 } : {}}
+            transition={{ duration: 2, ease: EASE }}
+          />
+        </picture>
       </m.div>
       <div className="hero__grad" />
       <m.div className="hero__shade" style={native ? undefined : { opacity: shade }} />
