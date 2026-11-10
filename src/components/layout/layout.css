@@ -1,0 +1,17 @@
+.container {
+  position: relative;
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+.section {
+  position: relative;
+  padding: 24px 0 140px;
+}
+
+/* evita la riga sub-pixel della hero tra una sezione e l'altra */
+.section + .section {
+  margin-top: -1px;
+}

@@ -1,0 +1,117 @@
+/* Le regole comuni alle app di sistema (contenitore, barre laterali, pulsanti, aree di testo) e le app piccole: Informazioni e Cestino. */
+
+.finder,
+.notes,
+.mail,
+.terminal,
+.calculator,
+.settings,
+.about-pc,
+.trash {
+  container-type: inline-size;
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+  font-size: var(--os-font);
+  color: var(--os-text);
+  text-align: left;
+}
+
+.finder__side,
+.notes aside {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 24%;
+  min-width: 70px;
+  padding: 0.7em 0.5em;
+  overflow-y: auto;
+  border-right: 1px solid var(--os-line);
+}
+
+.finder__side button,
+.notes aside button {
+  flex: none;
+  padding: 0.25em 0.5em;
+  overflow: hidden;
+  border-radius: 5px;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.finder__side button[aria-pressed='true'],
+.notes aside button[aria-pressed='true'],
+.finder__views button[aria-pressed='true'] {
+  background: var(--os-line);
+}
+
+.finder__preview button,
+.mail footer button {
+  padding: 0.2em 0.8em;
+  border-radius: 6px;
+  background: var(--os-accent);
+  color: #fff;
+}
+
+.notes textarea,
+.mail textarea {
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  padding: 0.9em;
+  border: 0;
+  background: var(--os-raised);
+  color: inherit;
+  font: inherit;
+  line-height: 1.45;
+  outline: none;
+  resize: none;
+}
+
+.about-pc {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3em;
+  padding: 1em;
+  overflow-y: auto;
+  text-align: center;
+}
+
+.about-pc__icon {
+  width: 4em;
+  overflow: hidden;
+  border-radius: 22%;
+}
+
+.about-pc small {
+  color: var(--os-muted);
+}
+
+.about-pc dl {
+  width: 100%;
+  margin: 0.7em 0 0;
+}
+
+.about-pc dl div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1em;
+  padding: 0.15em 0;
+}
+
+.about-pc dt {
+  color: var(--os-muted);
+}
+
+.about-pc dd {
+  margin: 0;
+}
+
+.trash {
+  display: grid;
+  place-items: center;
+  color: var(--os-muted);
+}

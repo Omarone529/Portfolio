@@ -1,0 +1,241 @@
+/* Il dock: ripiano di vetro, icone che crescono davvero, rimbalzo e nomi. */
+
+.dock {
+  --icon: clamp(20px, 4.6cqw, 48px);
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0.8cqw;
+  z-index: 50;
+  display: flex;
+  align-items: flex-end;
+  gap: clamp(2px, 0.5cqw, 5px);
+  width: fit-content;
+  max-width: 100%;
+  margin-inline: auto;
+  padding: clamp(2px, 0.5cqw, 5px);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: clamp(8px, 1.5cqw, 16px);
+  background: rgba(255, 255, 255, 0.32);
+  backdrop-filter: blur(16px) saturate(1.4);
+  box-shadow: 0 1cqw 2.6cqw -1cqw rgba(0, 0, 0, 0.4);
+}
+
+.laptop__screen.is-dark .dock {
+  border-color: rgba(255, 255, 255, 0.16);
+  background: rgba(30, 30, 32, 0.5);
+}
+
+/* a schermo intero sul telefono c'è spazio per icone più comode */
+.laptop__screen.is-full .dock {
+  --icon: clamp(30px, 4.6cqw, 56px);
+}
+
+/* telefono a schermo intero: il dock è a misura di dito */
+.laptop__screen.is-phone .dock {
+  /* tutte le icone (--count lo scrive il dock) più i margini devono stare anche su un telefono da 360px */
+  --icon: min(34px, calc((100cqw - 84px) / var(--count)));
+  gap: 4px;
+  padding: 5px;
+}
+
+.dock.is-autohide {
+  translate: 0 calc(100% + 2cqw);
+  transition: translate 0.32s var(--ease);
+}
+
+/* una fascia invisibile sotto il dock nascosto, per richiamarlo */
+.dock.is-autohide::before {
+  content: '';
+  position: absolute;
+  inset: -2.6cqw 0 auto;
+  height: 2.6cqw;
+}
+
+.dock.is-autohide:hover,
+.dock.is-autohide:focus-within {
+  translate: 0 0;
+}
+
+.dock__slot {
+  display: flex;
+  align-items: flex-end;
+  gap: inherit;
+}
+
+.dock__sep {
+  flex: none;
+  align-self: stretch;
+  width: 1px;
+  margin-inline: clamp(1px, 0.3cqw, 3px);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+/* --mag la scrive la lente: la larghezza cambia davvero e spinge le icone vicine */
+.dock__item {
+  --mag: 1;
+  position: relative;
+  display: block;
+  flex: none;
+  width: calc(var(--icon) * var(--mag));
+  aspect-ratio: 1;
+}
+
+.dock__item:focus-visible {
+  --mag: 1.18;
+  outline: none;
+}
+
+.dock__item:focus-visible .dock__icon {
+  outline: 2px solid var(--os-accent);
+  outline-offset: 1px;
+}
+
+.dock__icon {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 22%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.dock__icon svg,
+.finder__icon svg,
+.spotlight__icon svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.app-icon {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.app-icon img {
+  width: 68%;
+  height: 68%;
+  object-fit: contain;
+}
+
+/* premendo, l'icona si scurisce */
+.dock__item:active .dock__icon {
+  filter: brightness(0.68);
+}
+
+/* su e giù come una palla: sale frenando e ricade accelerando, ogni volta un po' più basso */
+.dock__item.is-launching .dock__icon {
+  animation: dock-bounce 0.9s linear;
+}
+
+@keyframes dock-bounce {
+  0% {
+    translate: 0 0;
+    animation-timing-function: cubic-bezier(0.2, 0.7, 0.4, 1);
+  }
+  24% {
+    translate: 0 -62%;
+    animation-timing-function: cubic-bezier(0.6, 0, 0.8, 0.3);
+  }
+  47% {
+    translate: 0 0;
+    animation-timing-function: cubic-bezier(0.2, 0.7, 0.4, 1);
+  }
+  68% {
+    translate: 0 -34%;
+    animation-timing-function: cubic-bezier(0.6, 0, 0.8, 0.3);
+  }
+  88%,
+  100% {
+    translate: 0 0;
+  }
+}
+
+/* finché non si prova il dock, ogni tanto un'icona chiede attenzione come una notifica */
+.dock__item.is-calling .dock__icon {
+  animation: dock-call 5s linear 2s infinite;
+}
+
+@keyframes dock-call {
+  0% {
+    translate: 0 0;
+    animation-timing-function: cubic-bezier(0.2, 0.7, 0.4, 1);
+  }
+  5% {
+    translate: 0 -38%;
+    animation-timing-function: cubic-bezier(0.6, 0, 0.8, 0.3);
+  }
+  10% {
+    translate: 0 0;
+    animation-timing-function: cubic-bezier(0.2, 0.7, 0.4, 1);
+  }
+  14% {
+    translate: 0 -20%;
+    animation-timing-function: cubic-bezier(0.6, 0, 0.8, 0.3);
+  }
+  18%,
+  100% {
+    translate: 0 0;
+  }
+}
+
+/* il nome dell'app, sopra l'icona */
+.dock__label {
+  position: absolute;
+  bottom: calc(100% + 1cqw);
+  left: 50%;
+  padding: 0.3cqw 0.9cqw;
+  border-radius: 0.6cqw;
+  background: rgba(30, 30, 30, 0.82);
+  font-size: var(--os-font-small);
+  color: #fff;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translate(-50%, 3px);
+  transition:
+    opacity 0.12s,
+    transform 0.2s var(--ease);
+  pointer-events: none;
+}
+
+@media (hover: hover) {
+  .dock__item:hover .dock__label {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+.dock__item:focus-visible .dock__label {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* il puntino sotto le app aperte: resta sul ripiano, non cresce con l'icona */
+.dock__item.is-open::after {
+  content: '';
+  position: absolute;
+  bottom: clamp(-3px, -0.4cqw, -2px);
+  left: 50%;
+  width: 3px;
+  height: 3px;
+  margin-left: -1.5px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.72);
+}
+
+.laptop__screen.is-dark .dock__item.is-open::after {
+  background: rgba(255, 255, 255, 0.85);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dock__item.is-launching .dock__icon,
+  .dock__item.is-calling .dock__icon {
+    animation: none;
+  }
+  .dock.is-autohide {
+    transition: none;
+  }
+}

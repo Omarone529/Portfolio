@@ -1,0 +1,148 @@
+import { existsSync, readFileSync } from 'node:fs'
+import { join } from 'node:path'
+import { describe, expect, it } from 'vitest'
+import {
+  ABOUT,
+  COOKIES,
+  DESKTOP,
+  FOOTER,
+  FOOTER_NAV,
+  HERO,
+  NAV,
+  PRIVACY,
+  PROFILES,
+  PROJECTS,
+  SECTION,
+  SEO,
+  SERVICES,
+  SITE,
+  anchor,
+} from '@/content'
+import { gmailCompose } from '@/lib/mail'
+
+const publicFile = (path) => existsSync(join(process.cwd(), 'public', path))
+
+/** Larghezza e altezza di un file webp, lette dall'intestazione (VP8, VP8L o VP8X). */
+function webpSize(path) {
+  const b = readFileSync(join(process.cwd(), 'public', path))
+  const chunk = b.toString('ascii', 12, 16)
+  if (chunk === 'VP8X') return [1 + b.readUIntLE(24, 3), 1 + b.readUIntLE(27, 3)]
+  if (chunk === 'VP8L') {
+    const bits = b.readUInt32LE(21)
+    return [1 + (bits & 0x3fff), 1 + ((bits >> 14) & 0x3fff)]
+  }
+  return [b.readUInt16LE(26) & 0x3fff, b.readUInt16LE(28) & 0x3fff]
+}
+
+describe('navigation', () => {
+  it('points only at sections that exist', () => {
+    const ids = Object.values(SECTION)
+    for (const item of NAV) expect(ids).toContain(item.href.slice(1))
+  })
+
+  it('uses unique section ids', () => {
+    const ids = Object.values(SECTION)
+    expect(new Set(ids).size).toBe(ids.length)
+  })
+})
+
+describe('projects', () => {
+  it('have unique titles', () => {
+    const titles = PROJECTS.map((p) => p.title)
+    expect(new Set(titles).size).toBe(titles.length)
+  })
+
+  it.each(PROJECTS)('$title has the fields the stack and the panel need', (project) => {
+    expect(project.tag).toBeTruthy()
+    expect(project.description).toBeTruthy()
+    expect(project.tint).toMatch(/^#[0-9a-f]{6}$/i)
+    expect(publicFile(project.logo)).toBe(true)
+  })
+
+  it.each(PROJECTS.filter((p) => p.video))('$title ships its demo and poster', (project) => {
+    expect(publicFile(project.video)).toBe(true)
+    expect(publicFile(project.poster)).toBe(true)
+  })
+
+  it('opens external sites over https only', () => {
+    for (const p of PROJECTS.filter((p) => p.href)) expect(p.href).toMatch(/^https:\/\//)
+  })
+
+  it('puts at least one demo on the laptop', () => {
+    expect(PROJECTS.some((p) => p.video && p.poster)).toBe(true)
+  })
+})
+
+describe('footer', () => {
+  it('lists the email and Instagram as contacts', () => {
+    expect(FOOTER.instagram.href).toBe(PROFILES.find((p) => p.label === 'Instagram').href)
+    expect(FOOTER.instagram.handle).toMatch(/^@/)
+  })
+
+  it('does not link to the contact section it is part of', () => {
+    expect(FOOTER_NAV.map((item) => item.href)).not.toContain(anchor(SECTION.contact))
+  })
+})
+
+describe('logo', () => {
+  it('ships at its declared size', () => {
+    expect(publicFile(SITE.logo.src)).toBe(true)
+    expect(webpSize(SITE.logo.src)).toEqual(SITE.logo.size)
+  })
+})
+
+describe('wallpapers', () => {
+  it.each(DESKTOP.settings.wallpapers)('$name has a file of the declared size', (wall) => {
+    expect(publicFile(wall.src)).toBe(true)
+    expect(webpSize(wall.src)).toEqual(DESKTOP.wallpaperSize)
+  })
+})
+
+describe('services', () => {
+  it.each(SERVICES)('$title has what search engines and llms.txt need', (service) => {
+    expect(service.kicker).toBeTruthy()
+    expect(service.text).toBeTruthy()
+  })
+})
+
+describe('search copy', () => {
+  it('fits the lengths search results show without cutting', () => {
+    expect(SEO.title.length).toBeLessThanOrEqual(60)
+    expect(SEO.description.length).toBeLessThanOrEqual(160)
+  })
+})
+
+describe('legal documents', () => {
+  it.each([PRIVACY, COOKIES])('$title has a path, an ISO date and complete sections', (doc) => {
+    expect(doc.path).toMatch(/^\/[a-z-]+\/$/)
+    expect(Number.isNaN(Date.parse(doc.updated))).toBe(false)
+    for (const section of doc.sections) {
+      expect(section.heading).toBeTruthy()
+      expect(section.body.length).toBeGreaterThan(0)
+    }
+  })
+
+  it('give a way to reach the controller, straight in Gmail', () => {
+    expect(JSON.stringify(PRIVACY)).toContain(gmailCompose(SITE.email))
+    expect(JSON.stringify(COOKIES)).toContain(gmailCompose(SITE.email))
+  })
+
+  it('are linked from the footer', () => {
+    const hrefs = FOOTER.links.map((l) => l.href)
+    expect(hrefs).toEqual(expect.arrayContaining([PRIVACY.path, COOKIES.path]))
+  })
+})
+
+describe('image sizes', () => {
+  // le misure dichiarate riservano lo spazio prima che il file arrivi: se non coincidono la pagina salta
+  const images = [
+    [HERO.photo.src, HERO.photo.size],
+    [HERO.photo.wide.src, HERO.photo.wide.size],
+    [ABOUT.portrait.src, ABOUT.portrait.size],
+    ...PROJECTS.map((p) => [p.logo, p.logoSize]),
+  ]
+
+  it.each(images)('%s is declared at its real size', (src, size) => {
+    expect(webpSize(src)).toEqual(size)
+  })
+})

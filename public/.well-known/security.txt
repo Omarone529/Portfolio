@@ -1,0 +1,4 @@
+Contact: mailto:omar.bayadi.lavoro@gmail.com
+Expires: 2027-11-04T00:00:00.000Z
+Preferred-Languages: it, en
+Canonical: https://omarbayadi.com/.well-known/security.txt

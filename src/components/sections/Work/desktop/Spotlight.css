@@ -1,0 +1,74 @@
+/* Spotlight: la ricerca al centro dello schermo. */
+
+.spotlight {
+  position: absolute;
+  inset: 0;
+  z-index: 70;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 14%;
+}
+
+.spotlight__panel {
+  width: min(60%, 560px);
+  min-width: 220px;
+  overflow: hidden;
+  border: 1px solid var(--os-line);
+  border-radius: 12px;
+  background: var(--os-glass);
+  backdrop-filter: blur(24px);
+  box-shadow: 0 16px 44px -12px rgba(0, 0, 0, 0.55);
+  color: var(--os-text);
+}
+
+.spotlight input {
+  width: 100%;
+  padding: 0.5em 0.7em;
+  border: 0;
+  background: none;
+  color: inherit;
+  font-size: clamp(12px, 2cqw, 20px);
+  outline: none;
+}
+
+.spotlight ul {
+  margin: 0;
+  padding: 0.3em;
+  border-top: 1px solid var(--os-line);
+  font-size: var(--os-font);
+  list-style: none;
+}
+
+.spotlight li button {
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  width: 100%;
+  padding: 0.3em 0.5em;
+  border-radius: 6px;
+  text-align: left;
+}
+
+.spotlight li button.is-active {
+  background: var(--os-accent);
+  color: #fff;
+}
+
+.spotlight small {
+  margin-left: auto;
+  opacity: 0.65;
+}
+
+.spotlight__icon {
+  flex: none;
+  width: 1.8em;
+  height: 1.8em;
+  overflow: hidden;
+  border-radius: 22%;
+}
+
+.spotlight__empty {
+  padding: 0.4em 0.6em;
+  color: var(--os-muted);
+}

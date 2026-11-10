@@ -1,0 +1,521 @@
+/* lo spazio in fondo lascia passare il bordo obliquo del footer senza toccare il portatile */
+.work {
+  padding-bottom: calc(var(--edge-rise) + 80px);
+}
+
+.work__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  margin-top: 40px;
+}
+
+.work__side {
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  padding: 24px 0 48px;
+}
+
+/* ---------- portatile ---------- */
+
+.laptop-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* largo quanto la colonna, ma mai più alto dello schermo */
+.laptop {
+  width: min(100%, calc((100svh - 120px) * 1.6));
+  margin-inline: auto;
+}
+
+/* sul telefono il coperchio è quasi largo quanto la base: lo schermo è già piccolo */
+.laptop__lid {
+  position: relative;
+  width: 94%;
+  margin-inline: auto;
+  padding: 1.6% 1.6% 2.2%;
+  border-radius: 16px 16px 0 0;
+  background: #1b1b1d;
+  box-shadow: inset 0 0 0 1px #3a3a3c;
+}
+
+/* la fotocamera, al centro della cornice */
+.laptop__lid::before {
+  content: '';
+  position: absolute;
+  top: 0.6%;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #2c2c2e;
+  transform: translateX(-50%);
+}
+
+/* tiene il posto del display, così il portatile non si svuota quando lui va a schermo intero */
+.laptop__slot {
+  position: relative;
+  aspect-ratio: 16 / 10;
+}
+
+.laptop__screen {
+  /* almeno 24px: i menu sono bersagli da toccare; nell'anteprima piccola (is-compact) torna in proporzione */
+  --menubar: clamp(24px, 3cqw, 28px);
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  container-type: inline-size;
+  border-radius: 4px;
+  background-position: center;
+  background-size: cover;
+}
+
+/* il contenuto del display: un livello solo, che nell'anteprima piccola diventa inerte */
+.desktop {
+  position: absolute;
+  inset: 0;
+}
+
+.laptop__screen.is-compact {
+  --menubar: clamp(14px, 3cqw, 28px);
+}
+
+/*
+ * nell'anteprima piccola niente sfocature: sopra un video in riproduzione il browser le ricalcolerebbe a ogni
+ * fotogramma mentre si scorre la pagina, e a quella misura non si notano; basta un fondo un po' più coprente
+ */
+.laptop__screen.is-compact .desktop__menubar {
+  backdrop-filter: none;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.laptop__screen.is-compact .dock {
+  backdrop-filter: none;
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.laptop__screen.is-compact.is-dark .desktop__menubar,
+.laptop__screen.is-compact.is-dark-wall .desktop__menubar {
+  background: rgba(20, 20, 22, 0.6);
+}
+
+.laptop__screen.is-compact.is-dark .dock {
+  background: rgba(30, 30, 32, 0.7);
+}
+
+/* nell'anteprima piccola tutto il display è un bottone che lo apre a schermo intero */
+.laptop__open {
+  position: absolute;
+  inset: 0;
+  z-index: 110;
+  cursor: zoom-in;
+}
+
+.laptop__open:focus-visible {
+  outline: 2px solid var(--fg);
+  outline-offset: 3px;
+}
+
+/* a schermo intero il display copre tutta la finestra del browser */
+.laptop__screen.is-full,
+.laptop__screen:fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  border-radius: 0;
+}
+
+.laptop__base {
+  position: relative;
+  height: clamp(9px, 1.6vw, 18px);
+  border-radius: 2px 2px 14px 14px;
+  background: linear-gradient(#e3e4e6, #a7a9ad);
+  box-shadow: 0 18px 40px -18px rgba(0, 0, 0, 0.45);
+}
+
+/* l'incavo per aprire il coperchio */
+.laptop__base::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 14%;
+  height: 45%;
+  border-radius: 0 0 8px 8px;
+  background: #b9bbbe;
+  transform: translateX(-50%);
+}
+
+/* ---------- barra dei menu ---------- */
+
+.desktop__menubar {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--menubar);
+  padding-inline: 2.4cqw;
+  background: rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(12px);
+  font-size: clamp(7px, 1.4cqw, 13px);
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.desktop__app {
+  font-weight: 600;
+}
+
+.desktop__status {
+  display: flex;
+  align-items: center;
+  gap: 0.8cqw;
+  height: 100%;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- finestre ---------- */
+
+/* posizione e misure arrivano in percentuale dallo stato; ingrandire e ripristinare scorrono */
+.app-window {
+  position: absolute;
+  transition:
+    left 0.45s var(--ease),
+    top 0.45s var(--ease),
+    width 0.45s var(--ease),
+    height 0.45s var(--ease),
+    translate 0.4s var(--ease),
+    scale 0.4s var(--ease);
+}
+
+.app-window.is-dragging {
+  transition: none;
+}
+
+/* la finestra del browser che contiene la demo */
+.window {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  border-radius: clamp(5px, 1cqw, 10px);
+  background: var(--os-surface);
+  color: var(--os-text);
+  box-shadow: 0 1.2cqw 3cqw -1.2cqw rgba(0, 0, 0, 0.4);
+  transition: box-shadow 0.3s;
+}
+
+.app-window.is-focused .window {
+  box-shadow: 0 2.4cqw 6cqw -1.5cqw rgba(0, 0, 0, 0.55);
+}
+
+/* la barra del titolo si afferra per spostare la finestra */
+.window__bar {
+  position: relative;
+  flex: none;
+  display: flex;
+  align-items: center;
+  height: clamp(24px, 3.2cqw, 30px);
+  padding: 0 1.4cqw 0 calc(1.4cqw - 6px);
+  border-bottom: 1px solid var(--os-line);
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+}
+
+.app-window.is-dragging .window__bar {
+  cursor: grabbing;
+}
+
+.window__dots {
+  position: relative;
+  z-index: 1;
+  display: flex;
+}
+
+/* nell'anteprima piccola barre e pallini tornano in proporzione al display */
+.laptop__screen.is-compact .window__bar {
+  height: clamp(14px, 3.2cqw, 30px);
+  padding-left: 1.4cqw;
+}
+
+/*
+ * i tre pallini: il bottone è largo almeno 24px, il minimo per un bersaglio da toccare, e il pallino
+ * visibile (::before) resta piccolo al centro. Nell'anteprima piccola i comandi sono fermi, quindi
+ * lì il bottone si stringe attorno al pallino.
+ */
+.window__dot {
+  --dot: clamp(6px, 1cqw, 12px);
+  --dot-color: #ff5f57;
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+}
+
+.laptop__screen.is-compact .window__dot {
+  width: calc(var(--dot) + 3px);
+  height: calc(var(--dot) + 3px);
+}
+
+.window__dot--min {
+  --dot-color: #febc2e;
+}
+
+.window__dot--max {
+  --dot-color: #28c840;
+}
+
+/* nelle finestre in secondo piano i pallini sono grigi, come nei sistemi veri */
+.app-window:not(.is-focused) .window__dot {
+  --dot-color: #cfcfd1;
+}
+
+.window__dot::before,
+.window__dot::after {
+  grid-area: 1 / 1;
+}
+
+.window__dot::before {
+  content: '';
+  width: var(--dot);
+  height: var(--dot);
+  border-radius: 50%;
+  background: var(--dot-color);
+}
+
+/* i simboli compaiono passando sopra i pallini */
+.window__dot::after {
+  font-size: clamp(6px, 1cqw, 11px);
+  font-weight: 600;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.55);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.window__dot--close::after {
+  content: '×';
+}
+
+.window__dot--min::after {
+  content: '−';
+}
+
+.window__dot--max::after {
+  content: '+';
+}
+
+.window__dots:hover .window__dot::after,
+.window__dot:focus-visible::after {
+  opacity: 1;
+}
+
+/* l'indirizzo sta al centro della barra, come nei browser */
+.window__address {
+  position: absolute;
+  left: 50%;
+  max-width: 50%;
+  overflow: hidden;
+  padding: 0.3cqw 1.4cqw;
+  border-radius: 0.6cqw;
+  background: var(--os-raised);
+  font-size: clamp(7px, 1.2cqw, 12px);
+  color: var(--os-muted);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transform: translateX(-50%);
+}
+
+.window__screen {
+  flex: 1;
+  display: grid;
+  place-items: stretch;
+  min-height: 0;
+  overflow: hidden;
+  background: var(--os-surface);
+}
+
+/* a schermo intero la demo si vede tutta, anche se la finestra ha un'altra forma */
+.laptop__screen.is-full .project-video {
+  object-fit: contain;
+}
+
+/* il canvas dell'effetto genio: sopra le finestre, sotto il dock, così la finestra entra nell'icona */
+.genie {
+  position: absolute;
+  inset: 0;
+  z-index: 45;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* ---------- schermo intero ---------- */
+
+/* a schermo intero su un telefono il display è piccolo: barre, pallini e testi non scendono sotto una misura leggibile */
+.laptop__screen.is-full {
+  --menubar: clamp(26px, 3cqw, 30px);
+}
+
+.laptop__screen.is-full .desktop__menubar {
+  font-size: clamp(12px, 1.4cqw, 14px);
+}
+
+.laptop__screen.is-full .window__bar {
+  height: clamp(26px, 3.2cqw, 34px);
+}
+
+.laptop__screen.is-full .window__dot {
+  --dot: 12px;
+}
+
+.laptop__screen.is-full .window__address {
+  font-size: 12px;
+}
+
+/* in verticale la finestra si accorcia attorno alla demo, invece di lasciarle fasce vuote sopra e sotto */
+/* telefono a schermo intero (is-phone): ogni finestra riempie lo spazio tra la barra in alto e il dock, come su iPhone */
+
+.laptop__screen.is-phone .app-window.is-max {
+  height: calc(100% - var(--menubar) - 60px) !important;
+}
+
+@media (orientation: portrait) {
+  .laptop__screen.is-full .app-window:not(.is-max) {
+    height: auto !important;
+  }
+  .laptop__screen.is-full .app-window:not(.is-max) .window__screen {
+    flex: none;
+    aspect-ratio: 16 / 9;
+  }
+}
+
+/* ---------- comandi sotto il portatile ---------- */
+
+.laptop__controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.laptop__switcher {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.laptop__switcher button,
+.laptop__full {
+  min-height: var(--tap);
+  padding: 0 16px;
+  border: 1px solid var(--line);
+  border-radius: 99px;
+  font-size: 15px;
+  transition:
+    background 0.3s,
+    color 0.3s,
+    border-color 0.3s;
+}
+
+.laptop__switcher button[aria-pressed='true'] {
+  border-color: var(--fg);
+  background: var(--fg);
+  color: var(--white);
+}
+
+.laptop__full {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.laptop__full:hover {
+  border-color: var(--fg);
+}
+
+/* ---------- didascalia ---------- */
+
+/* altezza riservata: cambiando progetto la pagina sotto non salta */
+.laptop__caption {
+  min-height: 170px;
+  font-size: 15px;
+}
+
+.laptop__heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 12px;
+}
+
+.laptop__count {
+  font-size: 15px;
+  font-variant-numeric: tabular-nums;
+}
+
+.laptop__title {
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.laptop__description {
+  max-width: 52ch;
+  padding: 6px 0 14px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-window {
+    transition: none;
+  }
+}
+
+/* ---------- media dei progetti ---------- */
+
+.project-logo {
+  width: calc(var(--logo-scale) * 100%);
+  height: calc(var(--logo-scale) * 100%);
+  object-fit: contain;
+}
+
+.project-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (width >= 48rem) {
+  .laptop__lid {
+    width: 86%;
+  }
+  .work__layout {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    gap: 48px;
+  }
+  .work__side {
+    padding: 24px 0 40px;
+  }
+  .laptop__caption {
+    min-height: 140px;
+  }
+  /* da tablet in su il dock è abbastanza grande */
+  .laptop__switcher {
+    display: none;
+  }
+}
+
+/* desktop: il portatile prende più spazio, così la demo si vede bene */
+@media (width > 64rem) {
+  .work__layout {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+    gap: 64px;
+  }
+}

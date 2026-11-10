@@ -1,61 +1,64 @@
+# Deploy su Netlify: export statico, nessuna funzione, nessun server.
+
 [build]
   command = "npm run build"
   publish = "out"
 
 [build.environment]
   NODE_VERSION = "22"
+  NPM_FLAGS = "--no-audit --no-fund"
 
 # ---------------------------------------------------------------------------
-# Redirects from the previous hand-written site.
-# Those URLs are indexed; without these the ranking they earned is thrown away.
-# Order matters: Netlify applies the first rule that matches.
+# Header di sicurezza, su ogni risposta.
 # ---------------------------------------------------------------------------
+# La CSP ammette solo risorse dello stesso dominio. 'unsafe-inline' resta per
+# script e stili perché un export statico non può generare nonce: Next scrive
+# script di idratazione inline e le animazioni scrivono stili inline. Il sito
+# non carica nulla da terzi (i font sono serviti dal dominio stesso), quindi
+# connect, font, media e immagini restano chiusi a 'self'.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self'; font-src 'self'; connect-src 'self'; manifest-src 'self'; worker-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
+    Strict-Transport-Security = "max-age=63072000; includeSubDomains"
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=(), usb=(), browsing-topics=()"
+    Cross-Origin-Opener-Policy = "same-origin"
 
-# The old English pages lived at the Italian URL plus ?lang=en. They now have
-# addresses of their own, so the query-string variants are matched first.
-[[redirects]]
-  from = "/"
-  query = { lang = "en" }
-  to = "/en/"
-  status = 301
-  force = true
+# ---------------------------------------------------------------------------
+# Cache.
+# ---------------------------------------------------------------------------
+# I file di Next hanno un hash nel nome: cambiano indirizzo quando cambiano, quindi possono restare in cache per sempre.
+[[headers]]
+  for = "/_next/static/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
 
-[[redirects]]
-  from = "/index.html"
-  query = { lang = "en" }
-  to = "/en/"
-  status = 301
-  force = true
+# Foto, loghi e video hanno nomi fissi: una settimana, poi si riconvalida senza bloccare la pagina.
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800, stale-while-revalidate=86400"
 
-[[redirects]]
-  from = "/progetti/timesheet-manager.html"
-  query = { lang = "en" }
-  to = "/en/projects/timesheet-manager/"
-  status = 301
-  force = true
+[[headers]]
+  for = "/projects/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800, stale-while-revalidate=86400"
 
-[[redirects]]
-  from = "/progetti/mbm-meccanica.html"
-  query = { lang = "en" }
-  to = "/en/projects/mbm-meccanica/"
-  status = 301
-  force = true
+[[headers]]
+  for = "/llms.txt"
+  [headers.values]
+    Content-Type = "text/markdown; charset=utf-8"
 
-[[redirects]]
-  from = "/progetti/apexgps.html"
-  query = { lang = "en" }
-  to = "/en/projects/apexgps/"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/progetti/synapsi.html"
-  query = { lang = "en" }
-  to = "/en/projects/synapsi/"
-  status = 301
-  force = true
-
-# Italian pages: same content, extension dropped.
+# ---------------------------------------------------------------------------
+# Redirect permanenti dagli indirizzi del sito precedente.
+# ---------------------------------------------------------------------------
+# Quelle pagine sono indicizzate: un 301 verso la pagina che oggi contiene lo
+# stesso contenuto conserva il posizionamento che hanno guadagnato. Le pagine
+# dei singoli progetti ora sono la sezione Case study della home; /privacy/ resta
+# dov'era.
 [[redirects]]
   from = "/index.html"
   to = "/"
@@ -63,60 +66,26 @@
   force = true
 
 [[redirects]]
-  from = "/progetti/timesheet-manager.html"
-  to = "/progetti/timesheet-manager/"
+  from = "/progetti/*"
+  to = "/#work"
   status = 301
   force = true
 
 [[redirects]]
-  from = "/progetti/mbm-meccanica.html"
-  to = "/progetti/mbm-meccanica/"
+  from = "/en/projects/*"
+  to = "/#work"
   status = 301
   force = true
 
+# l'informativa inglese ha ora una sola versione, in italiano, allo stesso indirizzo di prima
 [[redirects]]
-  from = "/progetti/apexgps.html"
-  to = "/progetti/apexgps/"
+  from = "/en/privacy/*"
+  to = "/privacy/"
   status = 301
   force = true
 
-[[redirects]]
-  from = "/progetti/synapsi.html"
-  to = "/progetti/synapsi/"
-  status = 301
-  force = true
-
-# ---------------------------------------------------------------------------
-# The English 404
-# ---------------------------------------------------------------------------
-
-# Netlify serves out/404.html for anything missing, and that file is Italian.
-# This rule answers in English for the English half of the site. It is last
-# because it matches a whole subtree, and it is not forced, so it fires only
-# where no exported file exists.
 [[redirects]]
   from = "/en/*"
-  to = "/en/404/index.html"
-  status = 404
-
-# ---------------------------------------------------------------------------
-# Headers
-# ---------------------------------------------------------------------------
-
-[[headers]]
-  for = "/*"
-  [headers.values]
-    X-Content-Type-Options = "nosniff"
-    Referrer-Policy = "strict-origin-when-cross-origin"
-    X-Frame-Options = "SAMEORIGIN"
-
-# Hashed build assets never change under the same name.
-[[headers]]
-  for = "/_next/static/*"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
-[[headers]]
-  for = "/assets/*"
-  [headers.values]
-    Cache-Control = "public, max-age=604800"
+  to = "/"
+  status = 301
+  force = true

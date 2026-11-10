@@ -1,0 +1,178 @@
+/*
+ * Ordine dei livelli: la pagina (main, z 1) copre il footer fisso (z 0); il
+ * triangolo del bordo (z 2) sta sopra a entrambi. Lo slot non crea un proprio
+ * contesto di livelli, così questi valori valgono per tutta la pagina.
+ */
+.footer-slot {
+  position: relative;
+}
+
+.footer-slot > .edge {
+  z-index: 2;
+}
+
+.footer {
+  position: relative;
+  overflow: hidden;
+  background: var(--footer);
+}
+
+/* vedi Footer.jsx: invisibile finché non sa dove stare e, da fisso, finché è coperto (senza JavaScript lo riapre layout.jsx) */
+.footer--pending {
+  visibility: hidden;
+}
+
+.footer--reveal {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+}
+
+.footer__inner {
+  position: relative;
+  z-index: 1;
+  /* alto almeno quanto lo schermo: a fine pagina il footer lo copre tutto, senza lasciare una fascia della sezione sopra */
+  display: flex;
+  flex-direction: column;
+  min-height: 100svh;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 72px var(--gutter) 24px;
+}
+
+.footer__rule {
+  display: block;
+  height: 1px;
+  background: var(--line);
+}
+
+.footer__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 48px;
+  padding: 72px 0;
+}
+
+.footer__title {
+  font-size: clamp(30px, 4.3vw, 54px);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+}
+
+/*
+ * L'indirizzo email non si spezza: la misura segue la larghezza dello schermo.
+ * Il padding verticale lo rende alto quanto un dito, il margine negativo lo lascia dov'era.
+ */
+.footer__mail {
+  display: block;
+  padding-block: 13px;
+  margin: -13px 0 43px;
+  font-size: 5.4vw;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+}
+
+.footer__mail .roll {
+  height: 1.05em;
+  line-height: 1.05;
+}
+
+.footer__nav {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ogni voce alta almeno quanto un dito */
+.footer__link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: var(--tap);
+  padding: 8px 0 10px;
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.65);
+  transition: color 0.4s var(--ease);
+}
+
+.footer__link:first-child {
+  color: var(--fg);
+}
+
+.footer__link:hover {
+  color: var(--fg);
+}
+
+.footer__bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-top: auto;
+  padding-top: 64px;
+}
+
+.footer__name {
+  margin-left: 0.02em;
+  font-family: var(--font-display);
+  font-size: clamp(90px, 19vw, 280px);
+  font-weight: 900;
+  line-height: 0.74;
+  letter-spacing: -0.06em;
+}
+
+.footer__legal {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 17px;
+}
+
+.footer__policies {
+  display: flex;
+  gap: 20px;
+  font-size: 15px;
+}
+
+/* alti quanto un dito, senza spostare la riga */
+.footer__policies a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap);
+  margin-block: -12px;
+  color: rgba(255, 255, 255, 0.65);
+  transition: color 0.4s var(--ease);
+}
+
+.footer__policies a:hover {
+  color: var(--fg);
+}
+
+@media (width >= 48rem) {
+  .footer__inner {
+    padding-top: 120px;
+  }
+  .footer__grid {
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  }
+  .footer__mail {
+    font-size: clamp(22px, 3.4vw, 54px);
+  }
+  /* la prima voce si allinea al titolo che le sta accanto */
+  .footer__link:first-child {
+    min-height: 0;
+    padding-top: 0;
+  }
+  .footer__bottom {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .footer__legal {
+    text-align: right;
+  }
+  .footer__policies {
+    justify-content: flex-end;
+  }
+}

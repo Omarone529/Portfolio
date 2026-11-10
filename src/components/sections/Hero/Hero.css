@@ -1,0 +1,227 @@
+.hero {
+  position: sticky;
+  top: 0;
+  z-index: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+  height: 100svh;
+  min-height: 560px;
+  padding: var(--gutter);
+  overflow: hidden;
+  color: var(--white);
+  font-size: 17px;
+  /* tinta media della foto, visibile solo finché non è caricata */
+  background: #3e4c55;
+}
+
+.hero__media,
+.hero__grad,
+.hero__shade {
+  position: absolute;
+  inset: 0;
+}
+
+/*
+ * foto e velo cambiano a ogni fotogramma mentre si scorre: su livelli propri il browser li sposta
+ * e li sfuma senza ridisegnarli, che sui telefoni è la differenza tra uno scroll fluido e uno a scatti
+ */
+.hero__media {
+  will-change: transform;
+}
+
+.hero__shade {
+  will-change: opacity;
+}
+
+/* dove il browser sa legarle allo scroll, zoom e velo sono animazioni CSS: stessi valori di useScroll in Hero.jsx */
+@supports (animation-timeline: scroll()) {
+  .hero--native .hero__media {
+    animation: hero-zoom linear both;
+    animation-timeline: scroll(root);
+    animation-range: 0 1000px;
+  }
+  .hero--native .hero__shade {
+    animation: hero-shade linear both;
+    animation-timeline: scroll(root);
+    animation-range: 0 900px;
+  }
+}
+
+@keyframes hero-zoom {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.12);
+  }
+}
+
+@keyframes hero-shade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0.55;
+  }
+}
+
+/* il <picture> non deve fare da scatola: la foto si misura su .hero__media */
+.hero__media picture {
+  display: contents;
+}
+
+.hero__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 40%;
+}
+
+/*
+ * stessa soglia del <source> in Hero.jsx: col taglio 16:9, se lo schermo è ancora più largo si perde
+ * solo cielo dall'alto. La figura resta intera fino al bordo basso e sembra ripresa da più lontano.
+ */
+@media (min-aspect-ratio: 1/1) {
+  .hero__media img {
+    object-position: 50% 100%;
+  }
+}
+
+.hero__grad {
+  background:
+    linear-gradient(180deg, rgba(10, 20, 28, 0.35) 0%, rgba(10, 20, 28, 0) 32%),
+    linear-gradient(90deg, rgba(10, 20, 28, 0.35) 0%, rgba(10, 20, 28, 0) 45%),
+    linear-gradient(0deg, rgba(10, 20, 28, 0.45) 0%, rgba(10, 20, 28, 0) 40%);
+}
+
+.hero__shade {
+  background: var(--black);
+}
+
+.hero__intro {
+  position: relative;
+  margin-top: 16vh;
+  margin-bottom: auto;
+}
+
+.hero__tagline {
+  margin-bottom: 40px;
+  line-height: 1.32;
+}
+
+/* "su misura." entra tenue con le altre righe, poi si accende: è l'ultima parola, quella da ricordare */
+.hero__tagline .dim {
+  animation: tagline-light 1.2s var(--ease) 1.3s both;
+}
+
+@keyframes tagline-light {
+  from {
+    opacity: 0.5;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* senza animazioni la frase è subito tutta bianca */
+@media (prefers-reduced-motion: reduce) {
+  .hero__tagline .dim {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+.hero__bottom {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.hero__services {
+  line-height: 1.65;
+}
+
+/* ---------- barra di navigazione ---------- */
+
+.nav-bar {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  font-size: 15px;
+}
+
+/* "Menu" alto quanto un dito, con un margine negativo che lo lascia dov'era a vista (il logo fa lo stesso) */
+.menu-btn {
+  min-height: var(--tap);
+  margin-block: calc((var(--tap) - 1.25em) / -2);
+}
+
+/* sul telefono i link stanno nel menu a tutto schermo */
+.nav {
+  display: none;
+}
+
+/* alti quanto un dito anche su tablet, con lo stesso margine negativo del logo e di "Menu" */
+.nav__link {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap);
+  margin-block: calc((var(--tap) - 1.25em) / -2);
+}
+
+.menu-btn {
+  justify-self: end;
+  padding-inline: 8px;
+  margin-inline-end: -8px;
+}
+
+.menu {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--gutter);
+  color: var(--white);
+  font-size: 15px;
+  background: var(--dark);
+}
+
+.menu__close {
+  position: absolute;
+  top: calc(var(--gutter) - (var(--tap) - 1.25em) / 2);
+  right: calc(var(--gutter) - 8px);
+  min-height: var(--tap);
+  padding-inline: 8px;
+}
+
+.menu__link {
+  display: flex;
+  align-items: center;
+  min-height: calc(var(--tap) + 12px);
+  font-size: clamp(36px, 11vw, 48px);
+  line-height: 1.1;
+  letter-spacing: -0.04em;
+}
+
+@media (width >= 48rem) {
+  .hero__intro {
+    margin-top: 17vh;
+  }
+  .nav-bar {
+    grid-template-columns: 1fr auto 1fr;
+    align-items: start;
+  }
+  .nav {
+    display: flex;
+    gap: clamp(24px, 4.2vw, 64px);
+    margin-top: -4px;
+  }
+  .menu-btn {
+    display: none;
+  }
+}

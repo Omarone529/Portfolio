@@ -1,0 +1,43 @@
+/* Impostazioni: sfondi, aspetto e dock. */
+
+.settings {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6em;
+  padding: 1em;
+  overflow-y: auto;
+}
+
+.settings h4 {
+  margin: 0.5em 0 0;
+  font-size: inherit;
+  font-weight: 600;
+}
+
+.settings__walls {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.6em;
+}
+
+.settings__walls button {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25em;
+  font-size: var(--os-font-small);
+}
+
+.settings__walls img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border-radius: 5px;
+  outline: 1px solid var(--os-line);
+}
+
+.settings__walls button[aria-pressed='true'] img {
+  outline: 2px solid var(--os-accent);
+  outline-offset: 1px;
+}

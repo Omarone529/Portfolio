@@ -1,0 +1,406 @@
+/* I colori del sistema: chiaro di base, scuro con is-dark. */
+.laptop__screen {
+  --os-surface: #f6f6f7;
+  --os-raised: #fff;
+  --os-text: rgba(0, 0, 0, 0.85);
+  --os-muted: rgba(0, 0, 0, 0.55);
+  --os-line: rgba(0, 0, 0, 0.12);
+  --os-glass: rgba(246, 246, 248, 0.82);
+  --os-accent: #2f7fdc;
+  --os-font: clamp(8px, 1.3cqw, 13px);
+  --os-font-small: clamp(7px, 1.1cqw, 11px);
+}
+
+.laptop__screen.is-dark {
+  --os-surface: #2a2a2d;
+  --os-raised: #3a3a3e;
+  --os-text: rgba(255, 255, 255, 0.92);
+  --os-muted: rgba(255, 255, 255, 0.58);
+  --os-line: rgba(255, 255, 255, 0.14);
+  --os-glass: rgba(44, 44, 48, 0.82);
+}
+
+.laptop__screen.is-dark .desktop__menubar,
+.laptop__screen.is-dark-wall .desktop__menubar {
+  background: rgba(20, 20, 22, 0.45);
+  color: rgba(255, 255, 255, 0.92);
+}
+
+/* ---------- barra dei menu ---------- */
+
+.desktop__menus {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.desktop__menu {
+  min-width: 24px;
+  height: 100%;
+  padding-inline: 0.8cqw;
+  border-radius: 3px;
+}
+
+.desktop__menu.is-active,
+.desktop__glyph.is-active {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.desktop__mark {
+  display: block;
+  width: 1.1em;
+  aspect-ratio: 1;
+  border: 0.2em solid currentcolor;
+  border-radius: 50%;
+}
+
+.desktop__mark--large {
+  width: 44px;
+}
+
+.desktop__glyph {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  aspect-ratio: 1.3;
+  border-radius: 3px;
+}
+
+.desktop__glyph svg {
+  width: 1.1em;
+  fill: none;
+  stroke: currentcolor;
+  stroke-width: 1.5;
+}
+
+.desktop__menubar .desktop__app {
+  margin-right: auto;
+  padding-left: 0.6cqw;
+  order: -1;
+}
+
+.desktop__menus {
+  order: -2;
+}
+
+/* l'ordine è: marchio, nome dell'app, poi gli altri menu */
+.desktop__menus .desktop__menu:not(.desktop__menu--mark) {
+  font-weight: 400;
+}
+
+.desktop__clock {
+  white-space: nowrap;
+}
+
+/* su display piccoli restano il marchio, il nome dell'app e l'ora */
+@container (width < 420px) {
+  .desktop__menu:not(.desktop__menu--mark) {
+    display: none;
+  }
+}
+
+/* ---------- menu a tendina ---------- */
+
+.pop-menu {
+  position: absolute;
+  z-index: 80;
+  min-width: 15em;
+  padding: 0.35em;
+  border: 1px solid var(--os-line);
+  border-radius: 7px;
+  background: var(--os-glass);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 10px 28px -8px rgba(0, 0, 0, 0.45);
+  color: var(--os-text);
+  font-size: var(--os-font);
+  outline: none;
+}
+
+.pop-menu button {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0.28em 0.6em 0.28em 0.2em;
+  border-radius: 4px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.pop-menu__check {
+  flex: none;
+  width: 1.3em;
+  text-align: center;
+}
+
+.pop-menu kbd {
+  margin-left: auto;
+  padding-left: 2em;
+  font: inherit;
+  opacity: 0.6;
+}
+
+.pop-menu button:disabled {
+  color: var(--os-muted);
+}
+
+.pop-menu button:not(:disabled):hover,
+.pop-menu button:not(:disabled):focus-visible {
+  background: var(--os-accent);
+  color: #fff;
+  outline: none;
+}
+
+.pop-menu hr {
+  margin: 0.3em 0.5em;
+  border: 0;
+  border-top: 1px solid var(--os-line);
+}
+
+/* ---------- centro di controllo ---------- */
+
+.control-center {
+  position: absolute;
+  top: calc(var(--menubar) + 4px);
+  right: 1cqw;
+  z-index: 80;
+  display: grid;
+  gap: 0.6em;
+  width: 18em;
+  padding: 0.8em;
+  border: 1px solid var(--os-line);
+  border-radius: 10px;
+  background: var(--os-glass);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 10px 28px -8px rgba(0, 0, 0, 0.45);
+  color: var(--os-text);
+  font-size: var(--os-font);
+}
+
+.control-center label,
+.settings label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1em;
+}
+
+.control-center__range {
+  flex-wrap: wrap;
+}
+
+.control-center input[type='range'] {
+  width: 100%;
+}
+
+.laptop__screen input[type='checkbox'],
+.laptop__screen input[type='range'] {
+  accent-color: var(--os-accent);
+}
+
+/* ---------- scrivania ---------- */
+
+.desktop__surface {
+  position: absolute;
+  inset: 0;
+  touch-action: none;
+}
+
+.desktop-icon {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2em;
+  width: 7.5cqw;
+  min-width: 42px;
+  font-size: var(--os-font-small);
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+  touch-action: none;
+  user-select: none;
+}
+
+.desktop-icon svg {
+  width: 62%;
+  border-radius: 4px;
+}
+
+.desktop-icon span {
+  padding: 0 0.4em;
+  border-radius: 3px;
+}
+
+.desktop-icon.is-selected svg {
+  background: rgba(0, 0, 0, 0.22);
+}
+
+.desktop-icon.is-selected span {
+  background: var(--os-accent);
+  text-shadow: none;
+}
+
+.desktop__band {
+  position: absolute;
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  background: rgba(255, 255, 255, 0.18);
+  pointer-events: none;
+}
+
+/* l'anteprima di dove si aggancerà la finestra */
+.desktop__snap {
+  position: absolute;
+  top: calc(var(--menubar) + 4px);
+  bottom: 4px;
+  z-index: 40;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(6px);
+  pointer-events: none;
+}
+
+.desktop__snap--left {
+  left: 4px;
+  right: calc(50% + 2px);
+}
+
+.desktop__snap--right {
+  left: calc(50% + 2px);
+  right: 4px;
+}
+
+.desktop__snap--max {
+  left: 4px;
+  right: 4px;
+}
+
+/* la luminosità: un velo nero sopra tutto, che non intercetta niente */
+.desktop__dim {
+  position: absolute;
+  inset: 0;
+  z-index: 90;
+  background: #000;
+  pointer-events: none;
+}
+
+/* ---------- bordi delle finestre: da qui si ridimensiona ---------- */
+
+.window__edge {
+  position: absolute;
+  touch-action: none;
+}
+
+.window__edge--n,
+.window__edge--s {
+  left: 6px;
+  right: 6px;
+  height: 8px;
+  cursor: ns-resize;
+}
+
+.window__edge--e,
+.window__edge--w {
+  top: 6px;
+  bottom: 6px;
+  width: 8px;
+  cursor: ew-resize;
+}
+
+.window__edge--n {
+  top: -4px;
+}
+
+.window__edge--s {
+  bottom: -4px;
+}
+
+.window__edge--e {
+  right: -4px;
+}
+
+.window__edge--w {
+  left: -4px;
+}
+
+.window__edge--ne,
+.window__edge--se,
+.window__edge--sw,
+.window__edge--nw {
+  width: 14px;
+  height: 14px;
+}
+
+.window__edge--ne {
+  top: -4px;
+  right: -4px;
+  cursor: nesw-resize;
+}
+
+.window__edge--se {
+  right: -4px;
+  bottom: -4px;
+  cursor: nwse-resize;
+}
+
+.window__edge--sw {
+  bottom: -4px;
+  left: -4px;
+  cursor: nesw-resize;
+}
+
+.window__edge--nw {
+  top: -4px;
+  left: -4px;
+  cursor: nwse-resize;
+}
+
+.window__address {
+  text-decoration: none;
+}
+
+a.window__address:hover {
+  color: var(--os-text);
+}
+
+/* ---------- mission control ---------- */
+
+.is-overview .app-window {
+  transform-origin: 0 0;
+}
+
+.app-window.is-thumbnail {
+  cursor: pointer;
+}
+
+.app-window.is-thumbnail .window {
+  pointer-events: none;
+}
+
+.app-window.is-thumbnail:hover .window {
+  outline: 3px solid var(--os-accent);
+}
+
+.is-thumbnail .window__edge {
+  display: none;
+}
+
+/* il titolo sotto la miniatura; la finestra è rimpicciolita, quindi il testo è più grande */
+.window__caption {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  color: #fff;
+  font-size: 22px;
+  text-align: center;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+/* copre la scrivania ma resta sotto le miniature, che hanno lo z-index del loro ordine */
+.desktop__exit {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(4px);
+}

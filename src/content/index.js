@@ -1,0 +1,11 @@
+// Tutti i contenuti del sito: i componenti leggono da qui e non contengono testi.
+export { SITE, PLACE, PROFILES, SKILLS, SECTION, NAV, anchor } from './site'
+export { HERO } from './hero'
+export { ABOUT } from './about'
+export { DEMO_SIZE, PROJECTS, WORK } from './projects'
+export { DESKTOP } from './desktop'
+export { SERVICES } from './services'
+export { FOOTER, FOOTER_NAV } from './footer'
+export { SEO } from './seo'
+export { NOT_FOUND } from './notFound'
+export { PRIVACY, COOKIES, LEGAL_UI } from './legal'

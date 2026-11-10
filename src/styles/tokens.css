@@ -1,0 +1,58 @@
+/*
+ * Token del design.
+ *
+ * Mobile first: gli stili di base sono quelli del telefono e i file di sezione
+ * li ampliano con due soli breakpoint (le custom media non esistono ancora in
+ * CSS, quindi i valori si ripetono uguali ovunque):
+ *   @media (width >= 48rem)   tablet, da 768px
+ *   @media (width > 64rem)    desktop, oltre 1024px
+ */
+:root {
+  --white: #fff;
+  --black: #000;
+  --dark: #111;
+  --footer: var(--black);
+  --tile: #f6f6f6;
+  --tile-hover: #ececec;
+  --ink-muted: rgba(0, 0, 0, 0.55);
+  --ink-line: rgba(0, 0, 0, 0.14);
+  --paper-muted: rgba(255, 255, 255, 0.5);
+  --paper-line: rgba(255, 255, 255, 0.16);
+
+  --font: var(--font-poppins), system-ui, sans-serif;
+  --font-display: var(--font);
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --gutter: 24px;
+  /* altezza minima di ciò che si tocca con un dito */
+  --tap: 44px;
+  --max-width: 1440px;
+  --radius: 4px;
+
+  /* pendenza dei bordi obliqui: quanto sale il bordo da un lato all'altro della pagina */
+  --edge-angle: 7deg;
+  --edge-rise: calc(100vw * tan(var(--edge-angle)));
+}
+
+@supports not (width: calc(1px * tan(1deg))) {
+  :root {
+    --edge-rise: 12.3vw;
+  }
+}
+
+/* I toni di sezione: sfondo, testo e i colori secondari che ne derivano. */
+.tone-light {
+  --fg: var(--black);
+  --muted: var(--ink-muted);
+  --line: var(--ink-line);
+  background: var(--white);
+  color: var(--fg);
+}
+
+.tone-dark {
+  --fg: var(--white);
+  --muted: var(--paper-muted);
+  --line: var(--paper-line);
+  background: var(--dark);
+  color: var(--fg);
+}
