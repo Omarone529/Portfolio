@@ -78,13 +78,7 @@ export default function Hero() {
       </div>
 
       <div className="hero__bottom">
-        <IntroLines
-          as="div"
-          className="hero__services"
-          delay={0.35}
-          stagger={0.06}
-          lines={HERO.services}
-        />
+        <IntroLines as="div" className="hero__services" delay={0.35} stagger={0.06} lines={HERO.services} />
       </div>
     </section>
   )
