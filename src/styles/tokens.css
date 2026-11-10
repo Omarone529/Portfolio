@@ -11,18 +11,16 @@
   --white: #fff;
   --black: #000;
   --dark: #111;
-  --footer: #161616;
+  --footer: var(--black);
   --tile: #f6f6f6;
   --tile-hover: #ececec;
   --ink-muted: rgba(0, 0, 0, 0.55);
   --ink-line: rgba(0, 0, 0, 0.14);
   --paper-muted: rgba(255, 255, 255, 0.5);
   --paper-line: rgba(255, 255, 255, 0.16);
-  /* bagliore del footer, preso dai toni del mare della foto */
-  --glow: #1f6d86;
 
-  --font: var(--font-geist), system-ui, sans-serif;
-  --font-display: var(--font-inter), var(--font-geist), system-ui, sans-serif;
+  --font: var(--font-poppins), system-ui, sans-serif;
+  --font-display: var(--font);
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
 
   --gutter: 24px;

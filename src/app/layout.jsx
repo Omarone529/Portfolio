@@ -4,7 +4,7 @@ import '@/styles/base.css'
 import '@/styles/page.css'
 import { SEO, SITE } from '@/content'
 import Providers from '@/providers/Providers'
-import { geist, inter } from './fonts'
+import { poppins } from './fonts'
 
 const NO_SCRIPT_CSS = `.page *, .footer * { opacity: 1 !important; transform: none !important; clip-path: none !important; }
 .edge { display: none !important; }
@@ -59,7 +59,7 @@ export const viewport = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang={SITE.lang} className={`${geist.variable} ${inter.variable}`}>
+    <html lang={SITE.lang} className={poppins.variable}>
       <head>
         {/* senza JavaScript le animazioni non partono: tutto ciò che entra animato resta visibile */}
         <noscript>

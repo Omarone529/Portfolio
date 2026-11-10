@@ -1,19 +1,17 @@
-import { Geist, Inter } from 'next/font/google'
+import localFont from 'next/font/local'
 
-// Scaricati e serviti dal sito stesso durante la build: nessuna richiesta a Google da chi visita.
+// File nel repo (src/app/fonts/, sottoinsieme latin da Fontsource, licenza OFL): la build non scarica nulla
+// e funziona anche offline; chi visita li riceve dal sito stesso, nessuna richiesta a Google.
 
-/** Testo di tutto il sito. */
-export const geist = Geist({
-  subsets: ['latin'],
-  weight: ['400', '500', '600'],
-  variable: '--font-geist',
-  display: 'swap',
-})
-
-/** Il logo e il nome grande del footer. */
-export const inter = Inter({
-  subsets: ['latin'],
-  weight: ['800', '900'],
-  variable: '--font-inter',
+/** Tutti i testi del sito, compreso il nome grande del footer (900). */
+export const poppins = localFont({
+  src: [
+    { path: './fonts/poppins-latin-300-normal.woff2', weight: '300', style: 'normal' },
+    { path: './fonts/poppins-latin-400-normal.woff2', weight: '400', style: 'normal' },
+    { path: './fonts/poppins-latin-500-normal.woff2', weight: '500', style: 'normal' },
+    { path: './fonts/poppins-latin-600-normal.woff2', weight: '600', style: 'normal' },
+    { path: './fonts/poppins-latin-900-normal.woff2', weight: '900', style: 'normal' },
+  ],
+  variable: '--font-poppins',
   display: 'swap',
 })

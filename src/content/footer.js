@@ -13,7 +13,6 @@ export const FOOTER = {
     handle: `@${new URL(instagram.href).pathname.replaceAll('/', '')}`,
     href: instagram.href,
   },
-  legal: `© ${SITE.year}, Tutti i diritti riservati`,
   credit: `${SITE.fullName} · ${SITE.role}`,
   links: [
     { label: 'Privacy', href: PRIVACY.path },

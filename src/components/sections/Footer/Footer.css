@@ -149,18 +149,6 @@
   color: var(--fg);
 }
 
-.footer__glow {
-  position: absolute;
-  left: 50%;
-  bottom: -55%;
-  width: 140%;
-  height: 90%;
-  transform: translateX(-50%);
-  background: radial-gradient(closest-side, var(--glow), transparent);
-  opacity: 0.9;
-  pointer-events: none;
-}
-
 @media (width >= 48rem) {
   .footer__inner {
     padding-top: 120px;

@@ -72,7 +72,6 @@ export default function Footer({ edgeTone }) {
               {SITE.name}
             </p>
             <div className="footer__legal">
-              <p>{FOOTER.legal}</p>
               <p className="muted">{FOOTER.credit}</p>
               <ul className="footer__policies">
                 {FOOTER.links.map((link) => (
@@ -86,7 +85,6 @@ export default function Footer({ edgeTone }) {
             </div>
           </div>
         </m.div>
-        <div className="footer__glow" aria-hidden="true" />
       </footer>
     </div>
   )
