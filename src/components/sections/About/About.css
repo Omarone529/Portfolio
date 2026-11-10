@@ -1,9 +1,5 @@
-.about {
-  padding-bottom: 120px;
-}
-
 .about__statement {
-  margin: 56px 0 64px;
+  margin: var(--head-space) 0 64px;
 }
 
 /* minmax(0, ...) lascia restringere le colonne sotto la larghezza del loro contenuto: niente scroll orizzontale */
@@ -55,11 +51,8 @@
 }
 
 @media (width >= 48rem) {
-  .about {
-    padding-bottom: 160px;
-  }
   .about__statement {
-    margin: 96px 0 120px;
+    margin-bottom: 120px;
     text-indent: 46%;
   }
   .about__grid {

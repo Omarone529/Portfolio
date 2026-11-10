@@ -8,7 +8,7 @@
 
 .section {
   position: relative;
-  padding: 24px 0 140px;
+  padding: 24px 0 var(--section-space);
 }
 
 /* evita la riga sub-pixel della hero tra una sezione e l'altra */

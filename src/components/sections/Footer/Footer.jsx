@@ -3,7 +3,7 @@
 import { useRef } from 'react'
 import { m, useInView, useScroll, useTransform } from 'framer-motion'
 import { FOOTER, FOOTER_NAV, SECTION, SITE } from '@/content'
-import { ArrowLink, DrawLine, EdgeWedge, MaskLines, RollText } from '@/components/primitives'
+import { ArrowLink, DrawLine, EdgeWedge, MaskLines, RollText, SectionHead } from '@/components/primitives'
 import { useElementHeight } from '@/hooks/useElementHeight'
 import { useViewportHeight } from '@/hooks/useViewportHeight'
 import './Footer.css'
@@ -44,7 +44,7 @@ export default function Footer({ edgeTone }) {
         className={`footer tone-dark ${reveal ? 'footer--reveal' : ''} ${hidden ? 'footer--pending' : ''}`}
       >
         <m.div className="footer__inner" style={reveal ? { y: innerY } : undefined}>
-          <span className="footer__rule" />
+          <SectionHead as="p" label={FOOTER.head} />
           <div className="footer__grid">
             <div>
               <MaskLines as="h2" className="footer__title muted" lines={[FOOTER.title]} />
@@ -66,7 +66,9 @@ export default function Footer({ edgeTone }) {
             </nav>
           </div>
 
-          <span className="footer__rule" />
+          <span className="footer__rule">
+            <DrawLine />
+          </span>
           <div className="footer__bottom">
             <p className="footer__name" aria-hidden="true">
               {SITE.name}

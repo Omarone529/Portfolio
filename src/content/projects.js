@@ -1,3 +1,5 @@
+import { SECTION, navLabel } from './site'
+
 /**
  * I case study. Ogni progetto ha una `description` di una frase (mostrata nel
  * Finder del portatile e nei dati strutturati) e un `logo` su un fondo `tint`
@@ -56,8 +58,8 @@ export const PROJECTS = [
 ]
 
 export const WORK = {
-  label: 'Case study',
-  title: ['Case', 'study'],
+  /** Intestazione della sezione: la voce del menu. */
+  head: navLabel(SECTION.work),
   visit: 'Visita il sito',
   /** Testi del portatile. */
   switcher: 'Scegli il progetto',

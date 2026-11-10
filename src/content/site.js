@@ -65,3 +65,6 @@ export const NAV = [
   { label: 'Progetti', href: anchor(SECTION.work) },
   { label: 'Contatti', href: anchor(SECTION.contact) },
 ]
+
+/** Il nome di una sezione nel menu: lo stesso che apre la sezione, nella sua intestazione. */
+export const navLabel = (id) => NAV.find((item) => item.href === anchor(id)).label

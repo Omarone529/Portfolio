@@ -1,5 +1,5 @@
 // Tutti i contenuti del sito: i componenti leggono da qui e non contengono testi.
-export { SITE, PLACE, PROFILES, SKILLS, SECTION, NAV, anchor } from './site'
+export { SITE, PLACE, PROFILES, SKILLS, SECTION, NAV, anchor, navLabel } from './site'
 export { HERO } from './hero'
 export { ABOUT } from './about'
 export { DEMO_SIZE, PROJECTS, WORK } from './projects'

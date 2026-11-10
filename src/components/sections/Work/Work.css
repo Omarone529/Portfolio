@@ -4,17 +4,7 @@
 }
 
 .work__layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  margin-top: 40px;
-}
-
-.work__side {
-  align-self: start;
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
-  padding: 24px 0 48px;
+  margin-top: var(--head-space);
 }
 
 /* ---------- portatile ---------- */
@@ -23,10 +13,8 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
-}
-
-/* largo quanto la colonna, ma mai più alto dello schermo */
-.laptop {
+  /* al centro della sezione: largo quanto la colonna, ma col portatile mai più alto dello schermo.
+     Didascalia e comandi stanno sotto, allineati ai suoi bordi */
   width: min(100%, calc((100svh - 120px) * 1.6));
   margin-inline: auto;
 }
@@ -496,26 +484,11 @@
   .laptop__lid {
     width: 86%;
   }
-  .work__layout {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
-    gap: 48px;
-  }
-  .work__side {
-    padding: 24px 0 40px;
-  }
   .laptop__caption {
     min-height: 140px;
   }
   /* da tablet in su il dock è abbastanza grande */
   .laptop__switcher {
     display: none;
-  }
-}
-
-/* desktop: il portatile prende più spazio, così la demo si vede bene */
-@media (width > 64rem) {
-  .work__layout {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
-    gap: 64px;
   }
 }

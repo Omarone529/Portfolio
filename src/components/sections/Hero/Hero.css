@@ -35,7 +35,7 @@
   will-change: opacity;
 }
 
-/* dove il browser sa legarle allo scroll, zoom e velo sono animazioni CSS: stessi valori di useScroll in Hero.jsx */
+/* dove il browser sa legarle allo scroll, zoom, velo e "su misura." sono animazioni CSS: stessi valori di useScroll in Hero.jsx */
 @supports (animation-timeline: scroll()) {
   .hero--native .hero__media {
     animation: hero-zoom linear both;
@@ -46,6 +46,11 @@
     animation: hero-shade linear both;
     animation-timeline: scroll(root);
     animation-range: 0 900px;
+  }
+  .hero--native .hero__tagline .dim {
+    animation: tagline-light linear both;
+    animation-timeline: scroll(root);
+    animation-range: 0 200px;
   }
 }
 
@@ -111,11 +116,7 @@
   line-height: 1.32;
 }
 
-/* "su misura." entra tenue con le altre righe, poi si accende: è l'ultima parola, quella da ricordare */
-.hero__tagline .dim {
-  animation: tagline-light 1.2s var(--ease) 1.3s both;
-}
-
+/* "su misura." entra tenue con le altre righe e si accende con lo scroll, come le parole delle altre sezioni */
 @keyframes tagline-light {
   from {
     opacity: 0.5;
@@ -127,9 +128,9 @@
 
 /* senza animazioni la frase è subito tutta bianca */
 @media (prefers-reduced-motion: reduce) {
-  .hero__tagline .dim {
+  .hero .hero__tagline .dim {
     animation: none;
-    opacity: 1;
+    opacity: 1 !important;
   }
 }
 

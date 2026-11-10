@@ -1,4 +1,4 @@
-import { HERO, PLACE, PROFILES, PROJECTS, SEO, SERVICES, SITE, SKILLS } from '@/content'
+import { HERO, PLACE, PROFILES, PROJECTS, SEO, SERVICES, SITE, SKILLS, WORK } from '@/content'
 
 /** URL assoluto di un percorso del sito ("/" → "https://omarbayadi.com/"). */
 export function absoluteUrl(path = '/') {
@@ -78,7 +78,7 @@ export function homeJsonLd() {
       {
         '@type': 'ItemList',
         '@id': ID.work,
-        name: 'Case study',
+        name: WORK.head,
         itemListElement: PROJECTS.map((project, i) => ({
           '@type': 'ListItem',
           position: i + 1,
