@@ -2,7 +2,7 @@
 
 import { PROJECTS, SECTION, WORK } from '@/content'
 import { Container, Section } from '@/components/layout/Section'
-import { MaskLines, SectionHead } from '@/components/primitives'
+import { MaskLines } from '@/components/primitives'
 import Laptop from './Laptop'
 import './Work.css'
 
@@ -17,12 +17,10 @@ export default function Work() {
   return (
     <Section id={SECTION.work} tone="light" className="work">
       <Container>
-        <SectionHead label={WORK.label} meta={WORK.meta} />
-
         <div className="work__layout">
           <div className="work__side">
-            {/* ripete visivamente il titolo della sezione, che è già l'h2 dell'intestazione */}
-            <MaskLines as="p" className="h2" lines={WORK.title} aria-hidden />
+            {/* è il titolo h2 della sezione; l'etichetta dà ai lettori di schermo le due parole separate */}
+            <MaskLines as="h2" className="h2" lines={WORK.title} aria-label={WORK.label} />
           </div>
 
           <Laptop projects={FEATURED} />

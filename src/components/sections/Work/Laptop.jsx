@@ -28,6 +28,9 @@ const START_SETTINGS = { wallpaper: 0, dark: false, lens: true, autohide: false,
 /** Da stop e blocco si torna al desktop; dallo spegnimento si riparte dall'avvio. */
 const NEXT_POWER = { sleep: 'locked', locked: 'on', off: 'boot', boot: 'on' }
 
+/** All'avvio è aperto solo il Finder, che parte dalla cartella Progetti: nessuna demo parte da sola. */
+const START_APP = 'finder'
+
 /** Sotto questa larghezza (in px) il display è un'anteprima: niente comandi da toccare, solo il tocco che lo apre. */
 const COMPACT_WIDTH = 560
 /** Sotto questa larghezza o questa altezza (in px) il display a schermo intero è un telefono: le finestre lo riempiono. */
@@ -37,17 +40,15 @@ const PHONE_HEIGHT = 500
 /**
  * Un portatile da usare come un computer vero: dock con un'app per progetto e
  * le app di sistema, barra dei menu, tasto destro, scrivania, Spotlight,
- * Mission Control, blocco e spegnimento. All'inizio è aperto il primo progetto
- * e un'icona chiede attenzione finché non lo si prova. Su telefono, dove il
+ * Mission Control, blocco e spegnimento. All'inizio è aperta solo la cartella
+ * Progetti e l'icona di un progetto chiede attenzione finché non se ne apre uno. Su telefono, dove il
  * dock è piccolo, sotto il portatile ci sono anche i nomi dei progetti.
  */
 export default function Laptop({ projects }) {
   const screenRef = useRef(null)
   const apps = useMemo(() => buildApps(projects), [projects])
   const allApps = useMemo(() => [...apps, ABOUT_APP], [apps])
-  const firstId = apps.find((a) => a.project).id
-
-  const { windows, order, focused, act } = useDesktop(firstId)
+  const { windows, order, focused, act } = useDesktop(START_APP)
   const [explored, setExplored] = useState(false)
   const [full, setFull] = useFullscreen(screenRef)
   const slotRef = useRef(null)
@@ -171,7 +172,7 @@ export default function Laptop({ projects }) {
     if (next === 'restart') setPowerState('boot')
     else setPowerState(next)
     if (next === 'off' || next === 'restart') {
-      act('reset', firstId)
+      act('reset', START_APP)
       setExplored(true)
     }
   }

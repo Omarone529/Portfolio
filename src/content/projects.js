@@ -57,7 +57,6 @@ export const PROJECTS = [
 
 export const WORK = {
   label: 'Case study',
-  meta: '2025 · 2026',
   title: ['Case', 'study'],
   visit: 'Visita il sito',
   /** Testi del portatile. */
