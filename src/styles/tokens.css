@@ -32,6 +32,17 @@
   /* pendenza dei bordi obliqui: quanto sale il bordo da un lato all'altro della pagina */
   --edge-angle: 7deg;
   --edge-rise: calc(100vw * tan(var(--edge-angle)));
+
+  /* ritmo verticale, uguale in ogni sezione: spazio in fondo e spazio tra intestazione e contenuto */
+  --section-space: 120px;
+  --head-space: 56px;
+}
+
+@media (width >= 48rem) {
+  :root {
+    --section-space: 160px;
+    --head-space: 96px;
+  }
 }
 
 @supports not (width: calc(1px * tan(1deg))) {

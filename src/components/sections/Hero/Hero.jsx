@@ -21,6 +21,8 @@ export default function Hero() {
   const { scrollY } = useScroll()
   const mediaScale = useTransform(scrollY, [0, 1000], [1, 1.12])
   const shade = useTransform(scrollY, [0, 900], [0, 0.55])
+  // "su misura." resta tenue finché la pagina è ferma e si accende con i primi pixel di scroll
+  const taglineLight = useTransform(scrollY, [0, 200], [0.5, 1])
   const native = useNativeScrollEffects()
 
   return (
@@ -65,9 +67,9 @@ export default function Hero() {
           delay={0.2}
           lines={[
             ...HERO.tagline,
-            <span key="muted" className="dim">
+            <m.span key="muted" className="dim" style={native ? undefined : { opacity: taglineLight }}>
               {HERO.taglineMuted}
-            </span>,
+            </m.span>,
           ]}
         />
         <div className="intro-fade" style={{ '--delay': '0.45s' }}>
@@ -76,21 +78,7 @@ export default function Hero() {
       </div>
 
       <div className="hero__bottom">
-        <IntroLines
-          as="div"
-          className="hero__services"
-          delay={0.35}
-          stagger={0.06}
-          lines={HERO.services.map((service, i) =>
-            i === 0 ? (
-              <span key={service}>
-                <span className="dim">01/</span> {service}
-              </span>
-            ) : (
-              service
-            ),
-          )}
-        />
+        <IntroLines as="div" className="hero__services" delay={0.35} stagger={0.06} lines={HERO.services} />
       </div>
     </section>
   )

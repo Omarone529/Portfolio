@@ -1,4 +1,4 @@
-import { ABOUT, PROFILES, PROJECTS, SEO, SERVICES, SITE } from '@/content'
+import { ABOUT, PROFILES, PROJECTS, SEO, SERVICES, SITE, WORK } from '@/content'
 import { absoluteUrl } from './seo'
 
 /**
@@ -24,7 +24,7 @@ export function llmsTxt() {
     '',
     ...SERVICES.map((s) => `- ${s.title} (${s.kicker}): ${s.text}`),
     '',
-    '## Case study',
+    `## ${WORK.head}`,
     '',
     ...PROJECTS.map((p) =>
       p.href ? `- [${p.title}](${p.href}): ${p.tag}. ${p.description}` : `- ${p.title}: ${p.tag}. ${p.description}`,

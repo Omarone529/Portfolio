@@ -42,17 +42,18 @@
   padding: 72px var(--gutter) 24px;
 }
 
+/* fa da binario alla riga che si disegna, come quella delle intestazioni */
 .footer__rule {
+  position: relative;
   display: block;
   height: 1px;
-  background: var(--line);
 }
 
 .footer__grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: 48px;
-  padding: 72px 0;
+  padding: var(--head-space) 0 72px;
 }
 
 .footer__title {
