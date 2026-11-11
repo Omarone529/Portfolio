@@ -83,6 +83,7 @@ export default function Laptop({ projects }) {
   useEffect(() => {
     if (near) preloadPosters(projects.map((p) => p.poster).filter(Boolean))
   }, [near, projects])
+  const onScreen = useInView(slotRef)
 
   const openApp = (id) => {
     setExplored(true)
@@ -256,7 +257,8 @@ export default function Laptop({ projects }) {
   }
 
   const openIds = allApps.map((a) => a.id).filter((id) => windows[id])
-  const calling = explored ? null : apps.find((a) => a.project && !windows[a.id])?.id
+  // l'icona chiama solo mentre il portatile si vede: un'animazione infinita fuori schermo terrebbe il telefono sempre al lavoro
+  const calling = explored || !(onScreen || full) ? null : apps.find((a) => a.project && !windows[a.id])?.id
   const wallpaper = DESKTOP.settings.wallpapers[settings.wallpaper]
   const screenClass = [
     'laptop__screen',

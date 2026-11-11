@@ -1,6 +1,6 @@
 import { ABOUT, SECTION } from '@/content'
 import { Container, Section } from '@/components/layout/Section'
-import { ArrowLink, FadeUp, MaskLines, RevealImage, ScrollWords, SectionHead } from '@/components/primitives'
+import { FadeUp, MaskLines, RevealImage, ScrollWords, SectionHead } from '@/components/primitives'
 import Stats from './Stats'
 import './About.css'
 
@@ -32,10 +32,7 @@ export default function About() {
             ))}
             <div className="about-row">
               <MaskLines as="p" lines={[results.label]} />
-              <div className="about-row__body">
-                <Stats items={results.stats} />
-                <ArrowLink href={results.cta.href}>{results.cta.label}</ArrowLink>
-              </div>
+              <Stats items={results.stats} />
             </div>
           </div>
         </div>

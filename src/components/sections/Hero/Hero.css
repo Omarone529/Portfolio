@@ -25,10 +25,12 @@
 
 /*
  * foto e velo cambiano a ogni fotogramma mentre si scorre: su livelli propri il browser li sposta
- * e li sfuma senza ridisegnarli, che sui telefoni è la differenza tra uno scroll fluido e uno a scatti
+ * e li sfuma senza ridisegnarli. Sui dispositivi solo touch la foto non ha zoom (vedi sotto e Hero.jsx).
  */
-.hero__media {
-  will-change: transform;
+@media not all and (hover: none) and (pointer: coarse) {
+  .hero__media {
+    will-change: transform;
+  }
 }
 
 .hero__shade {
@@ -37,20 +39,35 @@
 
 /* dove il browser sa legarle allo scroll, zoom, velo e "su misura." sono animazioni CSS: stessi valori di useScroll in Hero.jsx */
 @supports (animation-timeline: scroll()) {
-  .hero--native .hero__media {
-    animation: hero-zoom linear both;
-    animation-timeline: scroll(root);
-    animation-range: 0 1000px;
+  /* lo zoom solo dove c'è un mouse: col dito lo scroll corre per conto suo e la foto che lo insegue scatta */
+  @media not all and (hover: none) and (pointer: coarse) {
+    .hero--native .hero__media {
+      animation: hero-zoom linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 1000px;
+    }
   }
   .hero--native .hero__shade {
     animation: hero-shade linear both;
     animation-timeline: scroll(root);
     animation-range: 0 900px;
   }
+  /* quando la sezione dopo l'ha coperta tutta (la sua altezza più il bordo obliquo) la hero si spegne */
+  .hero--native {
+    animation: hero-covered linear both;
+    animation-timeline: scroll(root);
+    animation-range: 0 calc(max(100svh, 560px) + var(--edge-rise) + 2px);
+  }
   .hero--native .hero__tagline .dim {
     animation: tagline-light linear both;
     animation-timeline: scroll(root);
     animation-range: 0 200px;
+  }
+}
+
+@keyframes hero-covered {
+  to {
+    visibility: hidden;
   }
 }
 
@@ -82,6 +99,37 @@
   height: 100%;
   object-fit: cover;
   object-position: 50% 40%;
+  transform: scale(1.25);
+}
+
+/* la foto entra con uno zoom all'indietro appena è scaricata (vedi Hero.jsx) */
+.hero__media img.is-ready {
+  animation: hero-photo-in 2s var(--ease) both;
+}
+
+@keyframes hero-photo-in {
+  to {
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__media img {
+    transform: none;
+    animation: none;
+  }
+}
+
+/*
+ * Sui telefoni in verticale la foto è alta quanto lo schermo intero (--screen-h, scritta da layout.jsx prima del
+ * primo disegno) e non quanto la hero: quando la barra del browser compare o sparisce la hero cambia altezza,
+ * e una foto misurata su di lei cambierebbe dimensione sotto il dito. Così resta ferma e se ne vede più o meno.
+ */
+@media (hover: none) and (pointer: coarse) and (orientation: portrait) {
+  .hero__media {
+    bottom: auto;
+    height: max(100%, var(--screen-h, 100%));
+  }
 }
 
 /*
@@ -112,7 +160,6 @@
 }
 
 .hero__tagline {
-  margin-bottom: 40px;
   line-height: 1.32;
 }
 
@@ -179,6 +226,11 @@
   margin-inline-end: -8px;
 }
 
+/*
+ * Il menu si apre con un cerchio che cresce dal punto toccato. Si muovono solo
+ * trasformazioni e opacità: le anima la scheda grafica senza ridisegnare lo
+ * schermo, quindi restano fluide anche su un telefono lento.
+ */
 .menu {
   position: fixed;
   inset: 0;
@@ -187,9 +239,99 @@
   flex-direction: column;
   justify-content: center;
   padding: var(--gutter);
+  overflow: hidden;
   color: var(--white);
   font-size: 15px;
+  /* a cerchio aperto il fondo diventa pieno: se lo schermo cambia misura resta coperto */
+  animation: menu-solid 0s linear 0.7s both;
+}
+
+/* piccolo e ingrandito 6 volte: il livello che il telefono tiene in memoria resta leggero */
+.menu__bg {
+  --d: calc(var(--r) / 3);
+  position: absolute;
+  left: calc(var(--x) - var(--d) / 2);
+  top: calc(var(--y) - var(--d) / 2);
+  width: var(--d);
+  height: var(--d);
+  border-radius: 50%;
   background: var(--dark);
+  transform: scale(6.1);
+  will-change: transform;
+  animation: menu-grow 0.7s var(--ease) both;
+}
+
+.menu__close,
+.menu__link {
+  animation: menu-item 0.6s var(--ease) calc(0.18s + var(--i, 0) * 0.05s) both;
+}
+
+.menu__link {
+  position: relative;
+}
+
+/*
+ * La chiusura è l'apertura al contrario, con gli stessi tempi: le voci escono una dopo l'altra partendo
+ * dall'ultima (`--n` è quante sono) e il cerchio torna al punto da cui è partito. Sono animazioni e non
+ * transizioni: su un elemento che ha appena finito un'animazione il browser la transizione non la fa partire.
+ */
+.menu.is-closing {
+  pointer-events: none;
+  animation: none;
+}
+
+.menu.is-closing .menu__bg {
+  animation: menu-shrink 0.7s var(--ease) 0.18s both;
+}
+
+.menu.is-closing .menu__close,
+.menu.is-closing .menu__link {
+  animation: menu-item-out 0.6s var(--ease) calc((var(--n, 0) - var(--i, 0)) * 0.05s) both;
+}
+
+@keyframes menu-solid {
+  from {
+    background-color: transparent;
+  }
+  to {
+    background-color: var(--dark);
+  }
+}
+
+@keyframes menu-grow {
+  from {
+    transform: scale(0);
+  }
+}
+
+@keyframes menu-item {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+}
+
+@keyframes menu-shrink {
+  to {
+    transform: scale(0);
+  }
+}
+
+@keyframes menu-item-out {
+  to {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menu,
+  .menu__bg,
+  .menu__close,
+  .menu__link {
+    animation-duration: 0s;
+    animation-delay: 0s;
+  }
 }
 
 .menu__close {

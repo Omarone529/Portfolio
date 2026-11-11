@@ -195,10 +195,24 @@
   bottom: auto;
 }
 
+/*
+ * La tendina è fatta di due scorrimenti opposti: la finestra sale dal basso e il
+ * suo contenuto scende di altrettanto, così l'immagine resta ferma mentre si
+ * scopre. Sono solo trasformazioni, che il telefono muove senza ridisegnare la foto.
+ */
+.reveal-img {
+  overflow: hidden;
+  border-radius: var(--radius);
+}
+
 .reveal-img__clip {
   height: 100%;
   overflow: hidden;
   border-radius: var(--radius);
+}
+
+.reveal-img__hold {
+  height: 100%;
 }
 
 .reveal-img img {
@@ -207,7 +221,7 @@
   object-fit: cover;
 }
 
-.reveal-img--logo {
+.reveal-img--logo .reveal-img__hold {
   display: grid;
   place-items: center;
 }
@@ -257,6 +271,30 @@
   height: calc(var(--edge-rise) + 1px);
   pointer-events: none;
   will-change: transform;
+}
+
+/*
+ * dove il browser sa legarle allo scroll, la pendenza è un'animazione CSS: stessi punti di useScroll in Edge.jsx.
+ * Il punto di misura è alto zero: entra dal fondo dello schermo (0%) ed è a metà schermo al 50%.
+ */
+@supports (animation-timeline: view()) {
+  .edge-anchor--native {
+    view-timeline: --edge block;
+  }
+  .edge-anchor--native > .edge {
+    animation: edge-flatten linear both;
+    animation-timeline: --edge;
+    animation-range: cover 0% cover 50%;
+  }
+}
+
+@keyframes edge-flatten {
+  from {
+    transform: scaleY(1);
+  }
+  to {
+    transform: scaleY(0);
+  }
 }
 
 /* sopra la sezione: il bordo sale verso destra */

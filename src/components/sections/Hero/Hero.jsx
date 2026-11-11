@@ -1,13 +1,17 @@
 'use client'
 
-import { useRef, useSyncExternalStore } from 'react'
+import { useRef } from 'react'
 import { m, useScroll, useTransform } from 'framer-motion'
 import { HERO, SITE } from '@/content'
-import { ArrowLink, IntroLines } from '@/components/primitives'
+import { IntroLines } from '@/components/primitives'
 import { useImageReady } from '@/hooks/useImageReady'
-import { EASE } from '@/lib/motion'
+import { useScrollTimeline } from '@/hooks/useScrollTimeline'
+import { useTouchOnly } from '@/hooks/useTouchOnly'
 import Nav from './Nav'
 import './Hero.css'
+
+/** Quanto sale il bordo obliquo rispetto alla larghezza: tan(7°), come --edge-rise in tokens.css. */
+const EDGE_RISE = 0.123
 
 /**
  * Hero a tutto schermo: resta ferma mentre la pagina le scorre sopra.
@@ -23,11 +27,24 @@ export default function Hero() {
   const shade = useTransform(scrollY, [0, 900], [0, 0.55])
   // "su misura." resta tenue finché la pagina è ferma e si accende con i primi pixel di scroll
   const taglineLight = useTransform(scrollY, [0, 200], [0.5, 1])
-  const native = useNativeScrollEffects()
+  const native = useScrollTimeline()
+  // sui telefoni la foto resta ferma: lì lo scroll col dito va per conto suo e uno zoom che lo insegue
+  // arriva sempre un attimo dopo, cioè la foto scatta. Il velo che la scurisce resta, perché non sposta nulla
+  const touchOnly = useTouchOnly()
+  // coperta dalla pagina non si vede più: spenta, il telefono non deve più comporre foto e veli sotto il resto
+  const heroRef = useRef(null)
+  const covered = useTransform(scrollY, (y) => {
+    const hero = heroRef.current
+    return hero && y > hero.offsetHeight + hero.offsetWidth * EDGE_RISE ? 'hidden' : 'visible'
+  })
 
   return (
-    <section className={`hero ${native ? 'hero--native' : ''}`}>
-      <m.div className="hero__media" style={native ? undefined : { scale: mediaScale }}>
+    <m.section
+      ref={heroRef}
+      className={`hero ${native ? 'hero--native' : ''}`}
+      style={native ? undefined : { visibility: covered }}
+    >
+      <m.div className="hero__media" style={native || touchOnly ? undefined : { scale: mediaScale }}>
         <picture>
           {/* su schermi larghi il taglio 16:9 lascia aria intorno alla figura; in verticale resta il 2:3 */}
           <source
@@ -36,18 +53,17 @@ export default function Hero() {
             width={HERO.photo.wide.size[0]}
             height={HERO.photo.wide.size[1]}
           />
-          <m.img
+          <img
             ref={photoRef}
+            // visibile da subito, ingrandita: è l'elemento più grande, e il browser misura il caricamento (LCP)
+            // da quando compare. Lo zoom all'indietro parte quando è scaricata ed è un'animazione CSS
+            // (.is-ready in Hero.css), che il telefono muove senza passare da JavaScript
+            className={photoReady ? 'is-ready' : undefined}
             src={HERO.photo.src}
             alt={HERO.photo.alt}
             width={HERO.photo.size[0]}
             height={HERO.photo.size[1]}
             fetchPriority="high"
-            // visibile da subito (solo lo zoom aspetta): è l'elemento più grande, e il browser misura
-            // il caricamento (LCP) da quando compare, non da quando finisce di animarsi
-            initial={{ scale: 1.25 }}
-            animate={photoReady ? { scale: 1 } : {}}
-            transition={{ duration: 2, ease: EASE }}
           />
         </picture>
       </m.div>
@@ -72,31 +88,11 @@ export default function Hero() {
             </m.span>,
           ]}
         />
-        <div className="intro-fade" style={{ '--delay': '0.45s' }}>
-          <ArrowLink href={HERO.cta.href}>{HERO.cta.label}</ArrowLink>
-        </div>
       </div>
 
       <div className="hero__bottom">
         <IntroLines as="div" className="hero__services" delay={0.35} stagger={0.06} lines={HERO.services} />
       </div>
-    </section>
-  )
-}
-
-const subscribeNothing = () => () => {}
-
-/**
- * Se il browser sa legare un'animazione CSS allo scroll. In quel caso zoom e
- * velo li fa lui (vedi .hero--native), sullo stesso canale dello scroll: su un
- * telefono restano attaccati al dito, mentre calcolati in JavaScript arrivano
- * un fotogramma dopo e scattano. Nel prerender vale false, come nei browser che
- * non lo supportano, dove resta useScroll.
- */
-function useNativeScrollEffects() {
-  return useSyncExternalStore(
-    subscribeNothing,
-    () => CSS.supports('animation-timeline: scroll()'),
-    () => false,
+    </m.section>
   )
 }

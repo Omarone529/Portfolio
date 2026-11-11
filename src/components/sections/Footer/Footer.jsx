@@ -2,9 +2,10 @@
 
 import { useRef } from 'react'
 import { m, useInView, useScroll, useTransform } from 'framer-motion'
-import { FOOTER, FOOTER_NAV, SECTION, SITE } from '@/content'
+import { FOOTER, FOOTER_NAV, SECTION } from '@/content'
 import { ArrowLink, DrawLine, EdgeWedge, MaskLines, RollText, SectionHead } from '@/components/primitives'
 import { useElementHeight } from '@/hooks/useElementHeight'
+import { useScrollTimeline } from '@/hooks/useScrollTimeline'
 import { useViewportHeight } from '@/hooks/useViewportHeight'
 import './Footer.css'
 
@@ -27,23 +28,30 @@ export default function Footer({ edgeTone }) {
   const near = useInView(slotRef, { margin: '0px 0px 100% 0px' })
   // il footer resta invisibile finché non si sa se starà fisso o nel flusso, e da fisso finché lo slot è lontano.
   // Coperto dalla pagina non si vedrebbe comunque, ma per il browser conterebbe: passare a fisso sarebbe un salto
-  // (CLS) e il suo nome grande diventerebbe l'elemento più grande dello schermo (LCP) a caricamento finito
+  // (CLS) e il suo titolo diventerebbe l'elemento più grande dello schermo (LCP) a caricamento finito
   const hidden = height === 0 || viewportHeight === 0 || (reveal && !near)
 
   const { scrollYProgress } = useScroll({ target: slotRef, offset: ['start end', 'end end'] })
   // dritto un po' prima della fine: uno scroll che si ferma a una frazione di pixel non lascia una scheggia
   const edgeScale = useTransform(scrollYProgress, [0, 0.9], [1, 0])
   const innerY = useTransform(scrollYProgress, [0, 1], ['-30%', '0%'])
+  // dove il browser sa farlo, bordo e contenuto seguono lo scroll con un'animazione CSS (vedi .footer-slot--native)
+  const native = useScrollTimeline()
 
   return (
-    <div id={SECTION.contact} ref={slotRef} className="footer-slot" style={reveal ? { height } : undefined}>
-      {reveal && <EdgeWedge tone={edgeTone} side="bottom" scale={edgeScale} />}
+    <div
+      id={SECTION.contact}
+      ref={slotRef}
+      className={`footer-slot ${native ? 'footer-slot--native' : ''}`}
+      style={reveal ? { height } : undefined}
+    >
+      {reveal && <EdgeWedge tone={edgeTone} side="bottom" scale={native ? undefined : edgeScale} />}
 
       <footer
         ref={footerRef}
         className={`footer tone-dark ${reveal ? 'footer--reveal' : ''} ${hidden ? 'footer--pending' : ''}`}
       >
-        <m.div className="footer__inner" style={reveal ? { y: innerY } : undefined}>
+        <m.div className="footer__inner" style={reveal && !native ? { y: innerY } : undefined}>
           <SectionHead as="p" label={FOOTER.head} />
           <div className="footer__grid">
             <div>
@@ -70,9 +78,6 @@ export default function Footer({ edgeTone }) {
             <DrawLine />
           </span>
           <div className="footer__bottom">
-            <p className="footer__name" aria-hidden="true">
-              {SITE.name}
-            </p>
             <div className="footer__legal">
               <p className="muted">{FOOTER.credit}</p>
               <ul className="footer__policies">

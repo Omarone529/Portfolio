@@ -1,5 +1,3 @@
-import { SECTION, anchor } from './site'
-
 export const ABOUT = {
   label: 'About',
   statement:
@@ -25,6 +23,5 @@ export const ABOUT = {
       { label: 'Anni di esperienza', value: 2 },
       { label: 'Tecnologie usate', value: 10, suffix: '+' },
     ],
-    cta: { label: 'Vedi i progetti', href: anchor(SECTION.work) },
   },
 }
