@@ -7,7 +7,6 @@ import { IntroLines } from '@/components/primitives'
 import { useImageReady } from '@/hooks/useImageReady'
 import { useScrollTimeline } from '@/hooks/useScrollTimeline'
 import { useTouchOnly } from '@/hooks/useTouchOnly'
-import { EASE } from '@/lib/motion'
 import Nav from './Nav'
 import './Hero.css'
 
@@ -54,18 +53,17 @@ export default function Hero() {
             width={HERO.photo.wide.size[0]}
             height={HERO.photo.wide.size[1]}
           />
-          <m.img
+          <img
             ref={photoRef}
+            // visibile da subito, ingrandita: è l'elemento più grande, e il browser misura il caricamento (LCP)
+            // da quando compare. Lo zoom all'indietro parte quando è scaricata ed è un'animazione CSS
+            // (.is-ready in Hero.css), che il telefono muove senza passare da JavaScript
+            className={photoReady ? 'is-ready' : undefined}
             src={HERO.photo.src}
             alt={HERO.photo.alt}
             width={HERO.photo.size[0]}
             height={HERO.photo.size[1]}
             fetchPriority="high"
-            // visibile da subito (solo lo zoom aspetta): è l'elemento più grande, e il browser misura
-            // il caricamento (LCP) da quando compare, non da quando finisce di animarsi
-            initial={{ scale: 1.25 }}
-            animate={photoReady ? { scale: 1 } : {}}
-            transition={{ duration: 2, ease: EASE }}
           />
         </picture>
       </m.div>

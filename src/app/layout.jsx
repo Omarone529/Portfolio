@@ -10,6 +10,12 @@ const NO_SCRIPT_CSS = `.page *, .footer * { opacity: 1 !important; transform: no
 .edge { display: none !important; }
 .footer--pending { visibility: visible !important; }`
 
+/**
+ * Altezza dello schermo intero, scritta prima del primo disegno: la foto della hero si misura su questa
+ * e non sulla finestra, che sui telefoni cambia altezza quando la barra del browser compare o sparisce.
+ */
+const SCREEN_HEIGHT_JS = `document.documentElement.style.setProperty('--screen-h', Math.max(screen.width, screen.height) + 'px')`
+
 export const metadata = {
   metadataBase: new URL(`${SITE.url}/`),
   // le altre pagine danno solo il proprio titolo, il nome lo aggiunge il modello
@@ -59,8 +65,10 @@ export const viewport = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang={SITE.lang} className={poppins.variable}>
+    // lo script qui sotto aggiunge uno stile a <html> prima che React si agganci: la differenza è voluta
+    <html lang={SITE.lang} className={poppins.variable} suppressHydrationWarning>
       <head>
+        <script dangerouslySetInnerHTML={{ __html: SCREEN_HEIGHT_JS }} />
         {/* senza JavaScript le animazioni non partono: tutto ciò che entra animato resta visibile */}
         <noscript>
           <style>{NO_SCRIPT_CSS}</style>

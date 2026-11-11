@@ -99,6 +99,37 @@
   height: 100%;
   object-fit: cover;
   object-position: 50% 40%;
+  transform: scale(1.25);
+}
+
+/* la foto entra con uno zoom all'indietro appena è scaricata (vedi Hero.jsx) */
+.hero__media img.is-ready {
+  animation: hero-photo-in 2s var(--ease) both;
+}
+
+@keyframes hero-photo-in {
+  to {
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__media img {
+    transform: none;
+    animation: none;
+  }
+}
+
+/*
+ * Sui telefoni in verticale la foto è alta quanto lo schermo intero (--screen-h, scritta da layout.jsx prima del
+ * primo disegno) e non quanto la hero: quando la barra del browser compare o sparisce la hero cambia altezza,
+ * e una foto misurata su di lei cambierebbe dimensione sotto il dito. Così resta ferma e se ne vede più o meno.
+ */
+@media (hover: none) and (pointer: coarse) and (orientation: portrait) {
+  .hero__media {
+    bottom: auto;
+    height: max(100%, var(--screen-h, 100%));
+  }
 }
 
 /*
