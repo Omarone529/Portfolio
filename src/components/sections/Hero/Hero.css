@@ -235,23 +235,23 @@
   position: relative;
 }
 
-/* in chiusura le voci spariscono subito e il cerchio torna al punto da cui è partito, da dove si trova */
+/*
+ * La chiusura è l'apertura al contrario, con gli stessi tempi: le voci escono una dopo l'altra partendo
+ * dall'ultima (`--n` è quante sono) e il cerchio torna al punto da cui è partito. Sono animazioni e non
+ * transizioni: su un elemento che ha appena finito un'animazione il browser la transizione non la fa partire.
+ */
 .menu.is-closing {
   pointer-events: none;
   animation: none;
 }
 
 .menu.is-closing .menu__bg {
-  transform: scale(0);
-  animation: none;
-  transition: transform 0.5s var(--ease);
+  animation: menu-shrink 0.7s var(--ease) 0.18s both;
 }
 
 .menu.is-closing .menu__close,
 .menu.is-closing .menu__link {
-  opacity: 0;
-  animation: none;
-  transition: opacity 0.15s linear;
+  animation: menu-item-out 0.6s var(--ease) calc((var(--n, 0) - var(--i, 0)) * 0.05s) both;
 }
 
 @keyframes menu-solid {
@@ -271,6 +271,19 @@
 
 @keyframes menu-item {
   from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+}
+
+@keyframes menu-shrink {
+  to {
+    transform: scale(0);
+  }
+}
+
+@keyframes menu-item-out {
+  to {
     opacity: 0;
     transform: translateY(24px);
   }

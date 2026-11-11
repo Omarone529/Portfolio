@@ -11,8 +11,8 @@ import { useSmoothScroll } from '@/hooks/useSmoothScroll'
 /** Ritardo dell'ingresso dall'alto, che è solo CSS (vedi .intro-fade in primitives.css). */
 const introDelay = (seconds) => ({ '--delay': `${seconds}s` })
 
-/** Quanto dura la chiusura del menu: la transizione di .menu.is-closing in Hero.css. */
-const CLOSE_MS = 500
+/** Quanto dura la chiusura del menu: ritardo più durata del cerchio in .menu.is-closing (Hero.css). */
+const CLOSE_MS = 880
 
 /** Barra in alto della hero: logo, link e, sul telefono, il menu a tutto schermo. */
 export default function Nav() {
@@ -89,7 +89,7 @@ function Menu({ circle, closing, onClose, onClosed }) {
       role="dialog"
       aria-modal="true"
       aria-label="Menu"
-      style={circle}
+      style={{ ...circle, '--n': NAV.length }}
     >
       <span className="menu__bg" aria-hidden="true" />
       <button type="button" className="menu__close" onClick={onClose} autoFocus>
