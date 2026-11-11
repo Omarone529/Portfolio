@@ -47,10 +47,22 @@
     animation-timeline: scroll(root);
     animation-range: 0 900px;
   }
+  /* quando la sezione dopo l'ha coperta tutta (la sua altezza più il bordo obliquo) la hero si spegne */
+  .hero--native {
+    animation: hero-covered linear both;
+    animation-timeline: scroll(root);
+    animation-range: 0 calc(max(100svh, 560px) + var(--edge-rise) + 2px);
+  }
   .hero--native .hero__tagline .dim {
     animation: tagline-light linear both;
     animation-timeline: scroll(root);
     animation-range: 0 200px;
+  }
+}
+
+@keyframes hero-covered {
+  to {
+    visibility: hidden;
   }
 }
 
@@ -179,6 +191,11 @@
   margin-inline-end: -8px;
 }
 
+/*
+ * Il menu si apre con un cerchio che cresce dal punto toccato. Si muovono solo
+ * trasformazioni e opacità: le anima la scheda grafica senza ridisegnare lo
+ * schermo, quindi restano fluide anche su un telefono lento.
+ */
 .menu {
   position: fixed;
   inset: 0;
@@ -187,9 +204,86 @@
   flex-direction: column;
   justify-content: center;
   padding: var(--gutter);
+  overflow: hidden;
   color: var(--white);
   font-size: 15px;
+  /* a cerchio aperto il fondo diventa pieno: se lo schermo cambia misura resta coperto */
+  animation: menu-solid 0s linear 0.7s both;
+}
+
+/* piccolo e ingrandito 6 volte: il livello che il telefono tiene in memoria resta leggero */
+.menu__bg {
+  --d: calc(var(--r) / 3);
+  position: absolute;
+  left: calc(var(--x) - var(--d) / 2);
+  top: calc(var(--y) - var(--d) / 2);
+  width: var(--d);
+  height: var(--d);
+  border-radius: 50%;
   background: var(--dark);
+  transform: scale(6.1);
+  will-change: transform;
+  animation: menu-grow 0.7s var(--ease) both;
+}
+
+.menu__close,
+.menu__link {
+  animation: menu-item 0.6s var(--ease) calc(0.18s + var(--i, 0) * 0.05s) both;
+}
+
+.menu__link {
+  position: relative;
+}
+
+/* in chiusura le voci spariscono subito e il cerchio torna al punto da cui è partito, da dove si trova */
+.menu.is-closing {
+  pointer-events: none;
+  animation: none;
+}
+
+.menu.is-closing .menu__bg {
+  transform: scale(0);
+  animation: none;
+  transition: transform 0.5s var(--ease);
+}
+
+.menu.is-closing .menu__close,
+.menu.is-closing .menu__link {
+  opacity: 0;
+  animation: none;
+  transition: opacity 0.15s linear;
+}
+
+@keyframes menu-solid {
+  from {
+    background-color: transparent;
+  }
+  to {
+    background-color: var(--dark);
+  }
+}
+
+@keyframes menu-grow {
+  from {
+    transform: scale(0);
+  }
+}
+
+@keyframes menu-item {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menu,
+  .menu__bg,
+  .menu__close,
+  .menu__link {
+    animation-duration: 0s;
+    animation-delay: 0s;
+  }
 }
 
 .menu__close {

@@ -30,6 +30,35 @@
   z-index: 0;
 }
 
+/*
+ * dove il browser sa legarle allo scroll, bordo e contenuto sono animazioni CSS: stessi punti di useScroll in
+ * Footer.jsx. Lo slot entra dal fondo dello schermo (0%) e a fine pagina è entrato tutto (100%).
+ */
+@supports (animation-timeline: view()) {
+  .footer-slot--native {
+    view-timeline: --footer block;
+  }
+  .footer-slot--native > .edge {
+    animation: edge-flatten linear both;
+    animation-timeline: --footer;
+    animation-range: entry 0% entry 90%;
+  }
+  .footer-slot--native .footer--reveal .footer__inner {
+    animation: footer-rise linear both;
+    animation-timeline: --footer;
+    animation-range: entry 0% entry 100%;
+  }
+}
+
+@keyframes footer-rise {
+  from {
+    transform: translateY(-30%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
 .footer__inner {
   position: relative;
   z-index: 1;

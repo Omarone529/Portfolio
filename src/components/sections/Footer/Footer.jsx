@@ -5,6 +5,7 @@ import { m, useInView, useScroll, useTransform } from 'framer-motion'
 import { FOOTER, FOOTER_NAV, SECTION, SITE } from '@/content'
 import { ArrowLink, DrawLine, EdgeWedge, MaskLines, RollText, SectionHead } from '@/components/primitives'
 import { useElementHeight } from '@/hooks/useElementHeight'
+import { useScrollTimeline } from '@/hooks/useScrollTimeline'
 import { useViewportHeight } from '@/hooks/useViewportHeight'
 import './Footer.css'
 
@@ -34,16 +35,23 @@ export default function Footer({ edgeTone }) {
   // dritto un po' prima della fine: uno scroll che si ferma a una frazione di pixel non lascia una scheggia
   const edgeScale = useTransform(scrollYProgress, [0, 0.9], [1, 0])
   const innerY = useTransform(scrollYProgress, [0, 1], ['-30%', '0%'])
+  // dove il browser sa farlo, bordo e contenuto seguono lo scroll con un'animazione CSS (vedi .footer-slot--native)
+  const native = useScrollTimeline()
 
   return (
-    <div id={SECTION.contact} ref={slotRef} className="footer-slot" style={reveal ? { height } : undefined}>
-      {reveal && <EdgeWedge tone={edgeTone} side="bottom" scale={edgeScale} />}
+    <div
+      id={SECTION.contact}
+      ref={slotRef}
+      className={`footer-slot ${native ? 'footer-slot--native' : ''}`}
+      style={reveal ? { height } : undefined}
+    >
+      {reveal && <EdgeWedge tone={edgeTone} side="bottom" scale={native ? undefined : edgeScale} />}
 
       <footer
         ref={footerRef}
         className={`footer tone-dark ${reveal ? 'footer--reveal' : ''} ${hidden ? 'footer--pending' : ''}`}
       >
-        <m.div className="footer__inner" style={reveal ? { y: innerY } : undefined}>
+        <m.div className="footer__inner" style={reveal && !native ? { y: innerY } : undefined}>
           <SectionHead as="p" label={FOOTER.head} />
           <div className="footer__grid">
             <div>
