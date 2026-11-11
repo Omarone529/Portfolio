@@ -3,7 +3,7 @@
 import { useRef } from 'react'
 import { m, useScroll, useTransform } from 'framer-motion'
 import { HERO, SITE } from '@/content'
-import { ArrowLink, IntroLines } from '@/components/primitives'
+import { IntroLines } from '@/components/primitives'
 import { useImageReady } from '@/hooks/useImageReady'
 import { useScrollTimeline } from '@/hooks/useScrollTimeline'
 import { useTouchOnly } from '@/hooks/useTouchOnly'
@@ -90,9 +90,6 @@ export default function Hero() {
             </m.span>,
           ]}
         />
-        <div className="intro-fade" style={{ '--delay': '0.45s' }}>
-          <ArrowLink href={HERO.cta.href}>{HERO.cta.label}</ArrowLink>
-        </div>
       </div>
 
       <div className="hero__bottom">

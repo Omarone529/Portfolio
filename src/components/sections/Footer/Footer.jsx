@@ -2,7 +2,7 @@
 
 import { useRef } from 'react'
 import { m, useInView, useScroll, useTransform } from 'framer-motion'
-import { FOOTER, FOOTER_NAV, SECTION, SITE } from '@/content'
+import { FOOTER, FOOTER_NAV, SECTION } from '@/content'
 import { ArrowLink, DrawLine, EdgeWedge, MaskLines, RollText, SectionHead } from '@/components/primitives'
 import { useElementHeight } from '@/hooks/useElementHeight'
 import { useScrollTimeline } from '@/hooks/useScrollTimeline'
@@ -28,7 +28,7 @@ export default function Footer({ edgeTone }) {
   const near = useInView(slotRef, { margin: '0px 0px 100% 0px' })
   // il footer resta invisibile finché non si sa se starà fisso o nel flusso, e da fisso finché lo slot è lontano.
   // Coperto dalla pagina non si vedrebbe comunque, ma per il browser conterebbe: passare a fisso sarebbe un salto
-  // (CLS) e il suo nome grande diventerebbe l'elemento più grande dello schermo (LCP) a caricamento finito
+  // (CLS) e il suo titolo diventerebbe l'elemento più grande dello schermo (LCP) a caricamento finito
   const hidden = height === 0 || viewportHeight === 0 || (reveal && !near)
 
   const { scrollYProgress } = useScroll({ target: slotRef, offset: ['start end', 'end end'] })
@@ -78,9 +78,6 @@ export default function Footer({ edgeTone }) {
             <DrawLine />
           </span>
           <div className="footer__bottom">
-            <p className="footer__name" aria-hidden="true">
-              {SITE.name}
-            </p>
             <div className="footer__legal">
               <p className="muted">{FOOTER.credit}</p>
               <ul className="footer__policies">
