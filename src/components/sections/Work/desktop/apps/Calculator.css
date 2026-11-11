@@ -16,11 +16,15 @@
   color: rgba(255, 255, 255, 0.55);
 }
 
+/*
+ * Il colore del testo passa da --os-text: apps.css, che viene dopo, colora tutte le app con quella
+ * variabile, e con il tema chiaro qui darebbe cifre nere su fondo nero.
+ */
 .calculator {
+  --os-text: #fff;
   display: flex;
   flex-direction: column;
   background: #1c1c1e;
-  color: #fff;
   outline: none;
 }
 
