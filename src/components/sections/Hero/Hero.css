@@ -25,10 +25,12 @@
 
 /*
  * foto e velo cambiano a ogni fotogramma mentre si scorre: su livelli propri il browser li sposta
- * e li sfuma senza ridisegnarli, che sui telefoni è la differenza tra uno scroll fluido e uno a scatti
+ * e li sfuma senza ridisegnarli. Sui dispositivi solo touch la foto non ha zoom (vedi sotto e Hero.jsx).
  */
-.hero__media {
-  will-change: transform;
+@media not all and (hover: none) and (pointer: coarse) {
+  .hero__media {
+    will-change: transform;
+  }
 }
 
 .hero__shade {
@@ -37,10 +39,13 @@
 
 /* dove il browser sa legarle allo scroll, zoom, velo e "su misura." sono animazioni CSS: stessi valori di useScroll in Hero.jsx */
 @supports (animation-timeline: scroll()) {
-  .hero--native .hero__media {
-    animation: hero-zoom linear both;
-    animation-timeline: scroll(root);
-    animation-range: 0 1000px;
+  /* lo zoom solo dove c'è un mouse: col dito lo scroll corre per conto suo e la foto che lo insegue scatta */
+  @media not all and (hover: none) and (pointer: coarse) {
+    .hero--native .hero__media {
+      animation: hero-zoom linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 1000px;
+    }
   }
   .hero--native .hero__shade {
     animation: hero-shade linear both;

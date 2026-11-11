@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef } from 'react'
 import Lenis from 'lenis'
 import { useReducedMotion } from 'framer-motion'
+import { TOUCH_ONLY } from '@/hooks/useTouchOnly'
 import { anchorOffset } from '@/lib/scroll'
 import { SmoothScrollContext } from './smoothScrollContext'
 
@@ -16,9 +17,6 @@ import { SmoothScrollContext } from './smoothScrollContext'
  * lo cambierebbe ma ascolterebbe ogni tocco prima del browser e terrebbe acceso
  * un ciclo a ogni fotogramma, cioè scroll che aspetta la pagina e batteria.
  */
-/** Dispositivi che si usano solo col dito: niente mouse e niente rotella da rendere fluida. */
-const TOUCH_ONLY = '(hover: none) and (pointer: coarse)'
-
 export function SmoothScrollProvider({ children }) {
   const reduced = useReducedMotion()
   const lenisRef = useRef(null)

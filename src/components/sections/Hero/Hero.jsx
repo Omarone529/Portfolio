@@ -6,6 +6,7 @@ import { HERO, SITE } from '@/content'
 import { ArrowLink, IntroLines } from '@/components/primitives'
 import { useImageReady } from '@/hooks/useImageReady'
 import { useScrollTimeline } from '@/hooks/useScrollTimeline'
+import { useTouchOnly } from '@/hooks/useTouchOnly'
 import { EASE } from '@/lib/motion'
 import Nav from './Nav'
 import './Hero.css'
@@ -28,6 +29,9 @@ export default function Hero() {
   // "su misura." resta tenue finché la pagina è ferma e si accende con i primi pixel di scroll
   const taglineLight = useTransform(scrollY, [0, 200], [0.5, 1])
   const native = useScrollTimeline()
+  // sui telefoni la foto resta ferma: lì lo scroll col dito va per conto suo e uno zoom che lo insegue
+  // arriva sempre un attimo dopo, cioè la foto scatta. Il velo che la scurisce resta, perché non sposta nulla
+  const touchOnly = useTouchOnly()
   // coperta dalla pagina non si vede più: spenta, il telefono non deve più comporre foto e veli sotto il resto
   const heroRef = useRef(null)
   const covered = useTransform(scrollY, (y) => {
@@ -41,7 +45,7 @@ export default function Hero() {
       className={`hero ${native ? 'hero--native' : ''}`}
       style={native ? undefined : { visibility: covered }}
     >
-      <m.div className="hero__media" style={native ? undefined : { scale: mediaScale }}>
+      <m.div className="hero__media" style={native || touchOnly ? undefined : { scale: mediaScale }}>
         <picture>
           {/* su schermi larghi il taglio 16:9 lascia aria intorno alla figura; in verticale resta il 2:3 */}
           <source
