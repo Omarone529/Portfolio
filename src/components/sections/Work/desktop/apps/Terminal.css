@@ -1,10 +1,14 @@
 /* Il terminale: testo monospaziato su fondo scuro. */
 
+/*
+ * Il colore del testo passa da --os-text: apps.css, che viene dopo, colora tutte le app con quella
+ * variabile, e con il tema chiaro qui darebbe scritte nere su fondo nero.
+ */
 .terminal {
+  --os-text: #fff;
   padding: 0.7em;
   overflow-y: auto;
   background: #16161a;
-  color: #e8e8e8;
   font-family: ui-monospace, Menlo, monospace;
   cursor: text;
 }
