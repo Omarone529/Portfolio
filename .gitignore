@@ -30,3 +30,6 @@ next-env.d.ts
 
 # cache di TypeScript lasciata dal sito su main quando si cambia branch
 *.tsbuildinfo
+
+# screenshot e log delle verifiche nel browser
+/.playwright-mcp/
