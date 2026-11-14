@@ -6,12 +6,15 @@ import { HERO, SITE } from '@/content'
 import { IntroLines } from '@/components/primitives'
 import { useImageReady } from '@/hooks/useImageReady'
 import { useScrollTimeline } from '@/hooks/useScrollTimeline'
-import { useTouchOnly } from '@/hooks/useTouchOnly'
+import { TOUCH_ONLY, useMediaQuery } from '@/hooks/useTouchOnly'
 import Nav from './Nav'
 import './Hero.css'
 
 /** Quanto sale il bordo obliquo rispetto alla larghezza: tan(7°), come --edge-rise in tokens.css. */
 const EDGE_RISE = 0.123
+
+/** Dove la foto non segue lo scroll con lo zoom: telefoni e schermi stretti. La stessa condizione sta in Hero.css. */
+const NO_ZOOM = `${TOUCH_ONLY}, (width < 48rem)`
 
 /**
  * Hero a tutto schermo: resta ferma mentre la pagina le scorre sopra.
@@ -30,7 +33,7 @@ export default function Hero() {
   const native = useScrollTimeline()
   // sui telefoni la foto resta ferma: lì lo scroll col dito va per conto suo e uno zoom che lo insegue
   // arriva sempre un attimo dopo, cioè la foto scatta. Il velo che la scurisce resta, perché non sposta nulla
-  const touchOnly = useTouchOnly()
+  const noZoom = useMediaQuery(NO_ZOOM)
   // coperta dalla pagina non si vede più: spenta, il telefono non deve più comporre foto e veli sotto il resto
   const heroRef = useRef(null)
   const covered = useTransform(scrollY, (y) => {
@@ -44,7 +47,7 @@ export default function Hero() {
       className={`hero ${native ? 'hero--native' : ''}`}
       style={native ? undefined : { visibility: covered }}
     >
-      <m.div className="hero__media" style={native || touchOnly ? undefined : { scale: mediaScale }}>
+      <m.div className="hero__media" style={native || noZoom ? undefined : { scale: mediaScale }}>
         <picture>
           {/* su schermi larghi il taglio 16:9 lascia aria intorno alla figura; in verticale resta il 2:3 */}
           <source

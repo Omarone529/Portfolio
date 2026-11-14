@@ -243,6 +243,11 @@
   font-size: 15px;
 }
 
+/* senza la riga sopra non serve lo spazio che la separa dall'etichetta */
+.section-head--bare {
+  padding-top: 0;
+}
+
 .section-head__label {
   font: inherit;
 }

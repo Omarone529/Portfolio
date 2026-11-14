@@ -14,7 +14,6 @@ export const FOOTER = {
     handle: `@${new URL(instagram.href).pathname.replaceAll('/', '')}`,
     href: instagram.href,
   },
-  credit: `${SITE.fullName} · ${SITE.role}`,
   links: [
     { label: 'Privacy', href: PRIVACY.path },
     { label: 'Cookie policy', href: COOKIES.path },

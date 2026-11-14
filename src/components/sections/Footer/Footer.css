@@ -62,27 +62,19 @@
 .footer__inner {
   position: relative;
   z-index: 1;
-  /* alto almeno quanto lo schermo: a fine pagina il footer lo copre tutto, senza lasciare una fascia della sezione sopra */
+  /* compatto, alto quanto il suo contenuto: a fine pagina resta visibile la parte bassa della sezione sopra */
   display: flex;
   flex-direction: column;
-  min-height: 100svh;
   max-width: var(--max-width);
   margin: 0 auto;
-  padding: 72px var(--gutter) 24px;
-}
-
-/* fa da binario alla riga che si disegna, come quella delle intestazioni */
-.footer__rule {
-  position: relative;
-  display: block;
-  height: 1px;
+  padding: 32px var(--gutter) 24px;
 }
 
 .footer__grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: 48px;
-  padding: var(--head-space) 0 72px;
+  gap: 40px;
+  padding: 40px 0 56px;
 }
 
 .footer__title {
@@ -99,15 +91,17 @@
 .footer__mail {
   display: block;
   padding-block: 13px;
-  margin: -13px 0 43px;
+  margin: -13px 0 13px;
   font-size: 5.4vw;
   line-height: 1.05;
   letter-spacing: -0.04em;
 }
 
+/* la finestra del rotolamento lascia spazio alle gambe di g e @; il margine negativo la tiene alta quanto la riga */
 .footer__mail .roll {
-  height: 1.05em;
-  line-height: 1.05;
+  height: 1.25em;
+  margin-block: -0.1em;
+  line-height: 1.25;
 }
 
 .footer__nav {
@@ -139,8 +133,6 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
-  margin-top: auto;
-  padding-top: 64px;
 }
 
 .footer__legal {
@@ -171,9 +163,6 @@
 }
 
 @media (width >= 48rem) {
-  .footer__inner {
-    padding-top: 120px;
-  }
   .footer__grid {
     grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
   }

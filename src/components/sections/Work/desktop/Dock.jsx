@@ -91,7 +91,7 @@ function useLens(enabled) {
  * Finder lo è sempre, come sul Mac) e il Cestino oltre la riga. L'icona rimbalza da sola, dentro un bottone che resta
  * fermo: il bersaglio del clic non scappa da sotto il puntatore.
  */
-export default function Dock({ apps, windows, focused, launching, calling, lens, hidden, onOpen, onContextMenu }) {
+export default function Dock({ apps, windows, focused, launching, lens, hidden, onOpen, onContextMenu }) {
   const handlers = useLens(lens)
 
   return (
@@ -111,7 +111,6 @@ export default function Dock({ apps, windows, focused, launching, calling, lens,
               'dock__item',
               windows[app.id] || app.id === 'finder' ? 'is-open' : '',
               launching === app.id ? 'is-launching' : '',
-              calling === app.id ? 'is-calling' : '',
             ].join(' ')}
             onClick={() => onOpen(app.id)}
             onContextMenu={(e) => onContextMenu(e, app)}
