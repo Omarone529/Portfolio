@@ -52,7 +52,7 @@ export default function Footer({ edgeTone }) {
         className={`footer tone-dark ${reveal ? 'footer--reveal' : ''} ${hidden ? 'footer--pending' : ''}`}
       >
         <m.div className="footer__inner" style={reveal && !native ? { y: innerY } : undefined}>
-          <SectionHead as="p" label={FOOTER.head} />
+          <SectionHead as="p" label={FOOTER.head} line={false} />
           <div className="footer__grid">
             <div>
               <MaskLines as="h2" className="footer__title muted" lines={[FOOTER.title]} />
@@ -74,12 +74,8 @@ export default function Footer({ edgeTone }) {
             </nav>
           </div>
 
-          <span className="footer__rule">
-            <DrawLine />
-          </span>
           <div className="footer__bottom">
             <div className="footer__legal">
-              <p className="muted">{FOOTER.credit}</p>
               <ul className="footer__policies">
                 {FOOTER.links.map((link) => (
                   <li key={link.href}>

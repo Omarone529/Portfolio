@@ -1,6 +1,6 @@
-/* lo spazio in fondo lascia passare il bordo obliquo del footer senza toccare il portatile */
+/* in fondo lo stesso respiro che separa le intestazioni dal contenuto: il bordo obliquo del footer scende sul footer, non qui */
 .work {
-  padding-bottom: calc(var(--edge-rise) + 80px);
+  padding-bottom: var(--head-space);
 }
 
 .work__layout {

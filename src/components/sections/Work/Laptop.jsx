@@ -49,7 +49,6 @@ export default function Laptop({ projects }) {
   const apps = useMemo(() => buildApps(projects), [projects])
   const allApps = useMemo(() => [...apps, ABOUT_APP], [apps])
   const { windows, order, focused, act } = useDesktop(START_APP)
-  const [explored, setExplored] = useState(false)
   const [full, setFull] = useFullscreen(screenRef)
   const slotRef = useRef(null)
   const slot = useSize(slotRef)
@@ -83,10 +82,8 @@ export default function Laptop({ projects }) {
   useEffect(() => {
     if (near) preloadPosters(projects.map((p) => p.poster).filter(Boolean))
   }, [near, projects])
-  const onScreen = useInView(slotRef)
 
   const openApp = (id) => {
-    setExplored(true)
     setOverview(null)
     const win = windows[id]
     // riaprire una finestra ridotta: esce dall'icona del dock, poi torna vera
@@ -104,18 +101,10 @@ export default function Laptop({ projects }) {
   }
   const minimize = useCallback(
     (id) => {
-      setExplored(true)
       playGenieFor(id, false)
       act('minimize', id)
     },
     [act, playGenieFor],
-  )
-  const actAndExplore = useCallback(
-    (type, id, extra) => {
-      act(type, id, extra)
-      if (type !== 'move' && type !== 'resize' && type !== 'focus') setExplored(true)
-    },
-    [act],
   )
 
   const openUrl = (url) => url && window.open(url, '_blank', 'noreferrer')
@@ -133,7 +122,7 @@ export default function Laptop({ projects }) {
     const win = windows[id]
     return [
       { label: M.minimize, hint: '⌥M', onSelect: () => minimize(id) },
-      { label: M.zoom, hint: '⌥F', checked: win.max, onSelect: () => actAndExplore('maximize', id) },
+      { label: M.zoom, hint: '⌥F', checked: win.max, onSelect: () => act('maximize', id) },
       'sep',
       {
         label: M.snapLeft,
@@ -160,7 +149,6 @@ export default function Laptop({ projects }) {
     if (rects.length === 0) return
     const top = screen.querySelector('.desktop__menubar').offsetHeight
     const dockTop = screen.querySelector('.dock').offsetTop
-    setExplored(true)
     setOverview(overviewLayout(rects, { x: 0, y: top, w: box.width, h: dockTop - top }))
   }
 
@@ -174,7 +162,6 @@ export default function Laptop({ projects }) {
     else setPowerState(next)
     if (next === 'off' || next === 'restart') {
       act('reset', START_APP)
-      setExplored(true)
     }
   }
   const advancePower = useCallback(() => setPowerState((p) => NEXT_POWER[p]), [])
@@ -201,7 +188,7 @@ export default function Laptop({ projects }) {
       if (app) openApp(app.id)
       return Boolean(app)
     },
-    closeApp: (id) => actAndExplore('close', id),
+    closeApp: (id) => act('close', id),
     setPower,
     toggleOverview,
     toggleDesktop,
@@ -221,7 +208,7 @@ export default function Laptop({ projects }) {
     },
     closeWindow: () => focused !== null && os.closeApp(focused),
     minimize: () => focused !== null && minimize(focused),
-    zoom: () => focused !== null && actAndExplore('maximize', focused),
+    zoom: () => focused !== null && act('maximize', focused),
     snap: (side) => focused !== null && act('snap', focused, { side }),
     overview: toggleOverview,
   })
@@ -257,8 +244,6 @@ export default function Laptop({ projects }) {
   }
 
   const openIds = allApps.map((a) => a.id).filter((id) => windows[id])
-  // l'icona chiama solo mentre il portatile si vede: un'animazione infinita fuori schermo terrebbe il telefono sempre al lavoro
-  const calling = explored || !(onScreen || full) ? null : apps.find((a) => a.project && !windows[a.id])?.id
   const wallpaper = DESKTOP.settings.wallpapers[settings.wallpaper]
   const screenClass = [
     'laptop__screen',
@@ -315,7 +300,7 @@ export default function Laptop({ projects }) {
                         z={order.indexOf(id) + 1}
                         focused={id === focused}
                         screenRef={screenRef}
-                        act={actAndExplore}
+                        act={act}
                         onMinimize={minimize}
                         onSnapHint={setSnapHint}
                         onContextMenu={windowMenu}
@@ -350,7 +335,6 @@ export default function Laptop({ projects }) {
                   windows={windows}
                   focused={focused}
                   launching={launching}
-                  calling={calling}
                   lens={settings.lens}
                   hidden={settings.autohide}
                   onOpen={openApp}
