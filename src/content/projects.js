@@ -41,6 +41,7 @@ export const PROJECTS = [
     title: 'MBM Meccanica',
     tag: 'Sito vetrina',
     description: "Sito vetrina per un'officina metalmeccanica: servizi, lavorazioni e parco macchine.",
+    href: 'https://www.mbmmeccanica.com/',
     logo: '/projects/mbm-meccanica-logo.webp',
     logoSize: [800, 265],
     tint: '#ECEEF8',
