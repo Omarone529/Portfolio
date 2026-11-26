@@ -74,7 +74,8 @@ export default function RootLayout({ children }) {
           <style>{NO_SCRIPT_CSS}</style>
         </noscript>
       </head>
-      <body>
+      {/* alcune estensioni del browser (es. ColorZilla) aggiungono attributi a <body> prima che React si agganci */}
+      <body suppressHydrationWarning>
         <Providers>{children}</Providers>
       </body>
     </html>
